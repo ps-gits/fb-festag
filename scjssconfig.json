@@ -1,0 +1,9 @@
+{
+  "sitecore": {
+    "instancePath": "",
+    "apiKey": "{6AF17DD2-0FD7-4396-9869-2536E3B81876}",
+    "deploySecret": "d253bq44h0jho7ajmtimhw4zd5co3xyialqtkl48blg",
+    "deployUrl": "https://xmc-arabesquefl0f70-demoproject-demoenv.sitecorecloud.io/sitecore/api/jss/import",
+    "layoutServiceHost": "https://xmc-arabesquefl0f70-demoproject-demoenv.sitecorecloud.io"
+  }
+}
