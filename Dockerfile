@@ -40,4 +40,4 @@ COPY . .
 # Start the application
 # Note: if you have another production startup command
 # defined in package.json - use you one
-CMD ["npm", "start"]
+CMD ["npm", "started"]
