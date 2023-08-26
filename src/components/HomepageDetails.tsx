@@ -34,88 +34,92 @@ const HomepageDetails = (props: HomepageDetailsProps): JSX.Element => {
   const load = useSelector((state: RootState) => state?.loader?.loader);
 
   return (
-    <div>
+    <>
       {!load?.show ? (
-        <div className="w-full  bg-black">
-          <div className="w-5/6 m-auto   items-center justify-between xl:pt-24 xl:pb-0 xs:pt-24 xs:pb-0">
-            <div>
+        <section className="w-full lets-fly-section bg-black">
+          <div className="container">
+            <div className="xl:pt-24 xl:pb-0 xs:pt-24 xs:pb-0">
               <div>
-                <div className="xl:flex md:flex xs:block items-center justify-between  w-full">
-                  <div className="xl:w-1/2 xs:w-full ">
-                    <div className="text-4xl font-black text-white">
-                      <Text field={props.fields.heading} />
+                <div>
+                  <div className="xl:flex md:flex xs:block items-center justify-between  w-full">
+                    <div className="md:w-1/2 lg:w-5/12 xs:w-full pb-10 md:pb-0">
+                      <div className='max-w-xl'>
+                        <h2 className="text-4xl font-black text-white">
+                          <Text field={props.fields.heading} />
+                        </h2>
+                        <p className="text-xl text-slategray py-5">
+                          <Text field={props.fields.content} />
+                        </p>
+                        <button
+                          type="submit"
+                          className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3"
+                          onClick={() => router.push('/experience')}
+                        >
+                          <Text field={props.fields.viewExperienceButton} />
+                        </button>
+                      </div>
                     </div>
-                    <div className="font-normal text-xl text-slategray py-5">
-                      <Text field={props.fields.content} />
-                    </div>
-                    <div>
-                      <button
-                        type="submit"
-                        className="text-white bg-lightorange   font-medium rounded-full text-base px-4 py-3"
-                        onClick={() => router.push('/experience')}
-                      >
-                        <Text field={props.fields.viewExperienceButton} />
-                      </button>
+                    <div className="md:w-1/2 lg:w-7/12xs:w-full xs:mt-7 md:flex justify-end">
+                      <div className="flex max-w-md justify-center m-auto md:m-0 md:max-w-2xl md:justify-end flex-wrap">
+                        <div className='gallery-images'>
+                          <JssImage
+                            field={props.fields.image1}
+                            className="h-full w-full"
+                          />
+                        </div>
+                        <div className='gallery-images mt-3 md:mt-4 lg:mt-8 2xl:mt-10'>
+                          <JssImage
+                            field={props.fields.image2}
+                            className="h-full w-full"
+                          />
+                        </div>
+                      
+                        <div className='gallery-images'>
+                          <JssImage
+                            field={props.fields.image3}
+                            className="h-full w-full"
+                          />
+                        </div>
+                        <div className='gallery-images mt-3 md:mt-4 lg:mt-8 2xl:mt-10'>
+                          <JssImage
+                            field={props.fields.image4}
+                            className="h-full w-full"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="xl:w-1/2 xs:w-full  xs:mt-7">
-                    <div className="xl:flex md:flex xs:block gap-4 justify-end">
-                      <div>
-                        <JssImage
-                          field={props.fields.image1}
-                          className="xl:w-56 xl:h-80 xs:w-full rounded-xl "
-                        />
-                      </div>
-                      <div className="mt-12">
-                        <JssImage
-                          field={props.fields.image2}
-                          className="xl:w-56 xl:h-80 xs:w-full  rounded-xl"
-                        />
-                      </div>
-                    </div>
-                    <div className="xl:flex md:flex xs:block gap-4  justify-end xl:mt-0 xs:mt-8">
-                      <div>
-                        <JssImage
-                          field={props.fields.image3}
-                          className="xl:w-56 xl:h-80 xs:w-full  rounded-xl"
-                        />
-                      </div>
-                      <div className="mt-12">
-                        <JssImage
-                          field={props.fields.image4}
-                          className="xl:w-56 xl:h-80 xs:w-full  rounded-xl"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="xl:flex md:flex md:gap-6 xs:block items-center pt-14">
-                  <div className="xl:w-1/2 xs:w-full ">
-                    <div className="flex justify-center">
-                      <JssImage field={props.fields.image5} />
+                  <div className="xl:flex md:flex md:gap-6 xs:block items-center pt-14">
+                    <div className="md:w-7/12 xs:w-full ">
+                      <div className="rounded-2xl overflow-hidden flight-img">
+                        <JssImage field={props.fields.image5} className="h-full w-full" />
+                      </div>
                     </div>
-                  </div>
-                  <div className="xl:w-1/2 xs:w-full xs:mt-7">
-                    <div className="text-4xl font-black text-white">
-                      <Text field={props.fields.enjoyEveryTrip} />
-                    </div>
-                    <div className="font-normal text-xl text-slategray py-5">
-                      <Text field={props.fields.enjoyEveryTripContent} />
-                    </div>
-                    <div>
-                      <button
-                        type="submit"
-                        className="text-white bg-lightorange   font-medium rounded-full text-base px-4 py-3"
-                        onClick={() => {
-                          const element = document.getElementById('landing-page-search');
-                          if (!load?.show && element) {
-                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                          }
-                        }}
-                      >
-                        <Text field={props.fields.searchFlightsButton} />
-                      </button>
+
+                    <div className="md:w-5/12 xs:w-full lg:mt-7">
+                      <div className='max-w-xl'>
+                        <h2 className="text-4xl font-black text-white">
+                          <Text field={props.fields.enjoyEveryTrip} />
+                        </h2>
+                        <p className="text-xl text-slategray py-5">
+                          <Text field={props.fields.enjoyEveryTripContent} />
+                        </p>
+                        <div>
+                          <button
+                            type="submit"
+                            className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3"
+                            onClick={() => {
+                              const element = document.getElementById('landing-page-search');
+                              if (!load?.show && element) {
+                                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                              }
+                            }}
+                          >
+                            <Text field={props.fields.searchFlightsButton} />
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -125,11 +129,11 @@ const HomepageDetails = (props: HomepageDetailsProps): JSX.Element => {
           <div className="w-full">
             <JssImage field={props.fields.bottomBanner} className="img-banner" />
           </div>
-        </div>
+        </section>
       ) : (
         <div></div>
       )}
-    </div>
+    </>
   );
 };
 

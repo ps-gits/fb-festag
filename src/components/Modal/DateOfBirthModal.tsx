@@ -12,11 +12,16 @@ import { getFieldName } from 'components/SearchFlight/SitecoreContent';
 registerLocale('en-gb', enGb);
 
 const DateOfBirthModal = (props: DateOfBirthModal) => {
-  const { id, name, index, showModal, closeModal, selectedDate, setFieldValue } = props;
+  const { id, name, type, index, showModal, closeModal, selectedDate, setFieldValue } = props;
 
   const dateOfBirthModalContent = useSelector(
     (state: RootState) => state?.sitecore?.passengerDetails?.fields
   );
+  const selectedFlightInfo = useSelector(
+    (state: RootState) => state?.flightDetails?.selectedFlightCodesWithDate
+  );
+
+  const { departDate } = selectedFlightInfo;
 
   const [dateSelected, setDateSelected] = useState<string>();
 
@@ -29,8 +34,8 @@ const DateOfBirthModal = (props: DateOfBirthModal) => {
           className="linear h-screen fixed top-0 left-0 right-0 z-50 hidden xl:p-4 sm:p-0 overflow-x-hidden overflow-y-auto md:inset-0 xl:h-[calc(100% 1rem)] max-h-full xl:flex justify-center items-center flex h-screen"
         >
           <div className="relative w-full max-w-md max-h-full rounded-lg bg-white m-auto ">
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 calendar-modal ">
-              <div className="p-6 text-center calendarstyle ">
+            <div className="relative bg-white rounded-lg shadow    calendar-modal ">
+              <div className="xl:p-6 xs:py-10 text-center calendarstyle  ">
                 <FontAwesomeIcon
                   icon={faXmark}
                   aria-hidden="true"
@@ -40,7 +45,7 @@ const DateOfBirthModal = (props: DateOfBirthModal) => {
                     closeModal();
                   }}
                 />
-                <h3 className="mb-0 text-xl text-black font-black">
+                <h3 className="mb-0 text-xl text-black font-semibold">
                   {getFieldName(dateOfBirthModalContent, 'selectDateOfBirth')}
                 </h3>
                 <div>
@@ -53,23 +58,35 @@ const DateOfBirthModal = (props: DateOfBirthModal) => {
                     showMonthDropdown
                     maxDate={
                       name === 'Adult'
-                        ? new Date(moment(new Date()).subtract(12, 'year').format('YYYY-MM-DD'))
+                        ? new Date(
+                            moment(departDate ? new Date(departDate) : new Date())
+                              .subtract(12, 'year')
+                              .format('YYYY-MM-DD')
+                          )
                         : new Date()
                     }
                     dropdownMode="select"
                     scrollableYearDropdown
                     onChange={(date) => {
-                      setDateSelected(String(date[0]?.toJSON()));
+                      setDateSelected(moment(new Date(String(date[0]))).format('MM-DD-YYYY'));
                     }}
-                    selected={selectedDate?.length ? new Date(selectedDate) : null}
+                    selected={
+                      selectedDate?.length > 0 ? new Date(selectedDate?.replace(/-/g, '/')) : null
+                    }
                   />
                 </div>
                 <div className="xl:w-auto px-3">
                   <button
                     onClick={() => {
-                      dateSelected &&
-                        dateSelected?.length > 0 &&
-                        setFieldValue(`details[${index}].Dob`, String(dateSelected));
+                      if (type === 'createAccount') {
+                        dateSelected &&
+                          dateSelected?.length > 0 &&
+                          setFieldValue(`Users[${index}].BirthDate`, String(dateSelected));
+                      } else {
+                        dateSelected &&
+                          dateSelected?.length > 0 &&
+                          setFieldValue(`details[${index}].Dob`, String(dateSelected));
+                      }
                       props.closeModal();
                     }}
                     type="button"

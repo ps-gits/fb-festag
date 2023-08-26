@@ -168,13 +168,13 @@ const NewsList = (props: NewsListProps): JSX.Element => {
                             window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
                           }}
                         >
-                          <div className="text-orange text-base">
+                          <div className="text-lightorange text-base">
                             <Text field={props.fields.readMoreButton} />
                           </div>
                           <FontAwesomeIcon
                             icon={faArrowRight}
                             aria-hidden="true"
-                            className="h-3 w-3 text-orange"
+                            className="h-3 w-3 text-lightorange"
                           />
                         </div>
                       </div>

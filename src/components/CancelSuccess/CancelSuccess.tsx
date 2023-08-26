@@ -18,8 +18,10 @@ const CancelSuccess = () => {
   const cancelSuccessContent = useSelector(
     (state: RootState) => state?.sitecore?.cancelSuccess?.fields
   );
+  const cancelBookingInfo = useSelector(
+    (state: RootState) => state?.flightDetails?.prepareCancelFlight
+  );
   const load = useSelector((state: RootState) => state?.loader?.loader);
-  const cancelBookingInfo = useSelector((state: RootState) => state?.flightDetails?.cancelFlight);
 
   const [copyText, setCopyText] = useState(false);
 
@@ -47,7 +49,7 @@ const CancelSuccess = () => {
               <div>
                 <div>
                   <div
-                    className="flex justify-between items-center xl:py-0 xs:py-2"
+                    className="flex justify-between items-center xl:py-0 xs:py-3"
                     onClick={() => {
                       router.back();
                     }}
@@ -71,7 +73,7 @@ const CancelSuccess = () => {
                   <p className="text-base font-medium text-pearlgray my-1">
                     {getFieldName(cancelSuccessContent, 'content')}
                   </p>
-                  <div className="py-2 xl:w-7/12 md:w-6/12 xs:w-64 ">
+                  <div className="py-2 xl:w-2/4 md:w-6/12 xs:w-64 ">
                     <div className="text-aqua text-sm font-normal p-3 border-aqua border-1 bg-tabsky rounded-lg flex gap-2 items-center justify-between ">
                       <div className="text-aqua text-base font-black">
                         {getFieldName(cancelSuccessContent, 'bookingRef')}:
@@ -80,31 +82,39 @@ const CancelSuccess = () => {
                       <div
                         className="cursor-pointer"
                         onClick={() => {
-                          navigator.clipboard.writeText(cancelBookingInfo?.PnrInformation?.PnrCode);
-                          setCopyText(true);
-                          setTimeout(() => {
-                            setCopyText(false);
-                          }, 1000);
+                          if (cancelBookingInfo?.PnrInformation?.PnrCode) {
+                            navigator.clipboard.writeText(
+                              cancelBookingInfo?.PnrInformation?.PnrCode
+                            );
+                            setCopyText(true);
+                            setTimeout(() => {
+                              setCopyText(false);
+                            }, 1000);
+                          }
                         }}
                       >
                         <Image
                           className="h-6 w-6 object-cover"
                           src={getImageSrc(cancelSuccessContent, 'copyLogo')}
                           alt=""
-                          height={6}
-                          width={6}
+                          height={60}
+                          width={60}
                         />
                       </div>
                     </div>
-                    {copyText && <div> {getFieldName(cancelSuccessContent, 'copied')}</div>}
+                    {copyText && (
+                      <div className="text-black">
+                        {getFieldName(cancelSuccessContent, 'copied')}
+                      </div>
+                    )}
                   </div>
-                  <div className="bg-white  xl:w-full mt-3 rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-lg">
+                  <div className="bg-white  xl:w-full mt-3 rounded-tl-xl rounded-tr-xl rounded-bl-xl rounded-br-xl">
                     <Image
-                      className="h-full w-full object-containt  rounded-tl-lg rounded-tr-lg"
+                      className="h-full w-full object-containt  rounded-tl-xl rounded-tr-xl"
                       src={getImageSrc(cancelSuccessContent, 'seatsLogo')}
                       alt=""
-                      height={200}
-                      width={160}
+                      height={2000}
+                      width={1600}
                     />
                     <div className="p-4">
                       <h1 className="text-lg font-black text-black">
@@ -121,7 +131,7 @@ const CancelSuccess = () => {
                 <div className="lg:flex md:flex block h-full items-center justify-center relative gap-3 w-full  py-3 m-auto xs:mt-20 xl:mt-0 ">
                   <button
                     type="button"
-                    className="w-full xs:justify-center  xs:text-center text-white bg-aqua font-black rounded-lg text-lg inline-flex items-center px-5 py-3 text-center "
+                    className="w-full xs:justify-center  xs:text-center text-white bg-aqua font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center "
                     onClick={() => {
                       router.push('/');
                     }}

@@ -18,7 +18,8 @@ export const fieldsWithCode = [
     fieldName: 'Email',
     name: 'Email',
     validation: Yup.string()
-      .email('Must be valid email')
+      .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Must be valid email')
+      .max(100, 'Max 100 Characters Allowed')
       .required('This field is required'),
   },
   {
@@ -45,16 +46,21 @@ export const fieldsWithName = [
   {
     fieldName: 'First Name',
     name: 'Firstname',
-    validation: Yup.string().required('This field is required'),
+    validation: Yup.string()
+      .max(60, 'Max 60 Characters Allowed')
+      .required('This field is required'),
   },
   {
     fieldName: 'Middle Name',
     name: 'Middlename',
+    validation: Yup.string().max(60, 'Max 60 Characters Allowed'),
   },
   {
-    fieldName: 'Surname',
+    fieldName: 'Last Name',
     name: 'Surname',
-    validation: Yup.string().required('This field is required'),
+    validation: Yup.string()
+      .max(60, 'Max 60 Characters Allowed')
+      .required('This field is required'),
   },
   {
     fieldName: 'Civility Code',

@@ -4,6 +4,7 @@ import loaderSlice from './Loader/index';
 import sitecoreSlice from './Sitecore/index';
 import passengerSlice from './PassengerDetails/index';
 import flightDetailsSlice from './FlightDetails/index';
+import createAccountSlice from './CreateAccount/index';
 import airportDetailsSlice from './AirportDetails/index';
 
 export const rootReducer = combineReducers({
@@ -11,6 +12,6 @@ export const rootReducer = combineReducers({
   sitecore: sitecoreSlice,
   passenger: passengerSlice,
   flightDetails: flightDetailsSlice,
+  createAccount: createAccountSlice,
   airportDetails: airportDetailsSlice,
 });
-

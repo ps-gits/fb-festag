@@ -297,7 +297,9 @@ const SearchFlight = () => {
                   <div className="xl:bg-cadetgray xs:bg-white xl:rounded-none rounded-lg xs:shadow-2xl xl:shadow-none inherit xs:absolute  xl:top-4  xs:top-48 width-auto  xl:w-3/4 xl:py-16 index-style ">
                     <div>
                       <div className="xl:not-sr-only	xs:sr-only">
-                        <StepsInfo selected={1} />
+                        <div className="xl:w-3/5 xl:m-auto xl:pl-12 xl:mt-12">
+                          <StepsInfo selected={1} />
+                        </div>
                       </div>
                       <div className="xl:w-2/4 xl:m-auto xl:py-5 xs:py-0">
                         <div>

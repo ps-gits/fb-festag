@@ -25,7 +25,7 @@ const PaymentCancel = () => {
       <Fragment>
         <div className="flex justify-center items-center h-screen">
           <div>
-            <div className="text-xl text-orange flex justify-center mb-5 ml-5 mr-2">
+            <div className="text-xl text-lightorange flex justify-center mb-5 ml-5 mr-2">
               {code === 1014 ? (
                 <div>{getFieldName(paymentContent, '1014')}</div>
               ) : code === 2002 ? (
@@ -96,4 +96,3 @@ const PaymentCancel = () => {
 };
 
 export default PaymentCancel;
-

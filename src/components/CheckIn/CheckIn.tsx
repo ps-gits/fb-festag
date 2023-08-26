@@ -64,7 +64,7 @@ const CheckIn = () => {
             <div className="px-3 xl:bg-cadetgray width-auto  xl:w-3/4 xs:w-full xl:py-24 xl:mt-0 xs:pt-20  ">
               <div className="xl:w-2/4 xl:m-auto xs:w-full ">
                 <div>
-                  <div className="flex justify-between items-center xl:py-0 xs:py-2">
+                  <div className="flex justify-between items-center xl:py-0 xs:py-3">
                     <div className="xl:py-3 xs:py-0 cursor-pointer">
                       <FontAwesomeIcon
                         icon={faAngleLeft}

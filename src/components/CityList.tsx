@@ -170,13 +170,13 @@ const CityList = (props: CityListProps): JSX.Element => {
                     {cityArrayList(item, countryIndex)?.length > 0 ? (
                       <>
                         <div
-                          className={`xl:flex md:flex xs:block justify-start items-center xl:pt-24 xs:pt-4 xl:px-0 xs:px-4 md:pt-24`}
+                          className={`xl:flex md:flex xs:block justify-start items-center pt-24  xl:px-0 xs:px-4 `}
                         >
                           <div>
                             <p className=" text-4xl text-black font-black">{item}</p>
                           </div>
                         </div>
-                        <div className="xl:flex md:flex xl:flex-wrap md:flex-wrap xs:block  xl:pt-10 xs:pt-0  xl:px-0 xs:px-4 md:px-0 ">
+                        <div className="xl:flex md:flex xl:flex-wrap md:flex-wrap xs:block pt-10  xl:px-0 xs:px-4 md:px-0 ">
                           {cityArrayList(item, countryIndex)?.map((item, index) => {
                             return (
                               <div key={index} className="xl:w-2/6 md:w-1/3">
@@ -201,10 +201,10 @@ const CityList = (props: CityListProps): JSX.Element => {
                                         <div className="pt-4">
                                           <button
                                             type="submit"
-                                            className="text-white bg-lightorange   font-medium rounded-full text-base px-4 py-3"
+                                            className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3"
                                             onClick={() =>
                                               router.push(
-                                                `/destination/${item.fields.name.value
+                                                `/destinations/${item.fields.name.value
                                                   ?.toLowerCase()
                                                   ?.replace(/\s/g, '')}`
                                               )

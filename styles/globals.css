@@ -18,6 +18,67 @@
   }
 }
 
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+
+
+
+
+@media (min-width: 320px) {
+  .container {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media screen and (min-width: 900.1px) {
+  .container {
+    max-width: 880px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media screen and (min-width: 1535.1px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+h1 {
+  font-size: 42px;
+}
+
+p {
+  font-weight: 300;
+}
+
+
 @font-face {
   font-family: 'Avenir';
   font-weight: 300;
@@ -58,6 +119,10 @@ body {
   text-rendering: inherit !important;
 }
 
+.react-datepicker {
+  font-family: 'Avenir' !important;
+}
+
 .city-text {
   z-index: -1 !important;
 }
@@ -65,6 +130,11 @@ body {
 .maldivtext {
   /* font-family: 'Playfair Display' !important; */
   font-family: 'Playfair Display' !important;
+}
+
+img {
+  object-fit: cover;
+  object-position: center;
 }
 
 .calendar-modal {
@@ -214,10 +284,42 @@ body {
   color: black !important;
 }
 
+.react-datepicker__navigation-icon {
+  top: 0 !important;
+  font-size: 20px !important;
+  left: 0 !important;
+}
+
+.react-datepicker__navigation-icon::before {
+  top: calc(50% - 5px) !important;
+  width: 9px !important;
+}
+
+.react-datepicker__day-name {
+  color: #808089 !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+}
+
+.react-datepicker__navigation--previous {
+  left: 0 !important;
+  top: 0 !important;
+}
+
+.react-datepicker__navigation--next {
+  right: 0 !important;
+  top: 0 !important;
+}
+
+.react-datepicker__day--disabled {
+  color: #2A2E36 !important;
+}
+
 .react-datepicker__day--selected {
   background-color: #1d7d92 !important;
   padding: 10px 0px;
   border-radius: 5px !important;
+  color: #fff !important;
 }
 
 .react-datepicker__day--range-end {
@@ -273,6 +375,8 @@ body {
     border-radius: 30px 30px 0px 0px;
     z-index: 99999999 !important;
     bottom: 0px;
+    left: 0;
+    right: 0;
   }
 
   .linear {
@@ -348,7 +452,7 @@ body {
   }
 }
 
-@media screen and (max-width: 1280px) and (min-width: 200px) {
+@media screen and (max-width: 1279.80px) and (min-width: 200px) {
   .tab-box {
     width: 100% !important;
   }
@@ -375,9 +479,30 @@ body {
     width: 100% !important;
   }
 
-  .top-style {
+  /* .top-style {
     top: 23rem !important;
+  } */
+}
+
+@media screen and (max-width: 500px) and (min-width: 200px) {
+  .top-style {
+    /* top: 38rem !important; */
+    bottom: -10px !important;
   }
+
+  .banner-style {
+    top: 36rem !important;
+
+  }
+}
+
+.banner-style {
+  top: 28rem;
+
+}
+
+.top-style {
+  top: 31rem;
 }
 
 @media screen and (max-width: 700px) and (min-width: 200px) {
@@ -397,6 +522,19 @@ body {
   .slick-next {
     margin-left: -25px !important;
   }
+
+  .small-modal {
+    width: 90% !important;
+    margin: 0 auto;
+  }
+
+  /* .search-input {
+    width: 49% !important;
+  }
+
+  .search-promo {
+    width: 48.7% !important;
+  } */
 }
 
 /* #navbar {
@@ -405,7 +543,7 @@ body {
   width: 100%;
 
 } */
-@media screen and (max-width: 766px) and (min-width: 425px) {
+@media screen and (max-width: 766px) {
   .dream-img {
     height: auto !important;
     width: 100%;
@@ -414,7 +552,7 @@ body {
 
   .mob-dream {
     position: absolute !important;
-    top: 18rem !important;
+    top: 22rem !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -446,9 +584,9 @@ body {
   width: 100% !important;
 }
 
-.top-style {
+/* .top-style {
   top: 31rem;
-}
+} */
 
 .slide-bpx {
   width: 97%;
@@ -480,7 +618,7 @@ body {
 }
 
 .dream-img {
-  height: 500px;
+  height: 100%;
 }
 
 .journey-img {
@@ -497,9 +635,9 @@ body {
   color: #fff !important;
 }
 
-.search-field {
+/* .search-field {
   width: 98.5%;
-}
+} */
 
 ::-webkit-scrollbar {
   cursor: pointer;
@@ -544,7 +682,186 @@ summary.text-white.text-sm {
   border-radius: 10px;
 }
 
-input[type=checkbox]:checked {
+input[type='checkbox']:checked {
   background-color: #a77e2d !important;
   color: #ffffff !important;
+}
+
+.small-modal {
+  width: 30%;
+}
+
+.compare-modal {
+  height: 450px;
+}
+
+.intl-tel-input .country-list .flag-box,
+.intl-tel-input .country-list .country-name {
+  color: black !important;
+}
+
+.cross-icon {
+  z-index: 99999 !important;
+}
+
+.recomend-font {
+  font-size: 6px;
+}
+
+.card-width {
+  width: 67%;
+
+}
+
+.search-boxes {
+  width: 100%;
+}
+
+
+.whileimg {
+  width: 4.4rem;
+}
+
+/* accordion css */
+
+.divide-y.divide-gray-200.border-gray-200.dark\:divide-gray-700.dark\:border-gray-700.rounded-lg.border {
+  border: none;
+}
+
+.py-5.px-5.last\:rounded-b-lg.dark\:bg-gray-900.first\:rounded-t-lg {
+  padding: 0px 12px 12px 12px;
+  margin-bottom: 10px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+button.flex.w-full.items-center.justify-between.first\:rounded-t-lg.last\:rounded-b-lg.py-5.px-5.text-left.font-medium.text-gray-500.dark\:text-gray-400.hover\:bg-gray-100.focus\:ring-4.focus\:ring-gray-200.dark\:hover\:bg-gray-800.dark\:focus\:ring-gray-800.text-gray-900.bg-gray-100.dark\:bg-gray-800.dark\:text-white.py-0.border-none {
+  padding: 12px;
+  outline: none;
+  --tw-ring-color: none;
+  background-color: #fff;
+  margin-bottom: 0px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+button.flex.w-full.items-center.justify-between.first\:rounded-t-lg.last\:rounded-b-lg.py-5.px-5.text-left.font-medium.text-gray-500.dark\:text-gray-400.hover\:bg-gray-100.focus\:ring-4.focus\:ring-gray-200.dark\:hover\:bg-gray-800.dark\:focus\:ring-gray-800.py-0.border-none {
+  padding: 12px;
+  outline: none;
+  --tw-ring-color: none;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+button.flex.w-full.items-center.justify-between.first\:rounded-t-lg.last\:rounded-b-lg.py-5.px-5.text-left.font-medium.text-gray-500.dark\:text-gray-400.hover\:bg-gray-100.focus\:ring-4.focus\:ring-gray-200.dark\:hover\:bg-gray-800.dark\:focus\:ring-gray-800 {
+  padding: 12px;
+  outline: none;
+  --tw-ring-color: none;
+  background-color: #fff;
+  margin-top: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+button.flex.w-full.items-center.justify-between.first\:rounded-t-lg.last\:rounded-b-lg.py-5.px-5.text-left.font-medium.text-gray-500.dark\:text-gray-400.hover\:bg-gray-100.focus\:ring-4.focus\:ring-gray-200.dark\:hover\:bg-gray-800.dark\:focus\:ring-gray-800.text-gray-900.bg-gray-100.dark\:bg-gray-800.dark\:text-white {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+svg.h-6.w-6.shrink-0 {
+  color: #c8cacc;
+}
+
+.mob-dream {
+  height: 671px;
+  width: 598px;
+}
+
+
+.flight-img {
+  width: 700px;
+  height: 600px;
+}
+
+.gallery-images {
+  margin-left: 2.5rem;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 283px;
+  height: 389px;
+}
+
+@media screen and (max-width: 1536.1px) {
+  .flight-img {
+    width: 650px;
+    height: 550px;
+  }
+
+  .gallery-images {
+    margin-left: 2rem;
+    width: 270px;
+    height: 376px;
+  }
+}
+
+@media screen and (max-width: 1280.5px) {
+  .mob-dream {
+    height: 550px;
+    width: 400px;
+  }
+
+  .flight-img {
+    width: 480px;
+    height: 420px;
+  }
+
+  .gallery-images {
+    width: 230px;
+    height: 336px;
+  }
+}
+
+@media screen and (max-width: 900.1px) {
+  .mob-dream {
+    height: 450px;
+    width: 300px;
+  }
+
+  .flight-img {
+    width: 350px;
+    height: 330px;
+  }
+
+  .gallery-images {
+    width: 160px;
+    height: 250px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border-radius: 14px;
+  }
+
+  .blog-img {
+    height: 9rem !important;
+  }
+}
+
+@media screen and (max-width: 767.1px) {
+  .mob-dream {
+    height: 400px;
+    width: 280px;
+  }
+
+  .flight-img {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 25px;
+  }
 }

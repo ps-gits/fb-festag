@@ -140,6 +140,8 @@ const DepartReturnDateModal = (props: modalType) => {
               details: completeFlightDetails,
             });
           datesInfo?.dateFlexible && dispatch(setSelectedFlightData([]));
+          closeModal();
+          document.body.style.overflow = 'unset';
           if (modifyBooking) {
             const dataToPost = {
               DateFlexible: datesInfo?.dateFlexible as boolean,
@@ -227,6 +229,7 @@ const DepartReturnDateModal = (props: modalType) => {
               return: false,
               passenger: false,
             });
+            document.body.style.overflow = 'unset';
             setShowFlightInfo && setShowFlightInfo(false);
             dispatch(
               loader({
@@ -256,6 +259,7 @@ const DepartReturnDateModal = (props: modalType) => {
           return: true,
           passenger: false,
         });
+        document.body.style.overflow = 'hidden';
       }
     } else {
       closeModal();
@@ -271,8 +275,8 @@ const DepartReturnDateModal = (props: modalType) => {
           className="linear h-screen fixed top-0 left-0 right-0 z-50 hidden xl:p-4 sm:p-0 overflow-x-hidden overflow-y-auto md:inset-0 xl:h-[calc(100% 1rem)] max-h-full xl:flex justify-center items-center flex h-screen"
         >
           <div className="relative w-full max-w-md max-h-full rounded-lg bg-white m-auto ">
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 calendar-modal ">
-              <div className="xl:p-6 xs:pt-10 text-center calendarstyle  ">
+            <div className="relative bg-white rounded-lg shadow  calendar-modal ">
+              <div className="xl:p-6 xs:py-10 text-center calendarstyle  ">
                 <FontAwesomeIcon
                   icon={faXmark}
                   className="arrow-modal cursor-pointer text-black"
@@ -287,7 +291,7 @@ const DepartReturnDateModal = (props: modalType) => {
                     }
                   }}
                 />
-                <h3 className="mb-0 text-xl text-black font-black">
+                <h3 className="mb-2 md:mb-3 text-xl text-black font-semibold">
                   {getFieldName(modalContent, 'heading')}
                 </h3>
                 <p className="text-sm text-blue opacity-50 xs:mb-2">
@@ -379,7 +383,7 @@ const DepartReturnDateModal = (props: modalType) => {
                     selectsStart={name === 'Departure' ? true : false}
                   />
                 </div>
-                <div className="my-3 pb-1 xl:w-2/4 xs:w-4/6 m-auto">
+                {/* <div className="my-3 pb-1 xl:w-2/4 xs:w-4/6 m-auto">
                   <div className="rounded-lg">
                     <div className="border border-Silvergray py-2 flex justify-center">
                       <label className="relative inline-flex items-center cursor-pointer">
@@ -394,14 +398,14 @@ const DepartReturnDateModal = (props: modalType) => {
                             });
                           }}
                         />
-                        <div className="w-11 h-6 bg-graylight  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray peer-checked:bg-blue"></div>
+                        <div className="w-11 h-6 bg-graylight  rounded-full peer    peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray peer-checked:bg-blue"></div>
                         <span className="ml-3 text-sm font-medium text-black">
                           {getFieldName(modalContent, 'dateFlexible')}
                         </span>
                       </label>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="xl:w-auto px-3">
                   <button
                     onClick={() => {

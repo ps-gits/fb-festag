@@ -34,53 +34,54 @@ const HomepageBanner = (props: HomepageBannerProps): JSX.Element => {
   }, [load?.show]);
 
   return (
-    <div>
+    <>
       {!load?.show ? (
-        <div className="w-full xl:pt-56 xl:pb-52 md:pt-40 md:pb-40 xs:h-auto  relative xl:bg-cadetgray xs:bg-white  xs:pt-40 xs:pb-28">
-          <div className="xl:w-5/6 m-auto xs:w-full  xl:flex md:flex  xs:block h-full items-center relative gap-3 ">
-            <div className="relative flex xl:w-1/4 xs:w-full xs:m-auto">
-              <div className="md:absolute md:-top-16 md:-left-8 xl:absolute xl:-top-20 xl:-left-0">
-                <div>
-                  <JssImage
-                    field={props.fields.image2}
-                    className="absolute xl:left-16 xl:-top-14 xl:w-48 md:top-0 xl:h-48 xs:left-44 xs:-top-14 xs:w-28 xs:h-28 object-contain "
-                  />
-                </div>
-                <div className="relative xl:top-0 xl:-left-8 md:top-10 xs:left-28 xs:-top-1">
-                  <JssImage
-                    field={props.fields.image1}
-                    className=" xl:w-48 xl:h-48 xs:w-28 xs:h-28   object-contain"
-                  />
+        <div className="w-full xl:pt-56 xl:pb-56 md:pt-48 md:pb-40 xs:h-auto relative xl:bg-cadetgray xs:bg-cadetgray pt-24 pb-8">
+          <div className="container">
+            <div className="xl:flex md:flex xs:block h-full items-center relative gap-3 ">
+              <div className="relative flex xl:w-1/4 xs:w-full xs:m-auto">
+                <div className="relative my-14 md:my-0 w-56 mx-auto md:mx-0 md:w-full ms:h-full">
+                  <div className="relative -top-8 w-32 h-40 lg:w-48 lg:h-64 lg:left-1/3 left-1/4 rounded-3xl overflow-hidden">
+                    <JssImage
+                      field={props.fields.image2}
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <div className="absolute -bottom-10 w-32 h-40 lg:w-48 lg:h-64 lg:left-0 left-0 mr-auto rounded-3xl overflow-hidden border-8 border-cadetgray">
+                    <JssImage
+                      field={props.fields.image1}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="xl:w-3/5 xs:w-full">
-              <h1 className="maldivtext xs:w-full xs:justify-center xs:text-center text-black rounded-lg  inline-flex items-center px-5 xl:py-3 xs:py-0 text-center font-semibold xl:text-6xl xs:text-xl">
-                <Text field={props.fields.heading} />
-              </h1>
-              <h1 className="xs:w-full xs:justify-center xs:text-center rounded-lg  inline-flex items-center px-5 xl:py-3 xs:py-0 text-center xl:text-xl xs:text-sm font-normal text-black">
-                <Text field={props.fields.content} />
-              </h1>
-            </div>
-            <div className="relative flex xl:w-1/4   xs:w-full md:m-auto">
-              <div className="md:absolute md:-top-16 md:-left-32 xl:absolute xl:-top-20 xl:-left-0">
-                <div>
-                  <JssImage
-                    field={props.fields.image5}
-                    className="absolute xl:left-28 md:left-64  xl:-top-20   xl:h-36 xl:w-40 md:-top-4 xs:left-44  xs:top-3  xs:w-20 xs:h-20 object-contain"
-                  />
-                </div>
-                <div>
-                  <JssImage
-                    field={props.fields.image4}
-                    className="absolute xl:-left-0 xl:-top-10 md:left-48 xl:w-48 xl:h-48  xs:left-28 xs:top-8 xs:w-28 xs:h-28   object-contain"
-                  />
-                </div>
-                <div className="relative xl:top-14 xl:left-28 md:left-64 md:top-12 xs:top-20 xs:left-44">
-                  <JssImage
-                    field={props.fields.image3}
-                    className=" xl:w-48 xl:h-48 xs:w-28 xs:h-28   object-contain"
-                  />
+              <div className="xl:w-1/2 xs:w-full">
+                <h1 className="maldivtext xs:w-full mb-6 xs:justify-center xs:text-center text-black rounded-lg inline-flex items-center text-center font-semibold xl:text-5xl xs:text-xl">
+                  <Text field={props.fields.heading} />
+                </h1>
+                <p className="xs:w-full xs:justify-center xs:text-center rounded-lg inline-flex items-center text-center xl:text-xl xs:text-sm text-black">
+                  <Text field={props.fields.content} />
+                </p>
+              </div>
+              <div className="relative flex xl:w-1/4   xs:w-full md:m-auto">
+                <div className="relative my-14 md:my-0 w-56 mx-auto md:mx-0 md:w-full ms:h-full">
+                  <div className='absolute right-10 lg:right-8 -top-10 lg:-top-20 lg:h-44 lg:w-32 w-24 h-32 rounded-xl overflow-hidden'>
+                    <JssImage
+                      field={props.fields.image5}
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <div className='absolute bottom-5 lg:bottom-10 right-20 lg:right-32 w-32 h-40 lg:w-48 lg:h-64 rounded-3xl overflow-hidden border-8 border-cadetgray'>
+                    <JssImage
+                      field={props.fields.image4}
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <div className="relative right-0 -bottom-10 lg:-bottom-14 ml-auto w-32 h-40 lg:w-48 lg:h-64 rounded-3xl overflow-hidden border-8 border-cadetgray">
+                    <JssImage
+                      field={props.fields.image3}
+                      className="w-full h-full"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -89,7 +90,7 @@ const HomepageBanner = (props: HomepageBannerProps): JSX.Element => {
       ) : (
         <div></div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -35,35 +35,35 @@ const Support = (props: SupportProps): JSX.Element => {
                 <Text field={props.fields.content} />
               </div>
               <div className="flex items-baseline gap-2 py-4">
-                <div className="text-orange text-base">
+                <div className="text-lightorange text-base">
                   <Text field={props.fields.fillOutASimpleForm} />
                 </div>
                 <FontAwesomeIcon
                   icon={faArrowRight}
                   aria-hidden="true"
-                  className="h-3 w-3 text-orange"
+                  className="h-3 w-3 text-lightorange"
                 />
               </div>
 
               <div className="flex items-baseline gap-2 py-4">
-                <div className="text-orange text-base">
+                <div className="text-lightorange text-base">
                   <Text field={props.fields.giveUsACall} />
                 </div>
                 <FontAwesomeIcon
                   icon={faArrowRight}
                   aria-hidden="true"
-                  className="h-3 w-3 text-orange"
+                  className="h-3 w-3 text-lightorange"
                 />
               </div>
 
               <div className="flex items-baseline gap-2 py-4">
-                <div className="text-orange text-base">
+                <div className="text-lightorange text-base">
                   <Text field={props.fields.liveChat} />
                 </div>
                 <FontAwesomeIcon
                   icon={faArrowRight}
                   aria-hidden="true"
-                  className="h-3 w-3 text-orange"
+                  className="h-3 w-3 text-lightorange"
                 />
               </div>
             </div>
@@ -73,14 +73,14 @@ const Support = (props: SupportProps): JSX.Element => {
             <div>
               <Image
                 field={props.fields.image1}
-                className="journey-img xl:w-64 rounded-xl"
+                className="xl:h-96 xl:w-64 rounded-xl xs:h-auto "
                 alt="image"
               />
             </div>
             <div>
               <Image
                 field={props.fields.image2}
-                className=" journey-img xl:w-64 rounded-xl"
+                className=" xl:h-96 xl:w-64 rounded-xl xs:h-auto "
                 alt="image"
               />
             </div>

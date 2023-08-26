@@ -4,7 +4,15 @@ import { NextRouter } from 'next/router';
 import { AnyAction, Dispatch } from 'redux';
 
 import {
+  setModifyMeal,
+  setUpdateCart,
+  setModifySeat,
+  setFareFamily,
+  setAllBooking,
   setModifyData,
+  setModifyDates,
+  setSelectedMeal,
+  setChooseSeatData,
   setFindBookingData,
   setPaymentFormData,
   setSearchFlightData,
@@ -18,6 +26,7 @@ import {
   setPrepareCancelFlightData,
   setDestinationToOriginDates,
   setOriginToDestinationDates,
+  setModifyBookingFromBooking,
   setPrepareExchangeFlightData,
   setExchangeCreateBookingData,
   setSelectedFlightCodesWithDate,
@@ -61,7 +70,128 @@ export const getEligibleOriginToDestinations =
         departDate: Date;
         returnDate: Date;
       }): void;
-    }
+    },
+    tabName?: string
+  ) =>
+  (dispatch: Dispatch) => {
+    axios
+      .post(`${url}getEligibleOriginDestinations`, originDestination, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+      .then((res) => {
+        dispatch(setOriginToDestinationDates(res?.data?.data));
+        if (editDate && res?.data?.data && res?.data?.data?.length > 0) {
+          const findFirstDepartDate = res?.data?.data?.find(
+            (item: { TargetDate: string | number | Date }) =>
+              new Date().valueOf() <= new Date(item.TargetDate).valueOf()
+          );
+          const targetDate = new Date(findFirstDepartDate?.TargetDate);
+          const utcDate = new Date(
+            targetDate.getUTCFullYear(),
+            targetDate.getUTCMonth(),
+            targetDate.getUTCDate(),
+            targetDate.getUTCHours(),
+            targetDate.getUTCMinutes(),
+            targetDate.getUTCSeconds(),
+            targetDate.getUTCMilliseconds()
+          );
+          if (tabName === 'return') {
+            dispatch(
+              getEligibleDestinationsToOrigin(
+                {
+                  DestinationCode: originDestination?.OriginCode,
+                  OriginCode: originDestination?.DestinationCode,
+                },
+                true,
+                flightDetails,
+                setFlightDetails,
+                targetDate,
+                utcDate
+              ) as unknown as AnyAction
+            );
+          } else {
+            dispatch(
+              loader({
+                show: false,
+                name: '',
+              })
+            );
+            setFlightDetails &&
+              setFlightDetails({
+                ...(flightDetails as {
+                  adult: number;
+                  children: number;
+                  promoCode: string;
+                  originCode: string;
+                  dateFlexible: boolean;
+                  destinationCode: string;
+                  departDate: Date;
+                  returnDate: Date;
+                }),
+                departDate: utcDate,
+              });
+          }
+        } else {
+          dispatch(
+            loader({
+              show: false,
+              name: '',
+            })
+          );
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+        dispatch(
+          loader({
+            show: false,
+            name: '',
+          })
+        );
+      });
+  };
+
+export const getEligibleDestinationsToOrigin =
+  (
+    originDestination: getEligibleOriginDestinationDates,
+    editDate?: boolean,
+    flightDetails?: {
+      departDate: Date;
+      returnDate: Date;
+      adult: number;
+      children: number;
+      originCode: string;
+      destinationCode: string;
+    },
+    setFlightDetails?: {
+      (
+        value: SetStateAction<{
+          adult: number;
+          children: number;
+          promoCode: string;
+          originCode: string;
+          dateFlexible: boolean;
+          destinationCode: string;
+          departDate: Date;
+          returnDate: Date;
+        }>
+      ): void;
+      (arg0: {
+        adult: number;
+        children: number;
+        promoCode: string;
+        originCode: string;
+        dateFlexible: boolean;
+        destinationCode: string;
+        departDate: Date;
+        returnDate: Date;
+      }): void;
+    },
+    departDate?: Date,
+    departDateToSet?: Date
   ) =>
   (dispatch: Dispatch) => {
     axios
@@ -78,11 +208,11 @@ export const getEligibleOriginToDestinations =
             name: '',
           })
         );
-        dispatch(setOriginToDestinationDates(res?.data?.data));
+        dispatch(setDestinationToOriginDates(res?.data?.data));
         if (editDate && res?.data?.data && res?.data?.data?.length > 0) {
           const findFirstDepartDate = res?.data?.data?.find(
             (item: { TargetDate: string | number | Date }) =>
-              new Date().valueOf() <= new Date(item.TargetDate).valueOf()
+              (departDate as Date)?.valueOf() < new Date(item.TargetDate).valueOf()
           );
           const targetDate = new Date(findFirstDepartDate?.TargetDate);
           const utcDate = new Date(
@@ -106,38 +236,10 @@ export const getEligibleOriginToDestinations =
                 departDate: Date;
                 returnDate: Date;
               }),
-              departDate: utcDate,
+              departDate: departDateToSet as Date,
+              returnDate: utcDate,
             });
         }
-      })
-      .catch((err) => {
-        console.warn(err);
-        dispatch(
-          loader({
-            show: false,
-            name: '',
-          })
-        );
-      });
-  };
-
-export const getEligibleDestinationsToOrigin =
-  (originDestination: getEligibleOriginDestinationDates) => (dispatch: Dispatch) => {
-    axios
-      .post(`${url}getEligibleOriginDestinations`, originDestination, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-      .then((res) => {
-        dispatch(
-          loader({
-            show: false,
-            name: '',
-          })
-        );
-        dispatch(setDestinationToOriginDates(res?.data?.data));
       })
       .catch((err) => {
         console.warn(err);
@@ -162,7 +264,9 @@ export const postSearchFlights =
       })
       .then((res) => {
         dispatch(setModifyData(false));
+        dispatch(setModifyBookingFromBooking(false));
         navigate && router?.push('/flightavailability');
+        dispatch(getFareFamilyDetails() as unknown as AnyAction);
         dispatch(
           setSelectedFlightCodesWithDate({
             departDate: flightDetails?.OriginDestinations[0].TargetDate,
@@ -181,36 +285,36 @@ export const postSearchFlights =
           })
         );
         dispatch(setSearchFlightData(res?.data?.data));
-        if (
-          navigate &&
-          flightDetails?.DateFlexible !== undefined &&
-          !flightDetails?.DateFlexible &&
-          fareFamily &&
-          fareFamily?.length > 0
-        ) {
-          const findDetails =
-            flightDetails?.OriginDestinations?.length > 1
-              ? res?.data?.data[fareFamily?.toLowerCase()]?.find(
-                  (item: { Otr: string; Dtr: string }) =>
-                    item?.Otr?.split('T')[0] ===
-                      flightDetails?.OriginDestinations[0].TargetDate.toJSON()?.split('T')[0] &&
-                    item?.Dtr?.split('T')[0] ===
-                      flightDetails?.OriginDestinations[1].TargetDate.toJSON()?.split('T')[0]
-                )
-              : res?.data?.data[fareFamily?.toLowerCase()]?.find(
-                  (item: { Otr: string }) =>
-                    item?.Otr?.split('T')[0] ===
-                    flightDetails?.OriginDestinations[0].TargetDate.toJSON()?.split('T')[0]
-                );
-          dispatch(
-            setSelectedFlightData({
-              display: true,
-              name: fareFamily,
-              index: 0,
-              details: findDetails,
-            })
-          );
-        }
+        const findDetails =
+          flightDetails?.OriginDestinations?.length > 1
+            ? res?.data?.data[fareFamily?.toLowerCase()]?.find(
+                (item: { Otr: string; Dtr: string }) =>
+                  item?.Otr?.split('T')[0] ===
+                    flightDetails?.OriginDestinations[0].TargetDate.toJSON()?.split('T')[0] &&
+                  item?.Dtr?.split('T')[0] ===
+                    flightDetails?.OriginDestinations[1].TargetDate.toJSON()?.split('T')[0]
+              )
+            : res?.data?.data[fareFamily?.toLowerCase()]?.find(
+                (item: { Otr: string }) =>
+                  item?.Otr?.split('T')[0] ===
+                  flightDetails?.OriginDestinations[0].TargetDate.toJSON()?.split('T')[0]
+              );
+        const findIndex =
+          flightDetails?.OriginDestinations?.length > 1
+            ? res?.data?.data[fareFamily?.toLowerCase()]?.findIndex(
+                (item: object) => item === findDetails
+              )
+            : res?.data?.data[fareFamily?.toLowerCase()]?.findIndex(
+                (item: object) => item === findDetails
+              );
+        dispatch(
+          setSelectedFlightData({
+            display: true,
+            name: fareFamily,
+            index: findIndex,
+            details: findDetails,
+          })
+        );
         setTimeout(() => {
           dispatch(
             loader({
@@ -248,36 +352,50 @@ export const postSearchExchangeFlights =
         },
       })
       .then((res) => {
-        dispatch(setModifyData(true));
+        router.asPath !== '/bookingcomplete'
+          ? (dispatch(setModifyData(true)), dispatch(setModifyBookingFromBooking(false)))
+          : dispatch(setModifyBookingFromBooking(true));
+        dispatch(setSelectedMeal([]));
+        dispatch(setModifySeat(false));
+        dispatch(setChooseSeatData([]));
+        dateFlexible && dispatch(getFareFamilyDetails() as unknown as AnyAction);
         dateFlexible ? router.push('/flightavailability') : router.push('/reviewchange');
+        const findDetails =
+          flightDetails?.OriginDestinations?.length > 1
+            ? res?.data?.data[fareFamilyName?.toLowerCase() as string]?.find(
+                (item: { Otr: string; Dtr: string }) =>
+                  item?.Otr?.split('T')[0] ===
+                    flightDetails?.OriginDestinations[0]?.TargetDate.toJSON()?.split('T')[0] &&
+                  item?.Dtr?.split('T')[0] ===
+                    flightDetails?.OriginDestinations[1]?.TargetDate.toJSON()?.split('T')[0]
+              )
+            : res?.data?.data[fareFamilyName?.toLowerCase() as string]?.find(
+                (item: { Otr: string }) =>
+                  item?.Otr?.split('T')[0] ===
+                  flightDetails?.OriginDestinations[0]?.TargetDate.toJSON()?.split('T')[0]
+              );
+        const findIndex =
+          flightDetails?.OriginDestinations?.length > 1
+            ? res?.data?.data[fareFamilyName?.toLowerCase() as string]?.findIndex(
+                (item: object) => item === findDetails
+              )
+            : res?.data?.data[fareFamilyName?.toLowerCase() as string]?.findIndex(
+                (item: object) => item === findDetails
+              );
+        dispatch(
+          setSelectedFlightData({
+            display: true,
+            name: fareFamilyValue,
+            index: findIndex,
+            details: findDetails,
+          })
+        );
         if (
           !dateFlexible &&
           fareFamilyName &&
           fareFamilyName?.length > 0 &&
-          res?.data?.data[fareFamilyName]?.length > 0
+          res?.data?.data[fareFamilyName?.toLowerCase() as string]?.length > 0
         ) {
-          const findDetails =
-            flightDetails?.OriginDestinations?.length > 1
-              ? res?.data?.data[fareFamilyName]?.find(
-                  (item: { Otr: string; Dtr: string }) =>
-                    item?.Otr?.split('T')[0] ===
-                      flightDetails?.OriginDestinations[0]?.TargetDate.toJSON()?.split('T')[0] &&
-                    item?.Dtr?.split('T')[0] ===
-                      flightDetails?.OriginDestinations[1]?.TargetDate.toJSON()?.split('T')[0]
-                )
-              : res?.data?.data[fareFamilyName]?.find(
-                  (item: { Otr: string }) =>
-                    item?.Otr?.split('T')[0] ===
-                    flightDetails?.OriginDestinations[0]?.TargetDate.toJSON()?.split('T')[0]
-                );
-          dispatch(
-            setSelectedFlightData({
-              display: true,
-              name: fareFamilyValue,
-              index: 0,
-              details: findDetails,
-            })
-          );
           dispatch(
             postPrepareExchangeFlights(
               {
@@ -297,7 +415,14 @@ export const postSearchExchangeFlights =
             ) as unknown as AnyAction
           );
         } else {
-          dispatch(setSelectedFlightData([]));
+          setTimeout(() => {
+            dispatch(
+              loader({
+                show: false,
+                name: '',
+              })
+            );
+          }, 1000);
         }
         dispatch(setSearchFlightData(res?.data?.data));
         dispatch(
@@ -317,14 +442,6 @@ export const postSearchExchangeFlights =
             dateFlexible: flightDetails?.DateFlexible,
           })
         );
-        setTimeout(() => {
-          dispatch(
-            loader({
-              show: false,
-              name: '',
-            })
-          );
-        }, 1000);
       })
       .catch((err) => {
         console.warn(err);
@@ -338,7 +455,15 @@ export const postSearchExchangeFlights =
   };
 
 export const postPrepareFlights =
-  (data: postPrepareFlight, router: NextRouter) => (dispatch: Dispatch) => {
+  (
+    data: postPrepareFlight,
+    router: NextRouter,
+    setShowToast?: {
+      (value: SetStateAction<{ show: boolean; status: number; message: string }>): void;
+      (arg0: { show: boolean; status: number; message: string }): void;
+    }
+  ) =>
+  (dispatch: Dispatch) => {
     axios
       .post(`${url}prepareFlights`, data, {
         headers: {
@@ -367,11 +492,27 @@ export const postPrepareFlights =
             name: '',
           })
         );
+        setShowToast &&
+          setShowToast({
+            show: true,
+            status: err?.response?.status,
+            message: err?.response?.data?.message?.message
+              ? err?.response?.data?.message?.message
+              : err?.response?.data?.message,
+          });
       });
   };
 
 export const postPrepareExchangeFlights =
-  (data: postPrepareFlight, router: NextRouter) => (dispatch: Dispatch) => {
+  (
+    data: postPrepareFlight,
+    router: NextRouter,
+    setShowToast?: {
+      (value: SetStateAction<{ show: boolean; status: number; message: string }>): void;
+      (arg0: { show: boolean; status: number; message: string }): void;
+    }
+  ) =>
+  (dispatch: Dispatch) => {
     axios
       .post(`${url}prepareExchangeFlights`, data, {
         headers: {
@@ -380,6 +521,7 @@ export const postPrepareExchangeFlights =
         },
       })
       .then((res) => {
+        dispatch(setModifyDates(true));
         router.push('/reviewchange');
         dispatch(setPrepareFlightRef(data));
         dispatch(setPrepareExchangeFlightData(res?.data?.data));
@@ -400,11 +542,28 @@ export const postPrepareExchangeFlights =
             name: '',
           })
         );
+        setShowToast &&
+          setShowToast({
+            show: true,
+            status: err?.response?.status,
+            message: err?.response?.data?.message?.message
+              ? err?.response?.data?.message?.message
+              : err?.response?.data?.message,
+          });
       });
   };
 
 export const postCreateBooking =
-  (data: postCreateBooking, router: NextRouter, cpd_code: string) => (dispatch: Dispatch) => {
+  (
+    data: postCreateBooking,
+    router: NextRouter,
+    cpd_code: string,
+    setShowToast?: {
+      (value: SetStateAction<{ show: boolean; status: number; message: string }>): void;
+      (arg0: { show: boolean; status: number; message: string }): void;
+    }
+  ) =>
+  (dispatch: Dispatch) => {
     axios
       .post(`${url}createBooking`, data, {
         headers: {
@@ -416,6 +575,7 @@ export const postCreateBooking =
         router.push('/reviewtrip');
         dispatch(setCreateBookingData(res?.data?.data));
         res?.data?.data?.Amount?.TotalAmount &&
+          res?.data?.data?.Amount?.TotalAmount !== null &&
           dispatch(
             postPaymentAmount({
               amount: +res?.data?.data?.Amount?.TotalAmount,
@@ -440,11 +600,28 @@ export const postCreateBooking =
             name: '',
           })
         );
+        setShowToast &&
+          setShowToast({
+            show: true,
+            status: err?.response?.status,
+            message: err?.response?.data?.message?.message
+              ? err?.response?.data?.message?.message
+              : err?.response?.data?.message,
+          });
       });
   };
 
 export const postExchangeCreateBooking =
-  (data: postCreateBooking, router: NextRouter, cpd_code: string) => (dispatch: Dispatch) => {
+  (
+    data: postCreateBooking,
+    router: NextRouter,
+    cpd_code: string,
+    setShowToast?: {
+      (value: SetStateAction<{ show: boolean; status: number; message: string }>): void;
+      (arg0: { show: boolean; status: number; message: string }): void;
+    }
+  ) =>
+  (dispatch: Dispatch) => {
     axios
       .post(`${url}exchangeCreateBooking`, data, {
         headers: {
@@ -456,6 +633,7 @@ export const postExchangeCreateBooking =
         router.push('/reviewchange');
         dispatch(setExchangeCreateBookingData(res?.data?.data));
         res?.data?.data?.Amount?.TotalAmount &&
+          res?.data?.data?.Amount?.TotalAmount !== null &&
           dispatch(
             postPaymentAmount({
               amount: +res?.data?.data?.Amount?.TotalAmount,
@@ -480,11 +658,29 @@ export const postExchangeCreateBooking =
             name: '',
           })
         );
+        setShowToast &&
+          setShowToast({
+            show: true,
+            status: err?.response?.status,
+            message: err?.response?.data?.message?.message
+              ? err?.response?.data?.message?.message
+              : err?.response?.data?.message,
+          });
       });
   };
 
 export const postModifyBookingSeats =
-  (data: postCreateBooking, router: NextRouter, cpd_code?: string) => (dispatch: Dispatch) => {
+  (
+    data: postCreateBooking,
+    router: NextRouter,
+    cpd_code: string,
+    ancillaryUpdate?: boolean,
+    setShowToast?: {
+      (value: SetStateAction<{ show: boolean; status: number; message: string }>): void;
+      (arg0: { show: boolean; status: number; message: string }): void;
+    }
+  ) =>
+  (dispatch: Dispatch) => {
     axios
       .post(`${url}modifyBooking`, data, {
         headers: {
@@ -493,16 +689,29 @@ export const postModifyBookingSeats =
         },
       })
       .then((res) => {
-        router.push('/reviewchange');
-        dispatch(setModifyBookingSeatsData(res?.data?.data));
-        res?.data?.data?.Amount?.TotalAmount &&
-          dispatch(
-            postPaymentAmount({
-              amount: +res?.data?.data?.Amount?.TotalAmount,
-              PnrCode: res?.data?.data?.PnrInformation?.PnrCode,
-              cpd_code: cpd_code ? cpd_code : '',
-            }) as unknown as AnyAction
-          );
+        if (
+          res?.data?.data?.Amount?.TotalAmount !== null &&
+          res?.data?.data?.Amount?.TotalAmount === 0
+        ) {
+          dispatch(setModifyMeal(false));
+          dispatch(setModifySeat(false));
+          router.push('/bookingcomplete');
+          dispatch(setModifyBookingFromBooking(false));
+          dispatch(setModifyBookingData(res?.data?.data));
+        } else {
+          router.push('/reviewchange');
+          ancillaryUpdate && dispatch(setUpdateCart(true));
+          dispatch(setModifyBookingSeatsData(res?.data?.data));
+          res?.data?.data?.Amount?.TotalAmount &&
+            res?.data?.data?.Amount?.TotalAmount !== null &&
+            dispatch(
+              postPaymentAmount({
+                amount: +res?.data?.data?.Amount?.TotalAmount,
+                PnrCode: res?.data?.data?.PnrInformation?.PnrCode,
+                cpd_code: cpd_code ? cpd_code : '',
+              }) as unknown as AnyAction
+            );
+        }
         setTimeout(() => {
           dispatch(
             loader({
@@ -520,6 +729,14 @@ export const postModifyBookingSeats =
             name: '',
           })
         );
+        setShowToast &&
+          setShowToast({
+            show: true,
+            status: err?.response?.status,
+            message: err?.response?.data?.message?.message
+              ? err?.response?.data?.message?.message
+              : err?.response?.data?.message,
+          });
       });
   };
 
@@ -576,7 +793,24 @@ export const postCreateTicket =
             PassengerName: createTicket?.PassengerName,
           })
         );
+        dispatch(
+          postPrepareBookingModification({
+            TypeCode: 'PnrCode',
+            ID: createTicket?.ID,
+            PassengerName: createTicket?.PassengerName,
+          }) as unknown as AnyAction
+        );
         dispatch(setModifyBookingData(res?.data?.data));
+      })
+      .catch((err) => {
+        console.warn(err);
+        router.push(
+          {
+            pathname: '/bookingcomplete',
+            query: { error: 'failed' },
+          },
+          '/bookingcomplete'
+        );
         setTimeout(() => {
           dispatch(
             loader({
@@ -584,16 +818,7 @@ export const postCreateTicket =
               name: '',
             })
           );
-        }, 1000);
-      })
-      .catch((err) => {
-        console.warn(err);
-        dispatch(
-          loader({
-            show: false,
-            name: '',
-          })
-        );
+        }, 2000);
       });
   };
 
@@ -718,3 +943,59 @@ export const postPrepareBookingModification =
         );
       });
   };
+
+export const getAllBooking = () => (dispatch: Dispatch) => {
+  axios
+    .get(`${url}users/bookingHistory/9201201`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+    .then((res) => {
+      dispatch(
+        loader({
+          show: false,
+          name: '',
+        })
+      );
+      dispatch(setAllBooking(res?.data?.data));
+    })
+    .catch((err) => {
+      console.warn(err);
+      dispatch(
+        loader({
+          show: false,
+          name: '',
+        })
+      );
+    });
+};
+
+export const getFareFamilyDetails = () => (dispatch: Dispatch) => {
+  axios
+    .get(`${url}compareFairFamily`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+    .then((res) => {
+      dispatch(
+        loader({
+          show: false,
+          name: '',
+        })
+      );
+      dispatch(setFareFamily(res?.data?.data));
+    })
+    .catch((err) => {
+      console.warn(err);
+      dispatch(
+        loader({
+          show: false,
+          name: '',
+        })
+      );
+    });
+};

@@ -61,7 +61,7 @@ const ReviewTripComplete = () => {
       </div>
       <div className="px-3 xl:bg-cadetgray width-auto  xl:w-3/4 xs:w-full xl:py-24 xl:mt-0 xs:pt-20">
         <div className="xl:w-2/4 xl:m-auto xs:w-full">
-          <div className="flex justify-between items-center xl:py-0 xs:py-2">
+          <div className="flex justify-between items-center xl:py-0 xs:py-3">
             <div className="xl:py-3 xs:py-0 cursor-pointer">
               <FontAwesomeIcon
                 icon={faAngleLeft}
@@ -400,7 +400,7 @@ const ReviewTripComplete = () => {
                 className="linear h-screen fixed top-0 left-0 right-0 z-50 hidden xl:p-4 sm:p-0 overflow-x-hidden overflow-y-auto md:inset-0 xl:h-[calc(100% 1rem)] max-h-full xl:flex justify-center items-center flex h-screen"
               >
                 <div className="relative w-full max-w-md max-h-full rounded-lg bg-white m-auto ">
-                  <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 calendar-modal ">
+                  <div className="relative bg-white rounded-lg shadow    calendar-modal ">
                     <div className="p-4 text-center">
                       <FontAwesomeIcon
                         icon={faXmark}

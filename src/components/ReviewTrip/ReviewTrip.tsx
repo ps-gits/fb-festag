@@ -1,11 +1,10 @@
 import Image from 'next/image';
-import { AnyAction } from 'redux';
+import { useState } from 'react';
 import parse from 'html-react-parser';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+// import { useRouter } from 'next/router'; //back button comment from reviewtrip
 import { useDispatch, useSelector } from 'react-redux';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'; //back button comment from reviewtrip
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';//back button comment from reviewtrip
 
 import CodesInCurve from './CodesInCurve';
 import { RootState } from 'src/redux/store';
@@ -17,56 +16,49 @@ import SearchSeatLoader from '../Loader/SearchSeat';
 import PassengerCount from '../Modal/PassengerCount';
 import PaymentGatewayLoader from '../Loader/PaymentGateway';
 import SearchFlightLoader from '../Loader/SearchFlightLoader';
-import { getSitecoreContent } from 'src/redux/action/Sitecore';
+import FareBaggageModal from 'components/Modal/FareBaggageModal';
 import { setAcceptTermsConditions } from 'src/redux/reducer/FlightDetails';
 import ModifyPassengerSeatFareFamily from './ModifyPassengerSeatFareFamily';
 import { getImageSrc, getFieldName } from 'components/SearchFlight/SitecoreContent';
 
 const ReviewTrip = () => {
-  const router = useRouter();
+  // const router = useRouter(); //back button comment from reviewtrip
   const dispatch = useDispatch();
-  const sitecoreFolders = [
-    'Cancel-Modal',
-    'Cancel-Success',
-    'Booking-Complete',
-    'Modify-Booking-Modal',
-  ];
 
+  // const cancelBookingModalContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.cancelModal?.fields
+  // );
   const searchFlightContent = useSelector(
     (state: RootState) => state?.sitecore?.searchFlight?.fields
   );
-  const bookingCompleteContent = useSelector(
-    (state: RootState) => state?.sitecore?.bookingComplete?.fields
-  );
+  // const bookingCompleteContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.bookingComplete?.fields
+  // );
   const storedPassengerData = useSelector(
     (state: RootState) => state?.passenger?.passengersData?.details
   );
   const termsConditionsAccepted = useSelector(
     (state: RootState) => state?.flightDetails?.acceptTermsConditions
   );
+  // const modifyBookingDetailsModalContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.modifyBookingModal?.fields
+  // );
   const load = useSelector((state: RootState) => state?.loader?.loader);
   const paymentForm = useSelector((state: RootState) => state?.flightDetails?.paymentForm);
   const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
   const selectedMeal = useSelector((state: RootState) => state?.flightDetails?.selectedMeal);
+  // const cancelContent = useSelector((state: RootState) => state?.sitecore?.cancelSuccess?.fields);
   const createBookingInfo = useSelector((state: RootState) => state?.flightDetails?.createBooking);
   const reviewTripContent = useSelector((state: RootState) => state?.sitecore?.reviewTrip?.fields);
 
   const [showModal, setShowModal] = useState({
     passenger: false,
   });
+  const [showFare, setFareModal] = useState(false);
   const [passengerCount, setPassengerCount] = useState({
     adult: createBookingInfo?.Passengers?.Adult ? createBookingInfo?.Passengers?.Adult : 1,
     children: createBookingInfo?.Passengers?.Children ? createBookingInfo?.Passengers?.Children : 0,
   });
-
-  useEffect(() => {
-    if (bookingCompleteContent === undefined) {
-      sitecoreFolders?.map((item) => {
-        dispatch(getSitecoreContent(item) as unknown as AnyAction);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingCompleteContent, dispatch]);
 
   const flightData = createBookingInfo?.OriginDestination?.find(
     (item: object) => item !== undefined
@@ -91,23 +83,6 @@ const ReviewTrip = () => {
       item?.fields?.filter((item: { Code: string }) => item?.Code === 'SEAT')?.map((item) => item)
   );
 
-  const flattenArray = (arr: { Text: string }[][]) => {
-    const arrayData: { Text: string }[] = [];
-
-    const flatten = (arr: { Text: string }[][]) => {
-      arr?.map((item: { Text: string }[][] | { Text: string }[]) => {
-        if (Array.isArray(item)) {
-          flatten(item as { Text: string }[][]);
-        } else {
-          arrayData.push(item);
-        }
-      });
-    };
-    flatten(arr);
-
-    return arrayData;
-  };
-
   const TotalPricing = () => {
     return (
       <div>
@@ -116,11 +91,11 @@ const ReviewTrip = () => {
             <p className="text-slategray text-base font-medium">
               {getFieldName(reviewTripContent, 'flightPrice')}
             </p>
-            <p className="font-black text-base text-black">
+            <p className="font-medium text-base text-black">
               {(flightInfo?.details?.currency ? flightInfo?.details?.currency : '') +
                 ' ' +
                 (createBookingInfo?.Amount?.TotalAmount
-                  ? createBookingInfo?.Amount?.TotalAmount
+                  ? createBookingInfo?.Amount?.TotalAmount?.toLocaleString('en-GB')
                   : '')}
             </p>
           </div>
@@ -128,19 +103,22 @@ const ReviewTrip = () => {
             <p className="text-slategray text-base font-medium">
               {getFieldName(reviewTripContent, 'addons')}
             </p>
-            <p className="font-black text-base text-black">0</p>
+            <p className="font-medium text-base text-black">0</p>
           </div>
-          <div className="flex justify-between my-1">
-            <p className="text-slategray text-base font-medium">
+          <div className="flex justify-between mt-5">
+            <p className="text-slategray text-lg font-medium">
               {getFieldName(reviewTripContent, 'totalPrice')}
             </p>
-            <p className="font-black text-base text-black">
+            <p className="font-black text-lg text-black">
               {(flightInfo?.details?.currency ? flightInfo?.details?.currency : '') +
                 ' ' +
                 (createBookingInfo?.Amount?.TotalAmount
-                  ? createBookingInfo?.Amount?.TotalAmount
+                  ? createBookingInfo?.Amount?.TotalAmount?.toLocaleString('en-GB')
                   : '')}
             </p>
+          </div>
+          <div className="flex justify-between mt-5" onClick={() => setFareModal(true)}>
+            <p className="text-aqua underline cursor-pointer">Fare & Baggage Rules</p>
           </div>
           <div className="flex items-center my-2">
             <input
@@ -155,12 +133,15 @@ const ReviewTrip = () => {
 
             <label className="ml-2 text-sm font-medium text-black">
               {getFieldName(reviewTripContent, 'iAcceptAll')}{' '}
-              <span
+              <a
                 className="text-sm text-aqua font-medium cursor-pointer"
-                onClick={() => router.push('/terms&conditions')}
+                href="https://edge.sitecorecloud.io/arabesquefl0f70-demoproject-demoenv-79bc/media/flightbooking/Legal-Docs/CoC_Beond_MS_080823_v2.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                // onClick={() => router.push('/terms&conditions')}
               >
                 {getFieldName(reviewTripContent, 'termsConditions')}
-              </span>
+              </a>
             </label>
           </div>
           <div className="py-3 lg:flex md:flex block h-full items-center justify-center relative gap-3 w-full   m-auto">
@@ -170,7 +151,7 @@ const ReviewTrip = () => {
               disabled={
                 !termsConditionsAccepted || createBookingInfo?.Amount?.TotalAmount === undefined
               }
-              className={`w-full xs:justify-center  xs:text-center text-white bg-aqua focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center ${
+              className={`w-full xs:justify-center  xs:text-center text-white bg-aqua font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center ${
                 !termsConditionsAccepted || createBookingInfo?.Amount?.TotalAmount === undefined
                   ? 'opacity-40 cursor-not-allowed'
                   : ''
@@ -180,6 +161,15 @@ const ReviewTrip = () => {
             </button>
           </div>
         </div>
+        {showFare && (
+          <FareBaggageModal
+            showFare={showFare}
+            closeModal={() => {
+              setFareModal(false);
+              document.body.style.overflow = 'unset';
+            }}
+          />
+        )}
       </div>
     );
   };
@@ -193,6 +183,7 @@ const ReviewTrip = () => {
             setShowModal({
               passenger: false,
             });
+            document.body.style.overflow = 'unset';
           }
         };
       }}
@@ -217,25 +208,28 @@ const ReviewTrip = () => {
           </div>
           <div className="px-3 xl:bg-cadetgray width-auto  xl:w-3/4 xs:w-full xl:py-16 ">
             <div className="xl:not-sr-only	xs:sr-only">
-              <StepsInfo selected={3} />
+              <div className="xl:w-3/5 xl:m-auto xl:pl-12 xl:mt-12">
+                <StepsInfo selected={3} />
+              </div>
             </div>
             <div className="xl:w-2/4 xl:m-auto xs:w-full xl:pt-4 xs:pt-20">
+              {/* back button comment from reviewtrip */}
               <div>
                 <div className="flex justify-between items-center">
                   <div
                     className="xl:py-3 xs:py-3 cursor-pointer"
-                    onClick={() => {
-                      router.push('/chooseseats');
-                    }}
+                    // onClick={() => {
+                    //   router.push('/chooseseats');
+                    // }}
                   >
-                    <FontAwesomeIcon
+                    {/* <FontAwesomeIcon
                       icon={faAngleLeft}
                       aria-hidden="true"
                       className="text-black text-sm font-black h-4 w-4"
                     />
                     <span className="px-2 text-black text-sm font-black">
                       {getFieldName(reviewTripContent, 'backButton')}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
                 <div className="pt-2">
@@ -257,7 +251,7 @@ const ReviewTrip = () => {
                       originCode={flightData?.OriginCode}
                       destinationCity={flightData?.DestinationCity}
                       destinationCode={flightData?.DestinationCode}
-                      oneway={createBookingInfo?.OriginDestination?.length < 1}
+                      oneway={createBookingInfo?.OriginDestination?.length < 2}
                     />
                     <div className="p-4">
                       {createBookingInfo?.OriginDestination?.map(
@@ -267,8 +261,8 @@ const ReviewTrip = () => {
                               <FlightSchedule
                                 index={index}
                                 seats={true}
-                                loungeAccess={true}
-                                luxuryPickup={true}
+                                loungeAccess={item?.Lounge}
+                                luxuryPickup={item?.Luxury}
                                 originCode={item?.OriginCode}
                                 arrivalDate={item?.ArrivalDate}
                                 bagAllowances={item.BagAllowances}
@@ -297,6 +291,7 @@ const ReviewTrip = () => {
                           setShowModal({
                             passenger: false,
                           });
+                          document.body.style.overflow = 'unset';
                         }}
                         adult={passengerCount?.adult}
                         flightDetails={passengerCount}
@@ -305,21 +300,12 @@ const ReviewTrip = () => {
                         setFlightDetails={setPassengerCount}
                       />
                       <ModifyPassengerSeatFareFamily
-                        passengerModify={() => {
-                          setShowModal({
-                            passenger: true,
-                          });
-                        }}
-                        seatsModify={() => console.log('modify seats')}
+                        mealsLabel={selectedMeal}
                         adult={passengerCount?.adult}
                         fareFamilyName={flightInfo?.name}
                         childrens={passengerCount?.children}
-                        mealsLabel={selectedMeal}
-                        mealsModify={() => router.push('/choosemeal')}
                         seatsLabel={
-                          allSeats && allSeats?.length > 0 && allSeats[0]
-                            ? flattenArray(allSeats)
-                            : []
+                          allSeats && allSeats?.length > 0 && allSeats[0] ? allSeats?.flat(1) : []
                         }
                       />
                     </div>
@@ -327,16 +313,16 @@ const ReviewTrip = () => {
                       fareFamilyName={flightInfo?.name}
                       currency={flightInfo?.details?.currency}
                       passengerCount={storedPassengerData?.length}
-                      taxAmount={createBookingInfo?.Amount?.TaxAmount}
-                      baseAmount={createBookingInfo?.Amount?.BaseAmount}
-                      totalAmount={createBookingInfo?.Amount?.TotalAmount}
+                      taxAmount={createBookingInfo?.Amount?.TaxAmount?.toLocaleString('en-GB')}
+                      baseAmount={createBookingInfo?.Amount?.BaseAmount?.toLocaleString('en-GB')}
+                      totalAmount={createBookingInfo?.Amount?.TotalAmount?.toLocaleString('en-GB')}
                     />
                   </div>
                 </div>
                 <div className="xl:mb-0 xs:mb-48">
-                  <div className="bg-white  xl:w-full mt-3 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl">
+                  <div className="bg-white  xl:w-full mt-3 rounded-tl-xl rounded-tr-xl rounded-bl-xl rounded-br-xl">
                     <Image
-                      className="h-full w-full object-containt  rounded-tl-2xl rounded-tr-2xl"
+                      className="h-full w-full object-containt  rounded-tl-xl rounded-tr-xl"
                       src={getImageSrc(reviewTripContent, 'seatsImage')}
                       alt=""
                       height={1000}
@@ -356,7 +342,7 @@ const ReviewTrip = () => {
             </div>
           </div>
           <div className="xs:not-sr-only	xl:sr-only">
-            <div className="fixed w-full left-0 bottom-0 z-50">
+            <div className="fixed w-full left-0 bottom-0 z-40">
               <TotalPricing />
               <div className="hidden">
                 {paymentForm !== undefined && paymentForm?.length > 0 ? parse(paymentForm) : ''}

@@ -1,3 +1,4 @@
+import parse from 'html-react-parser';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import {
@@ -6,6 +7,7 @@ import {
   ImageField,
   Image as JssImage,
   withDatasourceCheck,
+  RichTextField,
 } from '@sitecore-jss/sitecore-jss-nextjs';
 
 import { RootState } from 'src/redux/store';
@@ -14,7 +16,7 @@ import { ComponentProps } from 'lib/component-props';
 type CommonHeadBannerProps = ComponentProps & {
   fields: {
     heading: Field<string>;
-    content: Field<string>;
+    content: RichTextField;
     home: Field<string>;
     pageName: Field<string>;
     subPageName: Field<string>;
@@ -47,21 +49,29 @@ const CommonHeadBanner = (props: CommonHeadBannerProps): JSX.Element => {
                   <div className=" xs:w-full  xl:flex md:flex  xs:block h-full justify-between  ">
                     <div className="xl:w-2/4 md:w-6/12  xs:w-full">
                       <div className="py-3">
-                        <span className="text-hilightgray text-sm font-normal">
-                          <Text field={props.fields.home} />/
+                        <span
+                          className="text-hilightgray text-sm font-normal cursor-pointer"
+                          onClick={() => router.push('/')}
+                        >
+                          {props.fields.home.value + ' ' + '/' + ' '}
                         </span>
                         <span
                           className={`${
                             props.fields.subPageName.value.length > 0
-                              ? 'text-hilightgray'
-                              : 'text-neviblue font-black'
+                              ? 'text-hilightgray cursor-pointer'
+                              : 'text-neviblue font-semibold'
                           } text-sm `}
+                          onClick={() => {
+                            props.fields.subPageName.value.length > 0 &&
+                              props.fields.pageName.value.toLowerCase() === 'destinations' &&
+                              router.push('/destination');
+                          }}
                         >
                           <Text field={props.fields.pageName} />
-                          {props.fields.subPageName.value.length > 0 && '/'}
+                          {props.fields.subPageName.value.length > 0 && ' / '}
                         </span>
                         {props.fields.subPageName.value.length > 0 && (
-                          <span className="text-neviblue text-sm font-black">
+                          <span className="text-neviblue text-sm font-semibold">
                             <Text field={props.fields.subPageName} />
                           </span>
                         )}
@@ -69,30 +79,32 @@ const CommonHeadBanner = (props: CommonHeadBannerProps): JSX.Element => {
                       <h1 className="maldivtext xs:w-full xs:justify-center  text-black rounded-lg    py-3 font-semibold xl:text-6xl xs:text-3xl">
                         <Text field={props.fields.heading} />
                       </h1>
-                      <h1 className="xs:w-full  xl:text-xl  rounded-lg  inline-flex items-center  py-3 font-normal text-black">
-                        <Text field={props.fields.content} />
-                      </h1>
+                      {props.fields.content.value && (
+                        <h1 className="xs:w-full  xl:text-xl  rounded-lg  inline-flex items-center  py-3 font-normal text-black">
+                          {parse(props.fields.content.value)}
+                        </h1>
+                      )}
                     </div>
                     <div className="xl:w-2/4 md:w-6/12  xs:w-full ">
-                      <div className="flex xl:mt-0 xs:mt-4 gap-2 xs:justify-end">
-                        <div className="xl:mt-36 xs:mt-10">
+                      <div className="flex xl:mt-0 xs:mt-4 gap-2 xl:justify-end xs:justify-center">
+                        <div className="xl:mt-24 xs:mt-12 xl:h-56 xl:w-48 xs:w-44 xs:h-36 overflow-hidden rounded-xl">
                           <JssImage
                             field={props.fields.image1}
-                            className=" xl:h-44 xl:w-32 xs:w-44 xs:h-36  rounded-xl"
+                            className=" w-full h-full"
                             alt="image"
                           />
                         </div>
-                        <div>
+                        <div className="xl:h-80 xl:w-60 xs:w-48 xs:h-48 rounded-xl overflow-hidden">
                           <JssImage
                             field={props.fields.image2}
-                            className=" xl:h-80 xl:w-60 xs:w-44 xs:h-44 rounded-xl"
+                            className="w-full h-full "
                             alt="image"
                           />
                         </div>
-                        <div>
+                        <div className="xl:h-40 xl:w-32 xs:w-36 xs:h-32  rounded-xl overflow-hidden">
                           <JssImage
                             field={props.fields.image3}
-                            className=" xl:h-44 xl:w-28 xs:w-44 xs:h-32  rounded-xl"
+                            className="w-full h-full "
                             alt="image"
                           />
                         </div>

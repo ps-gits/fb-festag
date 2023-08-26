@@ -57,19 +57,28 @@ export const locationOptions = [
 
 export const civilityCodeOptions = [
   {
-    label: 'Mr',
-    value: 'Mr',
+    label: 'Mr.',
+    value: 'Mr.',
+    Code: 'MR',
   },
   {
-    label: 'Master',
-    value: 'Master',
+    label: 'Mrs.',
+    value: 'Mrs.',
+    Code: 'MRS',
   },
   {
-    label: 'Ms',
-    value: 'Ms',
+    label: 'Ms.',
+    value: 'Ms.',
+    Code: 'MS',
   },
   {
-    label: 'Mrs',
-    value: 'Mrs',
+    label: 'Miss.',
+    value: 'Miss.',
+    Code: 'MISS',
+  },
+  {
+    label: 'Mstr.',
+    value: 'Mstr.',
+    Code: 'MSTR',
   },
 ];

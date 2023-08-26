@@ -37,7 +37,7 @@ const BoardingPasses = () => {
               <div className="rounded-lg">
                 <div className="xl:w-2/4 xl:m-auto">
                   <div className="xl:pt-20 xs:pt-16">
-                    <div className="flex justify-between items-center xl:py-0 xs:py-2">
+                    <div className="flex justify-between items-center xl:py-0 xs:py-3">
                       <div className="xl:py-3 xs:py-3 cursor-pointer">
                         <FontAwesomeIcon
                           icon={faAngleLeft}

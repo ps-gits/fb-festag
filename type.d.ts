@@ -90,6 +90,8 @@ interface tabType {
     departure: string;
     returnDate: string;
   };
+  openSelectModal?: boolean;
+  setOpenSelectModal?: Dispatch<SetStateAction<boolean>>;
   setErrorMessage: Dispatch<
     SetStateAction<{
       departure: string;
@@ -133,8 +135,6 @@ interface tabType {
   childrens: number;
   getDate: (arg0: string) => string;
   dropdownOptions: {
-    label: string;
-    value: string;
     code: string;
     country: string;
     Label: string;
@@ -142,8 +142,6 @@ interface tabType {
     __v: number;
   }[];
   selectOptions: {
-    label: string;
-    value: string;
     country: string;
     code: string;
     Label: string;
@@ -160,8 +158,6 @@ interface tabType {
   setLoading: Dispatch<SetStateAction<boolean>>;
   searchDataWithDelay: (...args: string[]) => void;
   dropdownOptionDestination?: {
-    label: string;
-    value: string;
     code: string;
     country: string;
     Label: string;
@@ -207,8 +203,6 @@ interface dropdownModal {
     }>
   >;
   selectOptions: {
-    label: string;
-    value: string;
     country: string;
     code: string;
     Label: string;
@@ -234,8 +228,6 @@ interface dropdownModal {
     }>
   >;
   dropdownOptions: {
-    label: string;
-    value: string;
     country: string;
     code: string;
     Label: string;
@@ -246,8 +238,7 @@ interface dropdownModal {
   setSelectOptions: Dispatch<
     SetStateAction<
       {
-        label: string;
-        value: string;
+        Label: string;
       }[]
     >
   >;
@@ -398,6 +389,12 @@ interface postCreateBooking {
       DocumentNumber: string;
     }[];
   }[];
+  AncillaryData?:
+    | {
+        name: string;
+        amount: number;
+      }[]
+    | [];
   RefItinerary?: string;
   Ref?: string;
   PnrCode?: string;
@@ -433,6 +430,10 @@ interface postCreateBooking {
   EMDTicketFareOptions?: {
     AncillaryCode: string;
   }[];
+  MealsDetails: {
+    departure: { Code: string; Label: string }[];
+    arrival: { Code: string; Label: string }[];
+  };
 }
 
 interface postPrepareFlight {
@@ -476,6 +477,7 @@ interface promoCodeModal {
 interface DateOfBirthModal {
   id: string;
   name: string;
+  type: string;
   index: number;
   showModal: boolean;
   selectedDate: string;
@@ -586,21 +588,23 @@ interface bookingDetails {
   DestinationCode: string;
   OrginDepartureTime: string;
   DestinationArrivalTime: string;
+  Lounge: boolean;
+  Luxury: boolean;
 }
 
 interface modifyBookingDetailsModal {
   id: string;
-  adult: number;
-  childrens: number;
+  adult?: number;
+  childrens?: number;
   showModal: boolean;
   returnDate: string;
   departDate: string;
   closeModal: () => void;
-  fareFamilyName: string;
+  fareFamilyName?: string;
   datesModify: () => void;
   seatsModify: () => void;
   cancelBooking: () => void;
-  passengerModify: () => void;
+  passengerModify?: () => void;
   seatsLabel?: { Text: string }[];
 }
 
@@ -608,10 +612,6 @@ interface postCreateTicket {
   ID: string;
   PassengerName: string;
   Amount: number;
-  MealsDetails: {
-    departure: { Code: string; Label: string }[];
-    arrival: { Code: string; Label: string }[];
-  };
 }
 
 interface seatDetails {
@@ -619,6 +619,7 @@ interface seatDetails {
   Surname: string;
   mapIndex: number;
   price: number;
+  AssociatedAncillaryCode: string;
   seatNumber: string;
   passengerIndex: number;
   rowNumber: number;
@@ -631,10 +632,10 @@ interface flightSeat {
   IsAvailable: boolean;
   AssociatedAncillaryCode: string;
   Extensions: null;
-  PassengerTypeCodeRestrictions: [];
+  PassengerTypeCodeRestrictions: never[];
   RefPassenger: null;
   SeatTypeCode: string;
-  SpecialServiceCodeRestrictions: [];
+  SpecialServiceCodeRestrictions: never[];
 }
 
 interface mealObjectKeys {
@@ -644,4 +645,98 @@ interface mealObjectKeys {
   returnMealCode: string;
   passengerName: string;
   passengerIndex: number;
+}
+
+interface cookiesList {
+  title: string;
+  description: string;
+  detailedDescription: string;
+}
+
+interface createAccountValues {
+  CivilityCode: string;
+  Emails: { Email: string; Type: string }[];
+  FirstName: string;
+  Surname: string;
+  MiddleName: string;
+  Password: string;
+  ConfirmPassword: string;
+}
+
+interface familyFieldValues {
+  CivilityCode: string;
+  Emails: { Email: string; Type: string }[];
+  FirstName: string;
+  Surname: string;
+  MiddleName: string;
+  Phones: {
+    flagPhone: string;
+    validPhone: string;
+    PhoneNumber: string;
+    PhoneTypeCode: string;
+    PhoneLocationTypeCode: string;
+  }[];
+  TypeCode: string;
+  CultureName: string;
+  Currency: string;
+  Login: string;
+  CompanyName: string;
+  BirthDate: string;
+  Addresses: {
+    Ref: string;
+    TypeCode: string;
+    Address1: string;
+    ZipCode: string;
+    City: string;
+    CountryNameOrCode: string;
+  }[];
+  Documents: {
+    Ref: string;
+    IssueCountryCode: string;
+    NationalityCountryCode: string;
+    Gender: string;
+    DocumentExpiryDate: string;
+    DocumentIssuanceDate: string;
+    Firstname: string;
+    Surname: string;
+    DocumentTypeCode: string;
+    DocumentNumber: string;
+  }[];
+}
+
+interface arrayValueCreateAccount {
+  Ref: string;
+  IssueCountryCode: string;
+  NationalityCountryCode: string;
+  Gender: string;
+  DocumentExpiryDate: string;
+  DocumentIssuanceDate: string;
+  Firstname: string;
+  Surname: string;
+  DocumentTypeCode: string;
+  DocumentNumber: string;
+  TypeCode: string;
+  Address1: string;
+  ZipCode: string;
+  City: string;
+  CountryNameOrCode: string;
+  PhoneNumber: string;
+  PhoneTypeCode: string;
+  PhoneLocationTypeCode: string;
+  Email: string;
+}
+
+interface errorMessageType {
+  showToast: {
+    show: boolean;
+    status: number;
+    message: string;
+  };
+  setShowToast?: Dispatch<
+    SetStateAction<{
+      show: boolean;
+      status: number;
+      message: string;
+    }>
+  >;
 }

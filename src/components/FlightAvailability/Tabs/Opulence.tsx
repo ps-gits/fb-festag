@@ -1,45 +1,45 @@
 import moment from 'moment';
-import Image from 'next/image';
-import { Fragment } from 'react';
-import { AnyAction } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
+// import Image from 'next/image';
+// import { AnyAction } from 'redux';
+import { useSelector } from 'react-redux';
+import { Fragment, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import FlightInfo from './FlightInfo';
 import { RootState } from 'src/redux/store';
-import { loader } from 'src/redux/reducer/Loader';
-import PassengerCount from '../../Modal/PassengerCount';
-import { setSelectedFlightData } from 'src/redux/reducer/FlightDetails';
+// import { loader } from 'src/redux/reducer/Loader';
+// import PassengerCount from '../../Modal/PassengerCount';
+// import { setSelectedFlightData } from 'src/redux/reducer/FlightDetails';
 import { commonArrivalData, commonDepartureData } from './MatrixFunctions';
-import { postPrepareExchangeFlights } from 'src/redux/action/SearchFlights';
+// import { postPrepareExchangeFlights } from 'src/redux/action/SearchFlights';
 
 const Opulence = (props: flightAvaliabilityTab) => {
   const {
-    router,
-    PnrCode,
+    // router,
+    // PnrCode,
     showModal,
     fareFamily,
     modifyData,
-    adultLabel,
+    // adultLabel,
     noDataFound,
     notAvailable,
     setShowModal,
     selectFlight,
-    modifyButton,
-    childrenLabel,
-    passengerLogo,
-    confirmButton,
-    passengerCount,
+    // modifyButton,
+    // childrenLabel,
+    // passengerLogo,
+    // confirmButton,
+    // passengerCount,
     showFlightInfo,
     setSelectFlight,
-    passengersLabel,
-    PassangerLastname,
+    // passengersLabel,
+    // PassangerLastname,
     setShowFlightInfo,
-    setPassengerCount,
+    // setPassengerCount,
   } = props;
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const flightData = useSelector(
     (state: RootState) => state?.flightDetails?.searchFlight?.opulence
@@ -79,39 +79,79 @@ const Opulence = (props: flightAvaliabilityTab) => {
         };
   });
 
+  useEffect(() => {
+    if (selectFlight?.details !== undefined && selectFlight?.name === fareFamily) {
+      const displayIndex = sortedFlights?.findIndex(
+        (_sf: flightInfo, listIndex: number) =>
+          selectFlight?.details?.Otr ===
+            (commonDepartureData(flightData)?.length < 3
+              ? [
+                  ...commonDepartureData(flightData),
+                  ...new Array(3 - commonDepartureData(flightData)?.length).fill({
+                    TotalAmount: -1,
+                    Dtr: '',
+                  }),
+                ]
+              : commonDepartureData(flightData)?.slice(0, 3))[listIndex % 3]?.Otr &&
+          (selectedDetailsForFlight?.length === 1
+            ? true
+            : selectFlight?.details?.Dtr ===
+              (commonArrivalData(flightData)?.length < 3
+                ? [
+                    ...commonArrivalData(flightData),
+                    ...new Array(3 - commonArrivalData(flightData)?.length).fill({
+                      TotalAmount: -1,
+                      Dtr: '',
+                    }),
+                  ]
+                : commonArrivalData(flightData)?.slice(0, 3))[Math.floor(listIndex / 3)]?.Dtr)
+      );
+      if (displayIndex !== -1) {
+        setSelectFlight({
+          ...selectFlight,
+          index: displayIndex,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectFlight?.name]);
+
   return (
     <div>
       {!showFlightInfo ? (
         <div className=" rounded-lg bg-gray-50 dark:bg-gray-800">
           <div>
-            <div className="xs:px-3 xl:px-0">
-              <div className="lg:flex md:flex block h-full relative gap-3 ">
-                <div className="bg-offwhite pb-2  lg:w-w-1/3 mb-2 w-full ">
+            <div className=" xl:pt-3">
+              <div className="lg:flex md:flex block h-full relative gap-3 xl:w-full xs:w-full border border-cadetgray rounded-lg">
+                <div className="bg-white lg:w-w-1/3 w-full rounded-lg  ">
                   {flightData?.length > 0 && sortedFlights?.length > 0 ? (
                     <div className="grid grid-cols-4">
-                      <div className="bg-white flex flex-col justify-center text-black p-2 border-b border-r border-aqua  items-center">
+                      <div className="bg-white flex flex-col justify-center text-black p-4 border-b border-r border-aqua  items-center">
                         <div className="flex gap-1">
                           <p className="font-semibold text-xs text-black whitespace-nowrap text-small">
                             {flightInfo?.OriginCode} - {flightInfo?.DestinationCode}
                           </p>
-                          <FontAwesomeIcon
-                            icon={faArrowRight}
-                            aria-hidden="true"
-                            className="text-black text-sm font-black h-3 w-3"
-                          />
-                        </div>
-                        {selectedDetailsForFlight?.length > 1 && (
-                          <div className="flex gap-1">
-                            <p className="font-semibold text-xs text-black  whitespace-nowrap text-small">
-                              {flightInfo?.DestinationCode} - {flightInfo?.OriginCode}
-                            </p>
+                          {flightInfo?.OriginCode?.length > 0 && (
                             <FontAwesomeIcon
-                              icon={faArrowDown}
+                              icon={faArrowRight}
                               aria-hidden="true"
                               className="text-black text-sm font-black h-3 w-3"
                             />
-                          </div>
-                        )}
+                          )}
+                        </div>
+                        {selectedDetailsForFlight?.length > 1 &&
+                          flightInfo?.DestinationCode?.length > 0 && (
+                            <div className="flex gap-1">
+                              <p className="font-semibold text-xs text-black  whitespace-nowrap text-small">
+                                {flightInfo?.DestinationCode} - {flightInfo?.OriginCode}
+                              </p>
+                              <FontAwesomeIcon
+                                icon={faArrowDown}
+                                aria-hidden="true"
+                                className="text-black text-sm font-black h-3 w-3"
+                              />
+                            </div>
+                          )}
                       </div>
                       {(commonDepartureData(flightData)?.length < 3
                         ? [
@@ -126,7 +166,7 @@ const Opulence = (props: flightAvaliabilityTab) => {
                         return (
                           <div
                             key={`opulence1-${index}`}
-                            className={`bg-white p-2 font-semibold text-xs flex flex-col text-black justify-center items-center border-b border-aqua ${
+                            className={`bg-white p-4 font-extrabold text-xs flex flex-col text-black justify-center items-center border-b border-aqua ${
                               selectFlight?.display && selectFlight?.details?.Otr === item?.Otr
                                 ? 'border-b-4'
                                 : ''
@@ -180,8 +220,14 @@ const Opulence = (props: flightAvaliabilityTab) => {
                                   : (selectedDetailsForFlight?.length === 1 && index === 0) ||
                                     selectedDetailsForFlight?.length === 2
                                   ? 'bg-white border-r border-aqua '
-                                  : 'bg-white border-aqua'
-                              } p-2 font-semibold text-xs flex flex-col text-black justify-center items-center ${
+                                  : 'bg-white border-aqua '
+                              } ${
+                                selectedDetailsForFlight?.length !== 1
+                                  ? item?.Dtr?.length > 0
+                                    ? 'p-4 font-extrabold text-xs flex flex-col text-black justify-center items-center'
+                                    : 'flex justify-center items-center'
+                                  : ''
+                              } ${
                                 (selectFlight?.display &&
                                   selectFlight?.details?.Dtr === item?.Dtr) ||
                                 (selectFlight?.display && selectedDetailsForFlight?.length === 1)
@@ -220,42 +266,81 @@ const Opulence = (props: flightAvaliabilityTab) => {
                                 <div className="py-2">-</div>
                               )}
                             </div>
-                            {sortedFlights?.map((dt: flightInfo, listIndex: number) => {
+                            {sortedFlights?.map((_dt: flightInfo, listIndex: number) => {
+                              const displayData = sortedFlights?.find(
+                                (sf: flightInfo) =>
+                                  sf?.Otr ===
+                                    (commonDepartureData(flightData)?.length < 3
+                                      ? [
+                                          ...commonDepartureData(flightData),
+                                          ...new Array(
+                                            3 - commonDepartureData(flightData)?.length
+                                          ).fill({
+                                            TotalAmount: -1,
+                                            Dtr: '',
+                                          }),
+                                        ]
+                                      : commonDepartureData(flightData)?.slice(0, 3))[listIndex % 3]
+                                      ?.Otr &&
+                                  (selectedDetailsForFlight?.length === 1
+                                    ? true
+                                    : sf?.Dtr ===
+                                      (commonArrivalData(flightData)?.length < 3
+                                        ? [
+                                            ...commonArrivalData(flightData),
+                                            ...new Array(
+                                              3 - commonArrivalData(flightData)?.length
+                                            ).fill({
+                                              TotalAmount: -1,
+                                              Dtr: '',
+                                            }),
+                                          ]
+                                        : commonArrivalData(flightData)?.slice(0, 3))[
+                                        Math.floor(listIndex / 3)
+                                      ]?.Dtr)
+                              );
                               return (
-                                <Fragment key={`opulence3-${listIndex}`}>
+                                <Fragment key={`delight3-${listIndex}`}>
                                   {listIndex >= index * 3 && listIndex < (index + 1) * 3 && (
                                     <div
-                                      className={`p-2 border flex flex-col  justify-center items-center text-center cursor-pointer ${
+                                      className={`py-6 border flex flex-col  justify-center items-center text-center cursor-pointer ${
                                         selectFlight?.display &&
                                         selectFlight?.index === listIndex &&
-                                        dt?.TotalAmount > 0 &&
-                                        selectFlight?.details?.TotalAmount === dt?.TotalAmount
+                                        displayData &&
+                                        displayData?.TotalAmount > 0 &&
+                                        selectFlight?.details?.TotalAmount ===
+                                          displayData?.TotalAmount
                                           ? 'bg-lightaqua border-aqua'
                                           : 'bg-white border-gray'
                                       }`}
                                       onClick={() => {
-                                        dt?.TotalAmount > 0 &&
+                                        displayData &&
+                                          displayData?.TotalAmount > 0 &&
                                           setSelectFlight({
                                             display: true,
                                             name: fareFamily,
                                             index: listIndex,
-                                            details: dt as flightInfo,
+                                            details: displayData as flightInfo,
                                           });
                                       }}
                                     >
-                                      {dt?.TotalAmount > 0 ? (
+                                      {displayData && displayData?.TotalAmount > 0 ? (
                                         <div className="py-2">
-                                          <p className="text-xs font-semibold text-black">
-                                            {(dt?.currency ? dt?.currency : '') +
+                                          <p className="text-xs font-extrabold text-black">
+                                            {(displayData?.currency ? displayData?.currency : '') +
                                               ' ' +
-                                              Math.floor(dt?.TotalAmount)}
+                                              Math.floor(displayData?.TotalAmount)?.toLocaleString(
+                                                'en-GB'
+                                              )}
                                           </p>
                                           <p className="font-medium text-xs text-yellow">
-                                            {dt?.BestPrice?.length > 0 ? `${dt?.BestPrice}` : ''}
+                                            {displayData?.BestPrice?.length > 0
+                                              ? `${displayData?.BestPrice}`
+                                              : ''}
                                           </p>
                                         </div>
                                       ) : (
-                                        <div className="py-2 text-xs text-black">
+                                        <div className="py-2 text-xs text-black font-extrabold">
                                           {notAvailable}
                                         </div>
                                       )}
@@ -274,7 +359,7 @@ const Opulence = (props: flightAvaliabilityTab) => {
                 </div>
               </div>
               <div>
-                <div className="bg-white px-3 py-2 rounded-lg mb-2">
+                {/* <div className="bg-white px-3 py-2 rounded-lg mb-2">
                   <div>
                     <h2 id="accordion-collapse-heading-1">
                       <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500">
@@ -310,6 +395,7 @@ const Opulence = (props: flightAvaliabilityTab) => {
                               passenger: true,
                               compareFareFamily: false,
                             });
+                            document.body.style.overflow = 'hidden';
                           }}
                         >
                           <p className="font-black text-sm text-aqua">{modifyButton}</p>
@@ -327,6 +413,7 @@ const Opulence = (props: flightAvaliabilityTab) => {
                             passenger: false,
                             compareFareFamily: false,
                           });
+                          document.body.style.overflow = 'unset';
                         }}
                         adult={passengerCount?.adult}
                         flightDetails={passengerCount}
@@ -337,10 +424,10 @@ const Opulence = (props: flightAvaliabilityTab) => {
                       />
                     </h2>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div>
-                <div className="lg:flex md:flex block h-full items-center justify-center relative gap-3 sm:w-full xl:w-full py-3 m-auto">
+                {/* <div className="lg:flex md:flex block h-full items-center justify-center relative gap-3 sm:w-full xl:w-full py-3 m-auto">
                   <button
                     type="button"
                     disabled={
@@ -382,7 +469,7 @@ const Opulence = (props: flightAvaliabilityTab) => {
                   >
                     {confirmButton}
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

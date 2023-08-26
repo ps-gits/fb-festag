@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Image from 'next/image';
 import { AnyAction } from 'redux';
 import { useRouter } from 'next/router';
@@ -12,23 +13,27 @@ import {
   getEligibleOriginToDestinations,
 } from 'src/redux/action/SearchFlights';
 import { RootState } from 'src/redux/store';
-import FeaturedAddOns from './FeaturedAddOns';
+// import FeaturedAddOns from './FeaturedAddOns';
 import { getDate } from '../ReviewTrip/GetDate';
 import { loader } from 'src/redux/reducer/Loader';
 import PassengerCount from '../Modal/PassengerCount';
 import CodesInCurve from '../ReviewTrip/CodesInCurve';
 import FlightSchedule from '../ReviewTrip/FlightSchedule';
 import PriceBreakDown from '../ReviewTrip/PriceBreakDown';
+import SavingDataLoader from 'components/Loader/SavingData';
 import SearchSeatLoader from 'components/Loader/SearchSeat';
 import ModifyBookingModal from '../Modal/ModifyBookingModal';
 import FindYourBookingLoader from '../Loader/FindYourBooking';
 import SearchFlightLoader from '../Loader/SearchFlightLoader';
+import GettingDataLoader from 'components/Loader/GettingData';
 import CancelBookingLoader from '../Loader/CancelBookingLoader';
-import { setModifySeat } from 'src/redux/reducer/FlightDetails';
+import { graphQLToken, graphQLUrl } from 'components/Api/ApiUrl';
 import DepartReturnDateModal from '../Modal/DepartReturnDateModal';
 import ModifyBookingDetailsModal from '../Modal/ModifyBookingDetailsModal';
+import { setMealList, setNumberOfMeals } from 'src/redux/reducer/Sitecore';
 import { getImageSrc, getFieldName } from 'components/SearchFlight/SitecoreContent';
 import ModifyPassengerSeatFareFamily from '../ReviewTrip/ModifyPassengerSeatFareFamily';
+import { setModifyMeal, setModifySeat, setSelectedMeal } from 'src/redux/reducer/FlightDetails';
 
 const ModifyBooking = () => {
   const router = useRouter();
@@ -40,12 +45,22 @@ const ModifyBooking = () => {
   const modifyBookingContent = useSelector(
     (state: RootState) => state?.sitecore?.bookingComplete?.fields
   );
+  const load = useSelector((state: RootState) => state?.loader?.loader);
   const originToDestinationDates = useSelector(
     (state: RootState) => state?.flightDetails?.originToDestinationDates
   );
-  const load = useSelector((state: RootState) => state?.loader?.loader);
+  const savedMealsData = useSelector(
+    (state: RootState) => state?.flightDetails?.prepareBookingModification
+  );
+  const mealsList = useSelector((state: RootState) => state?.sitecore?.mealList);
+  const cartData = useSelector((state: RootState) => state?.flightDetails?.yourCart);
+  const allMealData = useSelector(
+    (state: RootState) => state?.flightDetails?.prepareBookingModification?.MealsDetails
+  );
+  const numberOfMeals = useSelector((state: RootState) => state?.sitecore?.numberOfMeals);
   const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
   const findBookingInfo = useSelector((state: RootState) => state?.flightDetails?.findBooking);
+  const chooseMealContent = useSelector((state: RootState) => state?.sitecore?.chooseMeal?.fields);
   const modifyBookingInfo = useSelector((state: RootState) => state?.flightDetails?.modifyBooking);
   const reviewTripContent = useSelector((state: RootState) => state?.sitecore?.reviewTrip?.fields);
 
@@ -72,14 +87,17 @@ const ModifyBooking = () => {
     departure: '',
     returnDate: '',
   });
-  const [featuredAddons, setFeaturedAddons] = useState<
-    { name: string; amount: number; quantity: number }[]
-  >([]);
+  const [featuredAddons] = useState<{ name: string; amount: number; quantity: number }[]>(
+    cartData ? cartData : []
+  );
+  // const [featuredAddons, setFeaturedAddons] = useState<
+  //   { name: string; amount: number; quantity: number }[]
+  // >(cartData ? cartData : []);
   const [passengerModify, setPassengerModify] = useState(false);
   const [flightDetails, setFlightDetails] = useState({
     departDate: new Date(new Date(departDate).setDate(new Date(departDate).getUTCDate())),
     returnDate: new Date(new Date(returnDate).setDate(new Date(returnDate).getUTCDate())),
-    dateFlexible: false,
+    dateFlexible: true,
   });
   const [passengerCount, setPassengerCount] = useState({
     adult: modifyBookingInfo?.Passengers?.Adult ? modifyBookingInfo?.Passengers?.Adult : 1,
@@ -112,6 +130,83 @@ const ModifyBooking = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    chooseMealContent !== undefined && getMealsList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chooseMealContent]);
+
+  const getMealsList = async () => {
+    const mealParentIds = getFieldName(chooseMealContent, 'dietaryMealData')?.split('|');
+
+    const allMealsIds: string[] = [];
+
+    const mealsInfo = [];
+    let mealListData: {
+      name: string;
+      fields: { id: string; name: string; value: string }[];
+    }[] = [];
+
+    mealParentIds?.map(async (item, index) => {
+      const response = await axios.post(
+        `${graphQLUrl}`,
+        {
+          query: `{item(path: "${item}",language: "EN") {name\nfields{id\nname\nvalue\n}\n}\n}`,
+        },
+        {
+          headers: {
+            'x-gql-token': graphQLToken,
+          },
+        }
+      );
+
+      const mealsIds = await response?.data?.data?.item?.fields
+        ?.find((item: { name: string }) => item?.name === 'items')
+        ?.value?.split('|');
+
+      mealsInfo.push({
+        length: mealsIds?.length,
+        index: index,
+      });
+
+      mealsIds?.map((dt: string) => allMealsIds.push(dt));
+
+      if (
+        (index === mealParentIds?.length - 1 &&
+          numberOfMeals !== allMealsIds?.length &&
+          mealsInfo?.length === mealParentIds?.length) ||
+        (mealsInfo?.length === mealParentIds?.length && mealsList?.length === 0)
+      ) {
+        allMealsIds?.map(async (mealId) => {
+          const response = await axios.post(
+            `${graphQLUrl}`,
+            {
+              query: `{item(path: "${mealId}",language: "EN") {name\nfields{id\nname\nvalue\n}\n}\n}`,
+            },
+            {
+              headers: {
+                'x-gql-token': graphQLToken,
+              },
+            }
+          );
+          mealListData.push(response?.data?.data?.item);
+          mealListData = mealListData?.filter(
+            (item, index) => index === mealListData?.findIndex((dt) => dt?.name === item?.name)
+          );
+          if (mealListData?.length === allMealsIds?.length) {
+            const finalList = mealListData?.map((item) => {
+              return item?.fields.reduce(
+                (obj, item) => Object.assign(obj, { [item.name]: item.value }),
+                {}
+              );
+            });
+            dispatch(setMealList(finalList));
+            dispatch(setNumberOfMeals(allMealsIds?.length));
+          }
+        });
+      }
+    });
+  };
+
   const seatsOriginToDestination = modifyBookingInfo?.PassengersDetails?.map(
     (item: { fields: { Code: string }[] }) =>
       item?.fields
@@ -130,6 +225,93 @@ const ModifyBooking = () => {
     (item: { fields: { Code: string }[] }) =>
       item?.fields?.filter((item: { Code: string }) => item?.Code === 'SEAT')?.map((item) => item)
   );
+
+  const mealsDetails = () => {
+    if (mealsList?.length > 0 && mealsList?.length === numberOfMeals) {
+      const filterMealList = allMealData?.map((item: { fields: { Code: string }[] }) => {
+        const list = item?.fields?.filter(
+          (dt: { Code: string }) =>
+            mealsList?.find((ml: { code: string }) => ml?.code === dt?.Code) !== undefined
+        );
+        return {
+          fields: list?.filter(
+            (dt, index) => index === list?.findIndex((ml) => ml?.Code === dt?.Code)
+          ),
+        };
+      });
+
+      const mealsResponse = savedMealsData?.PassengersDetails?.map(
+        (item: { fields: { Code: string }[] }, index: number) =>
+          item?.fields
+            ?.filter(
+              (item: { Code: string }) =>
+                filterMealList !== undefined &&
+                filterMealList[index] !== undefined &&
+                filterMealList[index]?.fields?.find(
+                  (dt: { Code: string }) => dt?.Code === item?.Code
+                )
+            )
+            ?.map((item) => item)
+      );
+
+      return mealsResponse?.map(
+        (
+          item: {
+            Code: string;
+            Data: string;
+            Label: string;
+            Text: string;
+            type: string;
+          }[],
+          index: number
+        ) => {
+          const mealData: {
+            originMeal: string;
+            returnMeal: string;
+            passengerName: string;
+            originMealCode: string;
+            returnMealCode: string;
+            passengerIndex: number;
+          } = {
+            originMeal: '',
+            returnMeal: '',
+            originMealCode: '',
+            returnMealCode: '',
+            passengerIndex: index,
+            passengerName: savedMealsData?.Passengers[index]?.NameElement?.Firstname,
+          };
+          if (item?.length === 0) {
+            mealData['originMeal'] = 'Regular Meal';
+            mealData['originMealCode'] = '';
+            mealData['returnMeal'] =
+              modifyBookingInfo?.OriginDestination?.length === 1 ? '' : 'Regular Meal';
+            mealData['returnMealCode'] = '';
+          }
+          item.map((meal: { type: string; Code: string }) => {
+            if (meal?.type?.toLowerCase() === 'departure') {
+              mealData['originMeal'] = 'Dietary Meal';
+              mealData['originMealCode'] = meal.Code;
+              if (item.length === 1) {
+                mealData['returnMeal'] =
+                  modifyBookingInfo?.OriginDestination?.length === 1 ? '' : 'Regular Meal';
+                mealData['returnMealCode'] = '';
+              }
+            } else {
+              mealData['returnMeal'] = 'Dietary Meal';
+              mealData['returnMealCode'] = meal.Code;
+              if (item.length === 1) {
+                mealData['originMeal'] = 'Regular Meal';
+                mealData['originMealCode'] = '';
+              }
+            }
+          });
+          return mealData;
+        }
+      );
+    } else {
+      return [];
+    }
+  };
 
   return (
     <main
@@ -152,6 +334,7 @@ const ModifyBooking = () => {
               passenger: false,
               modifyBookingDetails: false,
             });
+            document.body.style.overflow = 'unset';
             passengerModify && setPassengerModify(false);
           }
         };
@@ -179,7 +362,9 @@ const ModifyBooking = () => {
                       passenger: false,
                       modifyBookingDetails: true,
                     });
+                    document.body.style.overflow = 'hidden';
                   }}
+                  mealDetails={mealsDetails()}
                   featuredAddons={featuredAddons}
                 />
               </div>
@@ -187,11 +372,11 @@ const ModifyBooking = () => {
           </div>
           <div className="px-3 xl:bg-cadetgray width-auto  xl:w-3/4 xs:w-full xl:py-24 xl:mt-0 xs:pt-20 ">
             <div className="xl:w-2/4 xl:m-auto xs:w-full">
-              <div className="flex justify-between items-center xl:py-0 xs:py-2">
+              <div className="flex justify-between items-center xl:py-0 xs:py-3">
                 <div
                   className="xl:py-3 xs:py-0 cursor-pointer"
                   onClick={() => {
-                    router.push('/findbooking');
+                    router.push('/');
                   }}
                 >
                   <FontAwesomeIcon
@@ -215,7 +400,7 @@ const ModifyBooking = () => {
                 </p>
               </div>
               <div className="py-2 xl:w-2/4 md:w-6/12 xs:w-64 ">
-                <div className="text-aqua text-sm font-normal p-2 border-aqua border bg-tabsky rounded-lg flex gap-2 items-center justify-between">
+                <div className="text-aqua text-sm font-normal p-2 border-aqua border bg-lightaqua rounded-lg flex gap-2 items-center justify-between">
                   <div className="text-aqua text-base font-black">
                     {getFieldName(modifyBookingContent, 'bookingRef')}:{' '}
                     {modifyBookingInfo?.PnrInformation?.PnrCode}
@@ -223,26 +408,30 @@ const ModifyBooking = () => {
                   <div
                     className="cursor-pointer"
                     onClick={() => {
-                      navigator.clipboard.writeText(modifyBookingInfo?.PnrInformation?.PnrCode);
-                      setCopyText(true);
-                      setTimeout(() => {
-                        setCopyText(false);
-                      }, 1000);
+                      if (modifyBookingInfo?.PnrInformation?.PnrCode) {
+                        navigator.clipboard.writeText(modifyBookingInfo?.PnrInformation?.PnrCode);
+                        setCopyText(true);
+                        setTimeout(() => {
+                          setCopyText(false);
+                        }, 1000);
+                      }
                     }}
                   >
                     <Image
                       className="h-6 w-6 object-cover"
                       src={getImageSrc(modifyBookingContent, 'copyLogo')}
                       alt=""
-                      width={6}
-                      height={6}
+                      width={60}
+                      height={60}
                     />
                   </div>
                 </div>
-                {copyText && <div>{getFieldName(modifyBookingContent, 'copied')}</div>}
+                {copyText && (
+                  <div className="text-black">{getFieldName(modifyBookingContent, 'copied')}</div>
+                )}
               </div>
               <div>
-                <div className=" xs:block gap-2 py-3">
+                <div className=" xs:block gap-2 py-3 pb-40">
                   <div className="bg-white  xl:w-full mb-1 rounded-2xl">
                     <CodesInCurve
                       originCity={flightData?.OriginCity}
@@ -259,8 +448,8 @@ const ModifyBooking = () => {
                               <FlightSchedule
                                 index={index}
                                 seats={true}
-                                loungeAccess={true}
-                                luxuryPickup={true}
+                                loungeAccess={item?.Lounge}
+                                luxuryPickup={item?.Luxury}
                                 originCode={item?.OriginCode}
                                 arrivalDate={item?.ArrivalDate}
                                 bagAllowances={item.BagAllowances}
@@ -299,6 +488,9 @@ const ModifyBooking = () => {
                             modifyBookingDetails: passengerModify ? false : true,
                           });
                           passengerModify && setPassengerModify(false);
+                          passengerModify
+                            ? (document.body.style.overflow = 'unset')
+                            : (document.body.style.overflow = 'hidden');
                         }}
                       />
                       <DepartReturnDateModal
@@ -310,6 +502,7 @@ const ModifyBooking = () => {
                             passenger: false,
                             modifyBookingDetails: true,
                           });
+                          document.body.style.overflow = 'hidden';
                         }}
                         modifyBooking={true}
                         setShowModal={setShowModal}
@@ -342,16 +535,18 @@ const ModifyBooking = () => {
                         }
                       />
                       <ModifyPassengerSeatFareFamily
-                        passengerModify={() => {
-                          setShowModal({
-                            depart: false,
-                            return: false,
-                            passenger: true,
-                            modifyBookingDetails: false,
-                          });
-                          setPassengerModify(true);
-                        }}
+                        // passengerModify={() => {
+                        //   setShowModal({
+                        //     depart: false,
+                        //     return: false,
+                        //     passenger: true,
+                        //     modifyBookingDetails: false,
+                        //   });
+                        //   setPassengerModify(true);
+                        //   document.body.style.overflow = 'hidden';
+                        // }}
                         seatsModify={() => {
+                          router.push('/chooseseats');
                           dispatch(
                             loader({
                               show: true,
@@ -359,6 +554,7 @@ const ModifyBooking = () => {
                             })
                           );
                           dispatch(setModifySeat(true));
+                          dispatch(setSelectedMeal(mealsDetails()));
                           setTimeout(() => {
                             dispatch(
                               loader({
@@ -366,33 +562,51 @@ const ModifyBooking = () => {
                                 name: '',
                               })
                             );
-                          }, 1500);
-                          router.push('/chooseseats');
+                          }, 2000);
                         }}
-                        mealsModify={() => console.log('modify')}
+                        mealsModify={() => {
+                          router.push('/passengerdetails');
+                          dispatch(
+                            loader({
+                              show: true,
+                              name: 'get',
+                            })
+                          );
+                          dispatch(setSelectedMeal(mealsDetails()));
+                          dispatch(setModifyMeal(true));
+                          setTimeout(() => {
+                            dispatch(
+                              loader({
+                                show: false,
+                                name: '',
+                              })
+                            );
+                          }, 2000);
+                        }}
                         adult={passengerCount?.adult}
                         fareFamilyName="Bliss"
                         // fareFamilyName={flightInfo?.name}
                         childrens={passengerCount?.children}
+                        mealsLabel={mealsDetails()}
                         seatsLabel={
-                          allSeats && allSeats?.length > 0 && allSeats[0] ? allSeats[0] : []
+                          allSeats && allSeats?.length > 0 && allSeats[0] ? allSeats?.flat(1) : []
                         }
                       />
                     </div>
                     <PriceBreakDown
-                      currency=""
+                      currency={modifyBookingInfo?.Amount?.SaleCurrencyCode}
                       passengerCount={1}
                       fareFamilyName="Bliss"
                       // fareFamilyName={flightInfo?.name}
-                      taxAmount={modifyBookingInfo?.Amount?.TaxAmount}
-                      baseAmount={modifyBookingInfo?.Amount?.BaseAmount}
-                      totalAmount={modifyBookingInfo?.Amount?.TotalAmount}
+                      taxAmount={modifyBookingInfo?.Amount?.TaxAmount?.toLocaleString('en-GB')}
+                      baseAmount={modifyBookingInfo?.Amount?.BaseAmount?.toLocaleString('en-GB')}
+                      totalAmount={modifyBookingInfo?.Amount?.TotalAmount?.toLocaleString('en-GB')}
                     />
                   </div>
-                  <FeaturedAddOns
+                  {/* <FeaturedAddOns
                     featuredAddons={featuredAddons}
                     setFeaturedAddons={setFeaturedAddons}
-                  />
+                  /> */}
                 </div>
               </div>
               <ModifyBookingDetailsModal
@@ -404,15 +618,17 @@ const ModifyBooking = () => {
                     passenger: false,
                     modifyBookingDetails: false,
                   });
+                  document.body.style.overflow = 'unset';
                 }}
-                passengerModify={() => {
-                  setShowModal({
-                    depart: false,
-                    return: false,
-                    passenger: true,
-                    modifyBookingDetails: false,
-                  });
-                }}
+                // passengerModify={() => {
+                //   setShowModal({
+                //     depart: false,
+                //     return: false,
+                //     passenger: true,
+                //     modifyBookingDetails: false,
+                //   });
+                //   document.body.style.overflow = 'hidden';
+                // }}
                 datesModify={() => {
                   setShowModal({
                     depart: true,
@@ -420,6 +636,7 @@ const ModifyBooking = () => {
                     passenger: false,
                     modifyBookingDetails: false,
                   });
+                  document.body.style.overflow = 'hidden';
                 }}
                 cancelBooking={() => {
                   dispatch(
@@ -437,8 +654,10 @@ const ModifyBooking = () => {
                       router
                     ) as unknown as AnyAction
                   );
+                  document.body.style.overflow = 'unset';
                 }}
                 seatsModify={() => {
+                  router.push('/chooseseats');
                   dispatch(
                     loader({
                       show: true,
@@ -446,6 +665,7 @@ const ModifyBooking = () => {
                     })
                   );
                   dispatch(setModifySeat(true));
+                  dispatch(setSelectedMeal(mealsDetails()));
                   setTimeout(() => {
                     dispatch(
                       loader({
@@ -453,17 +673,19 @@ const ModifyBooking = () => {
                         name: '',
                       })
                     );
-                  }, 1500);
-                  router.push('/chooseseats');
+                  }, 2000);
+                  document.body.style.overflow = 'unset';
                 }}
-                adult={passengerCount?.adult}
-                fareFamilyName="Bliss"
+                // fareFamilyName="Bliss"
+                // adult={passengerCount?.adult}
                 // fareFamilyName={flightInfo?.name}
-                childrens={passengerCount?.children}
+                // childrens={passengerCount?.children}
                 showModal={showModal?.modifyBookingDetails}
                 returnDate={getDate(flightDetails?.returnDate?.toJSON())}
                 departDate={getDate(flightDetails?.departDate?.toJSON())}
-                seatsLabel={allSeats && allSeats?.length > 0 && allSeats[0] ? allSeats[0] : []}
+                seatsLabel={
+                  allSeats && allSeats?.length > 0 && allSeats[0] ? allSeats?.flat(1) : []
+                }
               />
               <div className="xs:not-sr-only	xl:sr-only">
                 <div
@@ -484,7 +706,9 @@ const ModifyBooking = () => {
                         passenger: false,
                         modifyBookingDetails: true,
                       });
+                      document.body.style.overflow = 'hidden';
                     }}
+                    mealDetails={mealsDetails()}
                     featuredAddons={featuredAddons}
                   />
                 </div>
@@ -498,8 +722,12 @@ const ModifyBooking = () => {
         <CancelBookingLoader open={load?.show} />
       ) : load.name === 'findbooking' ? (
         <FindYourBookingLoader open={load?.show} />
-      ) : (
+      ) : load?.name === 'seats' ? (
         <SearchSeatLoader open={load?.show} />
+      ) : load?.name === 'get' ? (
+        <GettingDataLoader open={load?.show} />
+      ) : (
+        <SavingDataLoader open={load?.show} />
       )}
     </main>
   );

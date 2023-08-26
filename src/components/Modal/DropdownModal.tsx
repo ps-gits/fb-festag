@@ -2,23 +2,20 @@ import Image from 'next/image';
 import { AnyAction } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faXmark, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import {
-  getEligibleOriginToDestinations,
-  getEligibleDestinationsToOrigin,
-} from 'src/redux/action/SearchFlights';
 import NoOptionFound from './NoOptionFound';
 import { RootState } from 'src/redux/store';
 import { loader } from 'src/redux/reducer/Loader';
 import { getDestinationDetails } from 'src/redux/action/AirportDetails';
+import { getEligibleOriginToDestinations } from 'src/redux/action/SearchFlights';
 import { getFieldName, getImageSrc } from 'components/SearchFlight/SitecoreContent';
 
 const DropdownModal = ({
   name,
   tabName,
   loading,
-  textSize,
+  // textSize,
   closeModal,
   setLoading,
   originCode,
@@ -26,7 +23,7 @@ const DropdownModal = ({
   flightDetails,
   selectOptions,
   destinationCode,
-  dropdownOptions,
+  // dropdownOptions,
   openSelectModal,
   setErrorMessage,
   setFlightDetails,
@@ -36,9 +33,9 @@ const DropdownModal = ({
 }: dropdownModal) => {
   const dispatch = useDispatch();
 
-  const searchFlightContent = useSelector(
-    (state: RootState) => state?.sitecore?.searchFlight?.fields
-  );
+  // const searchFlightContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.searchFlight?.fields
+  // );
   const modalContent = useSelector((state: RootState) => state?.sitecore?.searchAirport?.fields);
 
   const dropdownChangeEvent = (code: string) => {
@@ -72,6 +69,7 @@ const DropdownModal = ({
         departure: '',
       });
     setOpenSelectModal(false);
+    document.body.style.overflow = 'unset';
     if (destinationCode !== code && destinationCode?.length > 0) {
       dispatch(
         getEligibleOriginToDestinations(
@@ -84,16 +82,10 @@ const DropdownModal = ({
             ...flightDetails,
             originCode: code as string,
           },
-          setFlightDetails
+          setFlightDetails,
+          name
         ) as unknown as AnyAction
       );
-      name === 'return' &&
-        dispatch(
-          getEligibleDestinationsToOrigin({
-            DestinationCode: code,
-            OriginCode: destinationCode,
-          }) as unknown as AnyAction
-        );
     }
     dispatch(getDestinationDetails(code) as unknown as AnyAction);
   };
@@ -133,66 +125,33 @@ const DropdownModal = ({
             ...flightDetails,
             destinationCode: code,
           },
-          setFlightDetails
+          setFlightDetails,
+          tabName
         ) as unknown as AnyAction
       );
-      tabName === 'return' &&
-        dispatch(
-          getEligibleDestinationsToOrigin({
-            DestinationCode: originCode,
-            OriginCode: code,
-          }) as unknown as AnyAction
-        );
     }
     closeModal && closeModal();
   };
 
   return (
     <div>
-      {name !== 'destination' && (
-        <div className="flex justify-between">
-          <button
-            className={`block text-start dark:focus:ring-blue-800 text-slategray font-normal ${
-              textSize ? 'text-sm' : 'text-lg'
-            }  w-full`}
-            type="button"
-            onClick={() => {
-              setOpenSelectModal(true);
-              setLoading(true);
-              setSelectOptions(
-                dropdownOptions as {
-                  label: string;
-                  value: string;
-                }[]
-              );
-              setLoading(false);
-            }}
-          >
-            {originCode?.length
-              ? dropdownOptions?.find((item) => item?.code === originCode)?.Label
-              : getFieldName(searchFlightContent, 'departFromPlaceholder')}
-          </button>
-          {textSize === undefined && (
-            <div className="absolute right-5 top-8 text-slategray text-sm">
-              <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
-            </div>
-          )}
-        </div>
-      )}
       {(openSelectModal || name === 'destination') && (
         <>
           <div
+            id="select-city"
             style={{ display: 'flex' }}
             className="linear h-screen fixed top-0 left-0 right-0 z-50 hidden xl:p-4 sm:p-0 overflow-x-hidden overflow-y-auto md:inset-0 xl:h-[calc(100% 1rem)] max-h-full xl:flex justify-center items-center flex h-screen"
           >
             <div className="relative w-full max-w-md max-h-full rounded-lg bg-white m-auto ">
-              <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 calendar-modal">
+              <div className="relative bg-white rounded-lg shadow    calendar-modal">
                 <FontAwesomeIcon
                   icon={faXmark}
                   aria-hidden="true"
                   className="arrow-modal cursor-pointer text-black"
                   onClick={() => {
-                    name === 'destination' ? closeModal && closeModal() : setOpenSelectModal(false);
+                    name === 'destination'
+                      ? closeModal && closeModal()
+                      : (setOpenSelectModal(false), (document.body.style.overflow = 'unset'));
                   }}
                 />
                 <div className="px-4 pt-5 text-center ">
@@ -218,7 +177,7 @@ const DropdownModal = ({
                         <input
                           type="text"
                           id="search"
-                          className="block w-full px-4 py-2  text-basetext border border-slategray rounded focus:border-blue-500  dark:focus:border-blue-500"
+                          className="block w-full px-4 py-2  text-base text-black border border-slategray rounded focus:border-blue-500  dark:focus:border-blue-500"
                           placeholder={getFieldName(modalContent, 'searchCityPlaceholder')}
                           onChange={(e) => {
                             setLoading(true);
@@ -238,9 +197,7 @@ const DropdownModal = ({
                       ) : selectOptions?.length ? (
                         selectOptions
                           ?.filter((item) =>
-                            name === 'destination'
-                              ? item?.code !== originCode
-                              : item?.code !== destinationCode
+                            name === 'destination' ? item?.code !== originCode : true
                           )
                           ?.map((item, index) => {
                             return (
@@ -292,7 +249,8 @@ const DropdownModal = ({
                           if (selectOptions.length === 0) {
                             name === 'destination'
                               ? closeModal && closeModal()
-                              : setOpenSelectModal(false);
+                              : (setOpenSelectModal(false),
+                                (document.body.style.overflow = 'unset'));
                           }
                         }}
                       >

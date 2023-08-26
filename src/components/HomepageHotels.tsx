@@ -127,7 +127,7 @@ const HomepageHotels = (props: HomepageHotelsProps): JSX.Element => {
                     <div>
                       <button
                         type="submit"
-                        className="text-white bg-lightorange   font-medium rounded-full text-base px-4 py-3"
+                        className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3"
                         onClick={() => router.push('/resorts')}
                       >
                         <Text field={props.fields.browseResortsButton} />

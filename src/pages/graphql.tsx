@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+import { graphQLToken } from 'components/Api/ApiUrl';
+
 const GraphQlApi = () => {
   const [data, setData] = useState('');
   const callApi = async () => {
@@ -12,8 +14,7 @@ const GraphQlApi = () => {
       },
       {
         headers: {
-          'x-gql-token':
-            'ampjVGM4ODNnRTZEa0RjSFNrckx0ZXpQenJEZHlHYUFqbmJwQUh0RlNWVT18YXJhYmVzcXVlZmwwZjcwLWRlbW9wcm9qZWN0LWRlbW9lbnYtNzliYw==',
+          'x-gql-token': graphQLToken,
         },
       }
     );

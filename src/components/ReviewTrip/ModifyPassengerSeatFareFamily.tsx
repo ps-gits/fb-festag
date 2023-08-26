@@ -1,4 +1,5 @@
 import Image from 'next/image';
+// import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
 import { RootState } from 'src/redux/store';
@@ -8,22 +9,14 @@ const ModifyPassengerSeatFareFamily = (props: {
   adult: number;
   childrens: number;
   fareFamilyName: string;
-  seatsModify: () => void;
-  mealsModify: () => void;
-  passengerModify: () => void;
+  seatsModify?: () => void;
+  mealsModify?: () => void;
+  passengerModify?: () => void;
   seatsLabel?: { Text: string }[];
   mealsLabel?: { originMeal: string; returnMeal: string }[];
 }) => {
-  const {
-    adult,
-    childrens,
-    seatsLabel,
-    mealsLabel,
-    mealsModify,
-    seatsModify,
-    fareFamilyName,
-    passengerModify,
-  } = props;
+  // const router = useRouter();
+  const { adult, childrens, seatsLabel, mealsLabel, fareFamilyName } = props; // mealsModify, seatsModify  two keys hide for modify button
 
   const modifyPassengerSeatFareFamilyContent = useSelector(
     (state: RootState) => state?.sitecore?.reviewTrip?.fields
@@ -33,6 +26,9 @@ const ModifyPassengerSeatFareFamily = (props: {
   );
   const flightAvailabilityContent = useSelector(
     (state: RootState) => state?.sitecore?.flightAvailablity?.fields
+  );
+  const modifyBookingDetailsModalContent = useSelector(
+    (state: RootState) => state?.sitecore?.modifyBookingModal?.fields
   );
 
   const findFareFamilyInfo = flightAvailabilityContent?.find(
@@ -58,15 +54,25 @@ const ModifyPassengerSeatFareFamily = (props: {
                 {getFieldName(modifyPassengerSeatFareFamilyContent, 'passengerLabel')}
               </p>
               <p className="text-sm font-medium text-pearlgray">
-                {`${adult} ${getFieldName(passengerContent, 'adult')} ${
+                {`${adult} ${
+                  adult > 1
+                    ? getFieldName(passengerContent, 'adults')
+                    : getFieldName(passengerContent, 'adult')
+                } ${
                   childrens > 0
-                    ? ', ' + childrens + ` ${getFieldName(passengerContent, 'children')}`
+                    ? ', ' +
+                      childrens +
+                      ` ${
+                        childrens > 1
+                          ? getFieldName(passengerContent, 'children')
+                          : getFieldName(passengerContent, 'child')
+                      }`
                     : ''
                 }`}
               </p>
             </div>
           </div>
-          <div
+          {/* <div
             className="mt-2 cursor-pointer"
             onClick={() => {
               passengerModify();
@@ -75,7 +81,7 @@ const ModifyPassengerSeatFareFamily = (props: {
             <p className="font-black text-sm text-aqua">
               {getFieldName(modifyPassengerSeatFareFamilyContent, 'modifyButton')}
             </p>
-          </div>
+          </div> */}
         </div>
         <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
           <div className="flex gap-3">
@@ -97,27 +103,36 @@ const ModifyPassengerSeatFareFamily = (props: {
                   ? seatsLabel?.map((item, index) =>
                       index === seatsLabel?.length - 1 ? item?.Text : item?.Text + ' , '
                     )
-                  : getFieldName(modifyPassengerSeatFareFamilyContent, 'changeSeat')}
+                  : getFieldName(modifyBookingDetailsModalContent, 'seatSelectionContent')}
               </p>
             </div>
           </div>
-          <div className="mt-2 cursor-pointer" onClick={() => seatsModify()}>
-            <p className="font-black text-sm text-aqua">
-              {getFieldName(modifyPassengerSeatFareFamilyContent, 'modifyButton')}
-            </p>
-          </div>
+          {/* hide-modify-seats */}
+          {/* {router.pathname !== '/reviewtrip' && (
+            <div className="mt-2 cursor-pointer" onClick={() => seatsModify && seatsModify()}>
+              <p className="font-black text-sm text-aqua">
+                {seatsLabel && seatsLabel?.length > 0
+                  ? getFieldName(modifyBookingDetailsModalContent, 'modifyButton')
+                  : getFieldName(modifyBookingDetailsModalContent, 'chooseButton')}
+              </p>
+            </div>
+          )} */}
         </div>
         <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
           <div className="flex gap-3">
-            <div className="flex justify-center items-center">
-              <Image
-                className="h-5 w-5 object-containt"
-                src={findFareFamilyInfo?.src}
-                alt="farefamily"
-                height={5}
-                width={5}
-              />
-            </div>
+            {findFareFamilyInfo?.src ? (
+              <div className="flex justify-center items-center">
+                <Image
+                  className="h-5 w-5 object-containt"
+                  src={findFareFamilyInfo?.src}
+                  alt="farefamily"
+                  height={5}
+                  width={5}
+                />
+              </div>
+            ) : (
+              <div className="flex justify-center items-center h-5 w-5 object-contain"></div>
+            )}
             <div>
               <p className="text-sm font-medium text-pearlgray">
                 {getFieldName(modifyPassengerSeatFareFamilyContent, 'fareFamily')}
@@ -127,11 +142,11 @@ const ModifyPassengerSeatFareFamily = (props: {
               </p>
             </div>
           </div>
-          <div className="mt-2 cursor-pointer">
+          {/* <div className="mt-2 cursor-pointer">
             <p className="font-black text-sm text-aqua">
               {getFieldName(modifyPassengerSeatFareFamilyContent, 'upgradeButton')}
             </p>
-          </div>
+          </div> */}
         </div>
         <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
           <div className="flex gap-3">
@@ -155,13 +170,16 @@ const ModifyPassengerSeatFareFamily = (props: {
               </p>
             </div>
           </div>
-          <div className="mt-2 cursor-pointer" onClick={() => mealsModify()}>
-            <p className="font-black text-sm text-aqua">
-              {mealsLabel && mealsLabel?.length > 0
-                ? getFieldName(modifyPassengerSeatFareFamilyContent, 'modifyButton')
-                : getFieldName(modifyPassengerSeatFareFamilyContent, 'selectButton')}
-            </p>
-          </div>
+          {/* hide-modify-meals */}
+          {/* {router.pathname !== '/reviewtrip' && (
+            <div className="mt-2 cursor-pointer" onClick={() => mealsModify && mealsModify()}>
+              <p className="font-black text-sm text-aqua">
+                {mealsLabel && mealsLabel?.length > 0
+                  ? getFieldName(modifyPassengerSeatFareFamilyContent, 'modifyButton')
+                  : getFieldName(modifyPassengerSeatFareFamilyContent, 'selectButton')}
+              </p>
+            </div>
+          )} */}
         </div>
       </div>
     </div>

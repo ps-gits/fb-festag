@@ -8,6 +8,7 @@ import {
   setPayment,
   setStepInfo,
   setDateModal,
+  setChooseMeal,
   setChooseSeat,
   setReviewTrip,
   setCancelModal,
@@ -15,6 +16,7 @@ import {
   setSearchFlight,
   setCommonImages,
   setSearchAirport,
+  setCreateAccount,
   setCancelSuccess,
   setPassengerModal,
   setPromoCodeModal,
@@ -26,8 +28,7 @@ import {
   setModifyBookingModal,
   setCompareFareFamilies,
 } from 'src/redux/reducer/Sitecore';
-import { loader } from 'src/redux/reducer/Loader';
-import { graphQLUrl } from 'components/Api/ApiUrl';
+import { graphQLToken, graphQLUrl } from 'components/Api/ApiUrl';
 
 export const getSitecoreContent = (folderName: string) => (dispatch: Dispatch) => {
   axios
@@ -38,18 +39,11 @@ export const getSitecoreContent = (folderName: string) => (dispatch: Dispatch) =
       },
       {
         headers: {
-          'x-gql-token':
-            'ampjVGM4ODNnRTZEa0RjSFNrckx0ZXpQenJEZHlHYUFqbmJwQUh0RlNWVT18YXJhYmVzcXVlZmwwZjcwLWRlbW9wcm9qZWN0LWRlbW9lbnYtNzliYw==',
+          'x-gql-token': graphQLToken,
         },
       }
     )
     .then((res) => {
-      dispatch(
-        loader({
-          show: false,
-          name: '',
-        })
-      );
       folderName === 'Flight-Availability'
         ? dispatch(setFlightAvailablity(res?.data?.data?.item))
         : folderName === 'Passenger-Modal'
@@ -92,16 +86,12 @@ export const getSitecoreContent = (folderName: string) => (dispatch: Dispatch) =
         ? dispatch(setHeader(res?.data?.data?.item))
         : folderName === 'Terms-Conditions'
         ? dispatch(setTermsConditions(res?.data?.data?.item))
+        : folderName === 'Create-Account'
+        ? dispatch(setCreateAccount(res?.data?.data?.item))
         : dispatch(setSearchFlight(res?.data?.data?.item));
     })
     .catch((err) => {
       console.warn(err);
-      dispatch(
-        loader({
-          show: false,
-          name: '',
-        })
-      );
     });
 };
 
@@ -114,27 +104,16 @@ export const getSitecoreData = (folderName: string) => (dispatch: Dispatch) => {
       },
       {
         headers: {
-          'x-gql-token':
-            'ampjVGM4ODNnRTZEa0RjSFNrckx0ZXpQenJEZHlHYUFqbmJwQUh0RlNWVT18YXJhYmVzcXVlZmwwZjcwLWRlbW9wcm9qZWN0LWRlbW9lbnYtNzliYw==',
+          'x-gql-token': graphQLToken,
         },
       }
     )
     .then((res) => {
-      dispatch(
-        loader({
-          show: false,
-          name: '',
-        })
-      );
-      folderName === 'Cookies' && dispatch(setCookies(res?.data?.data?.item));
+      folderName === 'Cookies'
+        ? dispatch(setCookies(res?.data?.data?.item))
+        : dispatch(setChooseMeal(res?.data?.data?.item));
     })
     .catch((err) => {
       console.warn(err);
-      dispatch(
-        loader({
-          show: false,
-          name: '',
-        })
-      );
     });
 };

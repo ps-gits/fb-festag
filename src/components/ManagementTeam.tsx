@@ -50,7 +50,7 @@ const ManagementTeam = (props: ManagementTeamProps): JSX.Element => {
   return (
     <div className="bg-white">
       <div className="xl:w-5/6 md:w-5/6 m-auto xl:px-0 xs:px-4">
-        <div className="text-4xl font-black text-black">
+        <div className="text-2xl font-black text-black xs:mb-5">
           <Text field={props.fields.heading} />
         </div>
         <div className="text-xl text-black xl:py-6 xs:pb-20">
@@ -60,7 +60,7 @@ const ManagementTeam = (props: ManagementTeamProps): JSX.Element => {
           <div className="xl:w-1/2 md:w-6/12">
             <JssImage
               field={props.fields.ceoImage}
-              className="h-96 xl:w-full md:w-full  rounded-2xl"
+              className="xl:h-96 xl:w-full md:w-full  rounded-2xl"
               alt="image"
             />
           </div>
@@ -100,7 +100,7 @@ const ManagementTeam = (props: ManagementTeamProps): JSX.Element => {
                     {item.fields.designation.value}
                   </div>
                 </div>
-                <div className="text-base text-grey xs:pb-10">{item.fields.description.value}</div>
+                <div className="text-base text-grey xs:pb-12">{item.fields.description.value}</div>
               </div>
             ))}
           </div>

@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import { RootState } from 'src/redux/store';
+import help from '../../assets/images/helpcircle.png';
 import { getImageSrc, getFieldName } from 'components/SearchFlight/SitecoreContent';
 
 const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
   const {
     id,
-    adult,
-    childrens,
+    // adult,
+    // childrens,
     showModal,
     departDate,
     returnDate,
@@ -19,16 +20,16 @@ const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
     datesModify,
     seatsModify,
     cancelBooking,
-    fareFamilyName,
-    passengerModify,
+    // fareFamilyName,
+    // passengerModify,
   } = props;
 
-  const passengerContent = useSelector(
-    (state: RootState) => state?.sitecore?.passengerModal?.fields
-  );
-  const flightAvailabilityContent = useSelector(
-    (state: RootState) => state?.sitecore?.flightAvailablity?.fields
-  );
+  // const passengerContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.passengerModal?.fields
+  // );
+  // const flightAvailabilityContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.flightAvailablity?.fields
+  // );
   const modifyBookingDetailsModalContent = useSelector(
     (state: RootState) => state?.sitecore?.modifyBookingModal?.fields
   );
@@ -36,11 +37,11 @@ const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
   const modifyBookingInfo = useSelector(
     (state: RootState) => state?.flightDetails?.modifyBooking?.OriginDestination
   );
-  const reviewTripContent = useSelector((state: RootState) => state?.sitecore?.reviewTrip?.fields);
+  // const reviewTripContent = useSelector((state: RootState) => state?.sitecore?.reviewTrip?.fields);
 
-  const findFareFamilyInfo = flightAvailabilityContent?.find(
-    (item: { name: string }) => item?.name === fareFamilyName?.toLowerCase() + 'Logo'
-  )?.jsonValue?.value;
+  // const findFareFamilyInfo = flightAvailabilityContent?.find(
+  //   (item: { name: string }) => item?.name === fareFamilyName?.toLowerCase() + 'Logo'
+  // )?.jsonValue?.value;
 
   return (
     <div>
@@ -51,7 +52,7 @@ const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
           className="linear h-screen fixed top-0 left-0 right-0 z-50 hidden xl:p-4 sm:p-0 overflow-x-hidden overflow-y-auto md:inset-0 xl:h-[calc(100% 1rem)] max-h-full xl:flex justify-center items-center flex h-screen"
         >
           <div className="relative w-full max-w-md max-h-full rounded-lg bg-white m-auto ">
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 calendar-modal ">
+            <div className="relative bg-white rounded-lg shadow    calendar-modal ">
               <div className="p-4 text-center">
                 <FontAwesomeIcon
                   icon={faXmark}
@@ -99,7 +100,7 @@ const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
                       <FontAwesomeIcon icon={faAngleRight} className="h-4 w-4 text-aqua" />
                     </div>
                   </div>
-                  <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
+                  {/* <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
                     <div className="flex gap-3">
                       <div className="flex justify-center items-center">
                         <Image
@@ -132,7 +133,7 @@ const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
                       </p>
                       <FontAwesomeIcon icon={faAngleRight} className="h-4 w-4 text-aqua" />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
                     <div className="flex gap-3">
                       <div className="flex justify-center items-center">
@@ -172,7 +173,7 @@ const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
                       <FontAwesomeIcon icon={faAngleRight} className="h-4 w-4 text-aqua" />
                     </div>
                   </div>
-                  <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
+                  {/* <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
                     <div className="flex gap-3">
                       <div className="flex justify-center items-center">
                         <Image
@@ -199,7 +200,7 @@ const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
                       </p>
                       <FontAwesomeIcon icon={faAngleRight} className="h-4 w-4 text-aqua" />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="flex items-center justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
                     <div className="flex gap-3">
                       <div className="flex justify-center items-center">
@@ -228,6 +229,22 @@ const ModifyBookingDetailsModal = (props: modifyBookingDetailsModal) => {
                         {getFieldName(modifyBookingDetailsModalContent, 'cancelButton')}
                       </p>
                       <FontAwesomeIcon icon={faAngleRight} className="h-4 w-4 text-aqua" />
+                    </div>
+                  </div>
+                  <div className="flex items-center bg-cadetgray p-3 rounded-lg justify-between  w-full px-2  font-medium text-left text-gray-500 my-3">
+                    <div className="flex gap-3 ">
+                      <div className="flex justify-center items-center">
+                        <Image src={help} className=" h-5 w-5 object-cover" alt="" />
+                      </div>
+                      <div>
+                        <p className="text-black font-black text-sm">Need Help?</p>
+                        <p className="text-sm font-medium text-pearlgray">
+                          Get in touch with our
+                          <a href="/contact" target="_blank" rel="noopener noreferrer">
+                            <span className="text-aqua font-black text-xs"> Contact centre</span>
+                          </a>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

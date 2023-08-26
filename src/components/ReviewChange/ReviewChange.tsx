@@ -1,18 +1,23 @@
 import Image from 'next/image';
-import { useEffect } from 'react';
-import { AnyAction } from 'redux';
+import { useState } from 'react';
 import parse from 'html-react-parser';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import {
+  setUpdateCart,
+  setModifyDates,
+  setModifyBookingFromBooking,
+} from 'src/redux/reducer/FlightDetails';
 import { RootState } from 'src/redux/store';
 import { loader } from 'src/redux/reducer/Loader';
 import SavingDataLoader from '../Loader/SavingData';
 import SearchSeatLoader from '../Loader/SearchSeat';
 import FlightSchedule from '../ReviewTrip/FlightSchedule';
-import { getSitecoreContent } from 'src/redux/action/Sitecore';
+import SearchFlightLoader from 'components/Loader/SearchFlightLoader';
+import DepartReturnDateModal from 'components/Modal/DepartReturnDateModal';
 import { getImageSrc, getFieldName } from 'components/SearchFlight/SitecoreContent';
 
 const ReviewChange = () => {
@@ -31,22 +36,46 @@ const ReviewChange = () => {
   const createExchangeBookingInfo = useSelector(
     (state: RootState) => state?.flightDetails?.exchangeCreateBooking
   );
+  const modifyDataFromBooking = useSelector(
+    (state: RootState) => state?.flightDetails?.modifyDataFromBooking
+  );
   const load = useSelector((state: RootState) => state?.loader?.loader);
+  const selectedDetailsForFlight = useSelector(
+    (state: RootState) => state?.flightDetails?.selectedFlightCodesWithDate
+  );
+  const searchFlightPayload = useSelector(
+    (state: RootState) => state?.flightDetails?.reviewFlight?.OriginDestinations
+  );
   const passengerDetails = useSelector(
     (state: RootState) => state?.flightDetails?.prepareExchangeFlight?.Passengers
   );
+  const modifyData = useSelector((state: RootState) => state?.flightDetails?.modifyData);
+  const updateCart = useSelector((state: RootState) => state?.flightDetails?.updateCart);
   const modifySeat = useSelector((state: RootState) => state?.flightDetails?.modifySeat);
+  const modifyMeal = useSelector((state: RootState) => state?.flightDetails?.modifyMeal);
+  const modifyDates = useSelector((state: RootState) => state?.flightDetails?.modifyDates);
   const paymentForm = useSelector((state: RootState) => state?.flightDetails?.paymentForm);
   const chooseSeats = useSelector((state: RootState) => state?.flightDetails?.chooseSeats);
   const selectedFlight = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
   const selectSeatLater = useSelector((state: RootState) => state?.flightDetails?.selectSeatLater);
-  const chooseSeatsContent = useSelector((state: RootState) => state?.sitecore?.chooseSeat?.fields);
+  // const chooseSeatsContent = useSelector((state: RootState) => state?.sitecore?.chooseSeat?.fields);
 
-  useEffect(() => {
-    if (chooseSeatsContent === undefined) {
-      dispatch(getSitecoreContent('Choose-Seat') as unknown as AnyAction);
-    }
-  }, [chooseSeatsContent, dispatch]);
+  const { returnDate, departDate, dateFlexible, originCode, destinationCode } =
+    selectedDetailsForFlight;
+
+  const [showModal, setShowModal] = useState({
+    depart: false,
+    return: false,
+  });
+  const [errorMessage, setErrorMessage] = useState({
+    departure: '',
+    returnDate: '',
+  });
+  const [flightDetails, setFlightDetails] = useState({
+    departDate: new Date(departDate),
+    returnDate: new Date(returnDate),
+    dateFlexible: dateFlexible,
+  });
 
   const cityCodes = modifyBookingSeats?.OriginDestination?.find(
     (item: { OriginCode: string; DestinationCode: string }) =>
@@ -57,11 +86,11 @@ const ReviewChange = () => {
     return (
       <div className="bg-white p-3 rounded-lg">
         <div className="flex justify-between my-1">
-          <p className="text-slategray text-base font-medium">
+          <p className="text-slategray text-lg font-medium">
             {getFieldName(reviewChangeContent, 'numberOfPassengers')}
           </p>
-          <p className="font-black text-base text-black">
-            {modifySeat
+          <p className="font-black text-lg text-black">
+            {modifyMeal || modifySeat || updateCart
               ? (modifyBookingSeats?.Passengers?.Adult
                   ? modifyBookingSeats?.Passengers?.Adult
                   : 1) +
@@ -71,46 +100,58 @@ const ReviewChange = () => {
               : passengerDetails?.length}
           </p>
         </div>
-        <div className="flex justify-between my-1">
-          <p className="text-slategray text-base font-medium">
+        <div className="flex justify-between mt-5">
+          <p className="text-slategray text-lg font-medium">
             {getFieldName(reviewChangeContent, 'totalPrice')}
           </p>
-          <p className="font-black text-base text-black">
-            {(selectedFlight?.details?.currency ? selectedFlight?.details?.currency : '') +
+          <p className="font-black text-lg text-black">
+            {((modifyMeal || modifySeat || updateCart) &&
+            modifyBookingSeats?.Amount?.SaleCurrencyCode
+              ? modifyBookingSeats?.Amount?.SaleCurrencyCode
+              : selectedFlight?.details?.currency
+              ? selectedFlight?.details?.currency
+              : '') +
               ' ' +
-              (modifySeat
+              (modifyMeal || modifySeat || updateCart
                 ? modifyBookingSeats?.Amount?.TotalAmount
-                  ? modifyBookingSeats?.Amount?.TotalAmount
+                  ? modifyBookingSeats?.Amount?.TotalAmount?.toLocaleString('en-GB')
                   : ''
                 : !selectSeatLater && chooseSeats?.length === 0
                 ? selectedFlight?.details?.TotalAmount
-                  ? selectedFlight?.details?.TotalAmount
+                  ? selectedFlight?.details?.TotalAmount?.toLocaleString('en-GB')
                   : ''
                 : createExchangeBookingInfo?.Amount?.TotalAmount
-                ? createExchangeBookingInfo?.Amount?.TotalAmount
+                ? createExchangeBookingInfo?.Amount?.TotalAmount?.toLocaleString('en-GB')
                 : '')}
           </p>
         </div>
-        {!selectSeatLater && chooseSeats?.length === 0 ? (
+        {!updateCart && !modifyMeal && !selectSeatLater && chooseSeats?.length === 0 ? (
           <div className="flex flex-wrap -mb-px text-sm font-medium text-center  text-black ">
             <div className="flex md:flex block h-full items-center justify-center relative gap-3 py-3 xs:w-full  ">
-              <button
+              {/* <button
                 type="button"
                 className="xs:justify-center  xs:text-center text-aqua border border-aqua bg-white  font-black rounded-lg text-lg inline-flex items-center py-2 text-center button-style xl:w-1/12 "
+                onClick={() => {
+                  setShowModal({
+                    depart: true,
+                    return: false,
+                  });
+                  document.body.style.overflow = 'hidden';
+                }}
               >
                 {getFieldName(reviewChangeContent, 'editDatesButton')}
-              </button>
+              </button> */}
               <button
                 type="button"
-                className="xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center py-2 text-center button-style xl:w-1/12"
+                className="xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center py-2 text-center w-full "
                 onClick={() => {
                   dispatch(
                     loader({
-                      name: 'seats',
+                      name: 'save',
                       show: true,
                     })
                   );
-                  router.push('/chooseseats');
+                  router.push('/passengerdetails');
                   setTimeout(() => {
                     dispatch(
                       loader({
@@ -121,7 +162,8 @@ const ReviewChange = () => {
                   }, 1000);
                 }}
               >
-                {getFieldName(reviewChangeContent, 'chooseSeatsButton')}
+                {/* {getFieldName(reviewChangeContent, 'chooseSeatsButton')} */}
+                Confirm
               </button>
             </div>
           </div>
@@ -131,12 +173,16 @@ const ReviewChange = () => {
               type="submit"
               form="hpp"
               disabled={
-                (modifySeat ? modifyBookingSeats : createExchangeBookingInfo)?.Amount
-                  ?.TotalAmount === undefined
+                (modifyMeal || modifySeat || updateCart
+                  ? modifyBookingSeats
+                  : createExchangeBookingInfo
+                )?.Amount?.TotalAmount === undefined
               }
-              className={`w-full xs:justify-center  xs:text-center text-white bg-aqua focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center ${
-                (modifySeat ? modifyBookingSeats : createExchangeBookingInfo)?.Amount
-                  ?.TotalAmount === undefined
+              className={`w-full xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center ${
+                (modifyMeal || modifySeat || updateCart
+                  ? modifyBookingSeats
+                  : createExchangeBookingInfo
+                )?.Amount?.TotalAmount === undefined
                   ? 'opacity-40'
                   : ''
               }`}
@@ -171,13 +217,69 @@ const ReviewChange = () => {
               </div>
             </div>
           </div>
+          <DepartReturnDateModal
+            editDate={true}
+            closeModal={() => {
+              setShowModal({
+                depart: false,
+                return: false,
+              });
+              document.body.style.overflow = 'unset';
+            }}
+            modifyBooking={true}
+            setShowModal={setShowModal}
+            errorMessage={errorMessage}
+            flightDetails={flightDetails}
+            setErrorMessage={setErrorMessage}
+            setFlightDetails={setFlightDetails}
+            returnDate={flightDetails.returnDate}
+            setOldDates={() => {
+              setFlightDetails({
+                departDate: new Date(departDate),
+                returnDate: new Date(returnDate),
+                dateFlexible: true,
+              });
+            }}
+            fareFamilyName="bliss"
+            fareFamilyValue="Bliss"
+            // fareFamilyName={flightInfo?.name}
+            departDate={flightDetails.departDate}
+            dateFlexible={flightDetails?.dateFlexible}
+            name={showModal?.depart ? 'Departure' : 'Return'}
+            oneway={searchFlightPayload?.length === 1 ? true : false}
+            id={showModal?.depart ? 'modal-depart' : 'modal-return'}
+            showModal={showModal?.depart ? showModal?.depart : showModal?.return}
+            originCode={showModal?.depart ? originCode : destinationCode}
+            destinationCode={showModal?.depart ? destinationCode : originCode}
+          />
           <div className="px-3 xl:bg-cadetgray width-auto  xl:w-3/4 xs:w-full xl:py-24 xl:mt-0 xs:pt-20 ">
             <div className="xl:w-2/4 xl:m-auto xs:w-full ">
               <div className="flex justify-between items-center xl:py-0 xs:py-3">
                 <div
                   className="xl:py-3  xs:py-0 cursor-pointer"
                   onClick={() => {
-                    router.back();
+                    modifyDates && (chooseSeats?.length > 0 || selectSeatLater)
+                      ? router.push('/chooseseats')
+                      : modifyDates
+                      ? dateFlexible
+                        ? router.push('/flightavailability')
+                        : modifyDataFromBooking
+                        ? router.push('/bookingcomplete')
+                        : router.push('/modifybooking')
+                      : modifySeat && chooseSeats?.length > 0
+                      ? router.push('/chooseseats')
+                      : router.back();
+                    if (
+                      modifyDates &&
+                      chooseSeats?.length === 0 &&
+                      !selectSeatLater &&
+                      (modifyDataFromBooking || modifyData)
+                    ) {
+                      dispatch(setModifyDates(false));
+                      !dateFlexible && dispatch(setModifyBookingFromBooking(false));
+                    } else {
+                      updateCart && dispatch(setUpdateCart(false));
+                    }
                   }}
                 >
                   <FontAwesomeIcon
@@ -197,8 +299,8 @@ const ReviewChange = () => {
                 </h1>
               </div>
               <div>
-                <div className=" xs:block gap-2 py-3">
-                  {(modifySeat
+                <div className=" xs:block gap-2 py-3 ">
+                  {(modifyMeal || modifySeat || updateCart
                     ? modifyBookingSeats?.OriginDestination
                     : selectedFlight?.details?.FaireFamilies
                   )?.map((item: selectedFareFamily, index: number) => {
@@ -213,19 +315,19 @@ const ReviewChange = () => {
                           originAirportName={item?.originName}
                           originCode={
                             index === 0
-                              ? modifySeat
+                              ? modifyMeal || modifySeat || updateCart
                                 ? cityCodes?.OriginCode
                                 : selectedFlight?.details?.OriginCode
-                              : modifySeat
+                              : modifyMeal || modifySeat || updateCart
                               ? cityCodes?.DestinationCode
                               : selectedFlight?.details?.DestinationCode
                           }
                           destinationCode={
                             index === 0
-                              ? modifySeat
+                              ? modifyMeal || modifySeat || updateCart
                                 ? cityCodes?.DestinationCode
                                 : selectedFlight?.details?.DestinationCode
-                              : modifySeat
+                              : modifyMeal || modifySeat || updateCart
                               ? cityCodes?.OriginCode
                               : selectedFlight?.details?.OriginCode
                           }
@@ -255,8 +357,10 @@ const ReviewChange = () => {
         </div>
       ) : load?.name === 'seats' ? (
         <SearchSeatLoader open={load?.show} />
+      ) : load?.name === 'save' ? (
+        <SavingDataLoader open={load?.show} />
       ) : (
-        load?.name === 'save' && <SavingDataLoader open={load?.show} />
+        load?.name === 'search' && <SearchFlightLoader open={load?.show} />
       )}
     </>
   );

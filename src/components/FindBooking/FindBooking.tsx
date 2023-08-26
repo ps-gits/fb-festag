@@ -9,66 +9,119 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
+  setYourCart,
+  setModifyMeal,
+  setUpdateCart,
+  setModifySeat,
+  setModifyDates,
   setSelectedMeal,
   setChooseSeatData,
   setSelectedFlightData,
   setSelectSeatLaterData,
   setAcceptTermsConditions,
+  setModifyBookingFromBooking,
 } from 'src/redux/reducer/FlightDetails';
 import { RootState } from 'src/redux/store';
 import { loader } from 'src/redux/reducer/Loader';
+import { setMealList } from 'src/redux/reducer/Sitecore';
 import FindYourBookingLoader from '../Loader/FindYourBooking';
-import { getSitecoreContent } from 'src/redux/action/Sitecore';
 import { setPassengerDetails } from 'src/redux/reducer/PassengerDetails';
+import { getSitecoreContent, getSitecoreData } from 'src/redux/action/Sitecore';
 import { getFieldName, getImageSrc } from 'components/SearchFlight/SitecoreContent';
 import { postModifyBooking, postPrepareBookingModification } from 'src/redux/action/SearchFlights';
 
 const FindBooking = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const sitecoreFolders = [
-    'Loader',
-    'Header',
-    'Payment',
-    'Step-Info',
-    'Date-Modal',
-    'Review-Trip',
-    'Choose-Seat',
-    'Cancel-Modal',
-    'Find-Booking',
-    'Common-Images',
-    'Search-Flight',
-    'Cancel-Success',
-    'Passenger-Modal',
-    'Booking-Complete',
-    'Passenger-Details',
-    'Flight-Availability',
-    'Modify-Booking-Modal',
-  ];
 
+  // const cancelBookingModalContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.cancelModal?.fields
+  // );
   const findBookingContent = useSelector(
     (state: RootState) => state?.sitecore?.findBooking?.fields
   );
+  // const flightScheduleContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.commonImages?.fields
+  // );
+  // const searchFlightContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.searchFlight?.fields
+  // );
+  // const passengerModalContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.passengerModal?.fields
+  // );
+  // const bookingCompleteContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.bookingComplete?.fields
+  // );
+  // const passengerDetailsContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.passengerDetails?.fields
+  // );
+  // const flightAvailabilityContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.flightAvailablity?.fields
+  // );
+  // const modifyBookingDetailsModalContent = useSelector(
+  //   (state: RootState) => state?.sitecore?.modifyBookingModal?.fields
+  // );
   const load = useSelector((state: RootState) => state?.loader?.loader);
+  // const loaderContent = useSelector((state: RootState) => state?.sitecore?.loader?.fields);
+  // const paymentContent = useSelector((state: RootState) => state?.sitecore?.payment?.fields);
+  // const stepInfoContent = useSelector((state: RootState) => state?.sitecore?.stepInfo?.fields);
+  // const dateModalContent = useSelector((state: RootState) => state?.sitecore?.dateModal?.fields);
+  // const cancelContent = useSelector((state: RootState) => state?.sitecore?.cancelSuccess?.fields);
+  // const reviewTripContent = useSelector((state: RootState) => state?.sitecore?.reviewTrip?.fields);
+  // const chooseSeatsContent = useSelector((state: RootState) => state?.sitecore?.chooseSeat?.fields);
 
   useEffect(() => {
+    dispatch(setMealList([]));
+    dispatch(setYourCart([]));
     dispatch(setSelectedMeal([]));
+    dispatch(setModifySeat(false));
+    dispatch(setModifyMeal(false));
+    dispatch(setUpdateCart(false));
+    dispatch(setModifyDates(false));
     dispatch(setChooseSeatData([]));
     dispatch(setPassengerDetails([]));
     dispatch(setSelectedFlightData([]));
     dispatch(setSelectSeatLaterData(false));
     dispatch(setAcceptTermsConditions(false));
+    dispatch(setModifyBookingFromBooking(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (findBookingContent === undefined) {
-      sitecoreFolders?.map((item) => {
-        dispatch(getSitecoreContent(item) as unknown as AnyAction);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, findBookingContent]);
+    dispatch(getSitecoreData('Choose-Meal') as unknown as AnyAction);
+    // stepInfoContent === undefined &&
+    dispatch(getSitecoreContent('Step-Info') as unknown as AnyAction);
+    // dateModalContent === undefined &&
+    dispatch(getSitecoreContent('Date-Modal') as unknown as AnyAction);
+    // reviewTripContent === undefined &&
+    dispatch(getSitecoreContent('Review-Trip') as unknown as AnyAction);
+    // chooseSeatsContent === undefined &&
+    dispatch(getSitecoreContent('Choose-Seat') as unknown as AnyAction);
+    // cancelBookingModalContent === undefined &&
+    dispatch(getSitecoreContent('Cancel-Modal') as unknown as AnyAction);
+    // findBookingContent === undefined &&
+    dispatch(getSitecoreContent('Find-Booking') as unknown as AnyAction);
+    // flightScheduleContent === undefined &&
+    dispatch(getSitecoreContent('Common-Images') as unknown as AnyAction);
+    // searchFlightContent === undefined &&
+    dispatch(getSitecoreContent('Search-Flight') as unknown as AnyAction);
+    // cancelContent === undefined &&
+    dispatch(getSitecoreContent('Cancel-Success') as unknown as AnyAction);
+    // passengerModalContent === undefined &&
+    dispatch(getSitecoreContent('Passenger-Modal') as unknown as AnyAction);
+    // bookingCompleteContent === undefined &&
+    dispatch(getSitecoreContent('Booking-Complete') as unknown as AnyAction);
+    // passengerDetailsContent === undefined &&
+    dispatch(getSitecoreContent('Passenger-Details') as unknown as AnyAction);
+    // flightAvailabilityContent === undefined &&
+    dispatch(getSitecoreContent('Flight-Availability') as unknown as AnyAction);
+    // modifyBookingDetailsModalContent === undefined &&
+    dispatch(getSitecoreContent('Modify-Booking-Modal') as unknown as AnyAction);
+    // loaderContent === undefined &&
+    dispatch(getSitecoreContent('Loader') as unknown as AnyAction);
+    // paymentContent === undefined &&
+    dispatch(getSitecoreContent('Payment') as unknown as AnyAction);
+  }, [dispatch]);
 
   return (
     <>
@@ -160,7 +213,7 @@ const FindBooking = () => {
                                 type="text"
                                 name="PassengerName"
                                 value={values?.PassengerName}
-                                className="bg-white border border-graylight text-black text-sm rounded-md focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-white border border-graylight text-black text-sm rounded-md focus:ring-blue focus:border-blue block w-full p-2.5    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder={getFieldName(
                                   findBookingContent,
                                   'lastNamePlaceholder'
@@ -181,7 +234,7 @@ const FindBooking = () => {
                                 type="text"
                                 name="PnrCode"
                                 value={values?.PnrCode}
-                                className="bg-white border border-graylight text-black text-sm rounded-md focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-white border border-graylight text-black text-sm rounded-md focus:ring-blue focus:border-blue block w-full p-2.5    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder={getFieldName(
                                   findBookingContent,
                                   'bookingReferenceNumberPlaceholder'

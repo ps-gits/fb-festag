@@ -29,6 +29,7 @@ const CancelBooking = () => {
   );
   const load = useSelector((state: RootState) => state?.loader?.loader);
   const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
+  const bookingInfo = useSelector((state: RootState) => state?.flightDetails?.modifyBooking);
   const findBookingInfo = useSelector((state: RootState) => state?.flightDetails?.findBooking);
 
   const [showModal, setShowModal] = useState(false);
@@ -38,10 +39,10 @@ const CancelBooking = () => {
       <div>
         <div className="bg-white p-3 rounded-lg">
           <div className="flex justify-between my-1">
-            <p className="text-slategray text-base font-medium">
+            <p className="text-slategray text-lg font-medium">
               {getFieldName(cancelBookingContent, 'numberOfPassengers')}
             </p>
-            <p className="font-black text-base text-black">
+            <p className="font-black text-lg text-black">
               {cancelBookingInfo?.Passengers?.Adult +
                 (cancelBookingInfo?.Passengers?.Children
                   ? cancelBookingInfo?.Passengers?.Children
@@ -49,19 +50,31 @@ const CancelBooking = () => {
             </p>
           </div>
           <div className="flex justify-between my-1">
-            <p className="text-slategray text-base font-medium">
+            <p className="text-slategray text-lg font-medium">
               {getFieldName(cancelBookingContent, 'taxes')}
             </p>
-            <p className="font-black text-base text-black">
-              {cancelBookingInfo?.Amount?.TaxAmount}
+            <p className="font-black text-lg text-black">
+              {(bookingInfo?.Amount?.SaleCurrencyCode
+                ? bookingInfo?.Amount?.SaleCurrencyCode
+                : flightInfo?.details?.currency
+                ? flightInfo?.details?.currency
+                : '') +
+                ' ' +
+                cancelBookingInfo?.Amount?.TaxAmount?.toLocaleString('en-GB')}
             </p>
           </div>
           <div className="flex justify-between my-1">
-            <p className="text-slategray text-base font-medium">
+            <p className="text-slategray text-lg font-medium">
               {getFieldName(cancelBookingContent, 'refundPrice')}
             </p>
-            <p className="font-black text-base text-black">
-              {cancelBookingInfo?.Amount?.TotalAmount}
+            <p className="font-black text-lg text-black">
+              {(bookingInfo?.Amount?.SaleCurrencyCode
+                ? bookingInfo?.Amount?.SaleCurrencyCode
+                : flightInfo?.details?.currency
+                ? flightInfo?.details?.currency
+                : '') +
+                ' ' +
+                cancelBookingInfo?.Amount?.TotalAmount?.toLocaleString('en-GB')}
             </p>
           </div>
           <CancelBookingModal
@@ -84,6 +97,7 @@ const CancelBooking = () => {
                   router
                 ) as unknown as AnyAction
               );
+              document.body.style.overflow = 'unset';
             }}
           />
           <div className="flex flex-wrap -mb-px text-sm font-medium text-center  text-black ">
@@ -100,7 +114,10 @@ const CancelBooking = () => {
               <button
                 type="button"
                 className="xs:justify-center  xs:text-center text-white bg-red  font-black rounded-lg text-lg inline-flex items-center py-2 text-center button-style xl:w-1/12"
-                onClick={() => setShowModal(true)}
+                onClick={() => {
+                  setShowModal(true);
+                  document.body.style.overflow = 'hidden';
+                }}
               >
                 {getFieldName(cancelBookingContent, 'cancelButton')}
               </button>
@@ -118,6 +135,7 @@ const CancelBooking = () => {
         window.onclick = function (event) {
           if (event.target === modalCancelBooking) {
             setShowModal(false);
+            document.body.style.overflow = 'unset';
           }
         };
       }}
@@ -145,6 +163,7 @@ const CancelBooking = () => {
                     router
                   ) as unknown as AnyAction
                 );
+                document.body.style.overflow = 'unset';
               }}
             />
           </div>
@@ -169,7 +188,7 @@ const CancelBooking = () => {
               {' '}
               <div className="xl:w-2/4 xl:m-auto xs:w-full ">
                 <div
-                  className="flex justify-between items-center xl:py-0 xs:py-2"
+                  className="flex justify-between items-center xl:py-0 xs:py-3"
                   onClick={() => {
                     router.back();
                   }}
@@ -197,36 +216,36 @@ const CancelBooking = () => {
                 </div>
                 <div>
                   <div className=" xs:block gap-2 py-3">
-                    <div className="bg-white  xl:w-full mb-1 rounded-2xl">
-                      <div className="p-4">
-                        {cancelBookingInfo?.OriginDestination?.map(
-                          (item: bookingDetails, index: number) => {
-                            return (
-                              <div key={index}>
-                                <FlightSchedule
-                                  index={index}
-                                  seats={true}
-                                  loungeAccess={true}
-                                  luxuryPickup={true}
-                                  originCode={item?.OriginCode}
-                                  arrivalDate={item?.ArrivalDate}
-                                  bagAllowances={item.BagAllowances}
-                                  departureDate={item?.DepartureDate}
-                                  destinationCode={item?.DestinationCode}
-                                  departureTime={item?.OrginDepartureTime}
-                                  arrivalTime={item?.DestinationArrivalTime}
-                                  originAirportName={
-                                    flightInfo?.details?.FaireFamilies[index]?.originName
-                                  }
-                                  destinationAirportName={
-                                    flightInfo?.details?.FaireFamilies[index]?.destinationName
-                                  }
-                                />
-                              </div>
-                            );
-                          }
-                        )}
-                      </div>
+                    {/* <div className="bg-white  xl:w-full mb-1 rounded-2xl"> */}
+                    <div>
+                      {cancelBookingInfo?.OriginDestination?.map(
+                        (item: bookingDetails, index: number) => {
+                          return (
+                            <div className="bg-white p-4  xl:w-full rounded-lg mb-4" key={index}>
+                              <FlightSchedule
+                                index={index}
+                                seats={true}
+                                loungeAccess={true}
+                                luxuryPickup={true}
+                                originCode={item?.OriginCode}
+                                arrivalDate={item?.ArrivalDate}
+                                bagAllowances={item.BagAllowances}
+                                departureDate={item?.DepartureDate}
+                                destinationCode={item?.DestinationCode}
+                                departureTime={item?.OrginDepartureTime}
+                                arrivalTime={item?.DestinationArrivalTime}
+                                originAirportName={
+                                  flightInfo?.details?.FaireFamilies[index]?.originName
+                                }
+                                destinationAirportName={
+                                  flightInfo?.details?.FaireFamilies[index]?.destinationName
+                                }
+                              />
+                            </div>
+                          );
+                        }
+                      )}
+                      {/* </div> */}
                     </div>
                   </div>
                 </div>

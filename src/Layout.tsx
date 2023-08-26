@@ -46,9 +46,9 @@ const Layout = ({ layoutData }: LayoutProps): JSX.Element => {
         <main>
           <div id="content">{route && <Placeholder name="headless-main" rendering={route} />}</div>
         </main>
-        <footer>
-          <div id="footer">{route && <Placeholder name="headless-footer" rendering={route} />}</div>
-        </footer>
+        <section id="footer">
+          <div>{route && <Placeholder name="headless-footer" rendering={route} />}</div>
+        </section>
       </div>
     </>
   );

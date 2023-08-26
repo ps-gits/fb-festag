@@ -1,1 +1,1 @@
-export const ancillaryCode = [10000000, 10000001, 10000002];
+export const ancillaryCode = [10000000, 10000001, 10000002, 10000020, 10000013];

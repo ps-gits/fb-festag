@@ -30,7 +30,7 @@ const FlightSchedule = (props: flightSchedule) => {
 
   return (
     <div>
-      <div className="flex gap-4 relative">
+      <div className="flex gap-4 relative mt-6">
         <div
           className={`${
             index === 0 ? 'bg-lightorange ' : 'bg-black'
@@ -52,9 +52,7 @@ const FlightSchedule = (props: flightSchedule) => {
               <p className="font-normal text-xs text-pearlgray">{originAirportName}</p>
             </div>
             <div className="">
-              <p className="font-black text-2xl text-black text-end">
-                {departureTime?.replace(':00', '')}
-              </p>
+              <p className="font-black text-2xl text-black text-end">{departureTime}</p>
               <p className="font-normal text-xs text-pearlgray text-end">
                 {getDate(departureDate)}
               </p>
@@ -111,7 +109,7 @@ const FlightSchedule = (props: flightSchedule) => {
                             ? item?.Text
                             : item?.Text + ' , '
                         )
-                      : '6D, 6F, 7D, 7F'}
+                      : ''}
                   </p>
                 </div>
               </div>
@@ -146,7 +144,7 @@ const FlightSchedule = (props: flightSchedule) => {
                 <p className="font-medium text-xs text-slategray">Cabin Baggage 7kg</p>
               </div>
             </div>
-            <div className="flex gap-3 py-2">
+            {/* <div className="flex gap-3 py-2">
               <Image
                 className="h-6 w-6 object-cover"
                 src={getImageSrc(flightScheduleContent, 'luxuryDining') as string}
@@ -155,11 +153,11 @@ const FlightSchedule = (props: flightSchedule) => {
                 height={8}
               />
               <p className="font-black text-sm text-black">In-flight luxury dining</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4">
         <div
           className={`${
             index === 0 ? 'bg-lightorange ' : 'bg-black'
@@ -180,9 +178,7 @@ const FlightSchedule = (props: flightSchedule) => {
               <p className="font-normal text-xs text-pearlgray">{destinationAirportName}</p>
             </div>
             <div className="">
-              <p className="font-black text-2xl text-black text-end">
-                {arrivalTime?.replace(':00', '')}
-              </p>
+              <p className="font-black text-2xl text-black text-end">{arrivalTime}</p>
               <p className="font-normal text-xs text-pearlgray text-end">{getDate(arrivalDate)}</p>
             </div>
           </div>

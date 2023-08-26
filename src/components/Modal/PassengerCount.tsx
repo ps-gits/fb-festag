@@ -80,6 +80,7 @@ const PassengerCount = (props: modalType) => {
   };
 
   const searchFlight = () => {
+    document.body.style.overflow = 'unset';
     if (modifyBooking) {
       const dataToPost = {
         PnrCode: modifyBookingInfo?.PnrInformation?.PnrCode,
@@ -197,7 +198,7 @@ const PassengerCount = (props: modalType) => {
           className="linear h-screen fixed top-0 left-0 right-0 z-50 hidden xl:p-4 sm:p-0 overflow-x-hidden overflow-y-auto md:inset-0 xl:h-[calc(100% 1rem)] max-h-full xl:flex justify-center items-center flex h-screen"
         >
           <div className="relative w-full max-w-md max-h-full rounded-lg bg-white m-auto ">
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 calendar-modal">
+            <div className="relative bg-white rounded-lg shadow    calendar-modal">
               <div className="py-5 px-4 text-center">
                 <FontAwesomeIcon
                   icon={faXmark}
@@ -214,7 +215,7 @@ const PassengerCount = (props: modalType) => {
                   }}
                 />
                 <div>
-                  <h3 className="mb-0 text-xl text-black font-black">
+                  <h3 className="mb-0 text-xl text-black font-semibold">
                     {getFieldName(modalContent, 'heading')}
                   </h3>
                   <p className="text-sm text-pearlgray opacity-50 xs:mb-3">
@@ -240,7 +241,7 @@ const PassengerCount = (props: modalType) => {
                                 onClick={() => handleDecrement('adult')}
                                 disabled={passengerCount && (passengerCount?.adult as number) < 2}
                                 data-action="decrement"
-                                className={`bg-lightblue text-gray-600 rounded-sm  hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l ${
+                                className={`bg-lightblue rounded-sm  h-full w-20 rounded-l ${
                                   passengerCount && (passengerCount?.adult as number) < 2
                                     ? 'cursor-not-allowed'
                                     : 'cursor-pointer'
@@ -250,7 +251,7 @@ const PassengerCount = (props: modalType) => {
                               </button>
                               <input
                                 type="text"
-                                className="  text-center w-full  font-semibold text-md   md:text-basecursor-default flex items-center text-black  outline-none"
+                                className="text-center w-full font-semibold  flex items-center text-black  outline-none"
                                 name="custom-input-number"
                                 disabled
                                 value={passengerCount ? passengerCount?.adult : 0}
@@ -264,7 +265,7 @@ const PassengerCount = (props: modalType) => {
                                     (passengerCount?.adult as number) >
                                     8
                                 }
-                                className={`bg-lightblue text-gray-600 rounded-sm  hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r ${
+                                className={`bg-lightblue rounded-sm   h-full w-20 rounded-r ${
                                   passengerCount &&
                                   (passengerCount?.children as number) +
                                     (passengerCount?.adult as number) >
@@ -342,7 +343,7 @@ const PassengerCount = (props: modalType) => {
                       </div>
                     </div>
                   </div>
-                  <div className="my-6">
+                  <div className="my-6 bg-cadetgray p-3 rounded-lg">
                     <div className="flex gap-3 ">
                       <div className="flex justify-center items-center">
                         <Image

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import parse from 'html-react-parser';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import Slider from 'react-slick';
 
@@ -14,6 +15,7 @@ const NewsDetails = (props: {
   aboutBeond: string;
   aboutBeondDescription: string;
 }) => {
+  const router = useRouter();
   const furtherInformationData = useSelector(
     (state: RootState) => state.sitecore.furtherInformation
   );
@@ -54,11 +56,16 @@ const NewsDetails = (props: {
   };
   return (
     <div className="bg-white">
-      <div className="xl:w-3/4 md:w-3/4 m-auto  xl:pt-36 xl:pb-16 xs:pt-24 xs:pb-10 xl:px-0 xs:px-4">
+      <div className="xl:w-3/4 md:w-3/4 m-auto  xl:pt-40 xl:pb-16 xs:pt-24 xs:pb-10 xl:px-0 xs:px-4">
         <div>
           <div className="py-3">
-            <span className="text-hilightgray text-sm font-normal ">{props?.home}/</span>
-            <span className="text-neviblue text-sm font-black ">{props?.pageName}</span>
+            <span
+              className="text-hilightgray text-sm font-normal cursor-pointer "
+              onClick={() => router.push('/')}
+            >
+              {props?.home + ' ' + '/' + ' '}
+            </span>
+            <span className="text-neviblue text-sm font-semibold">{props?.pageName}</span>
           </div>
 
           <div>
@@ -109,7 +116,7 @@ const NewsDetails = (props: {
           <div>
             {newsInDetails?.detailedContent?.value && parse(newsInDetails?.detailedContent?.value)}
           </div>
-          <div className="py-4">
+          <div className="py-8">
             <div className="font-black text-black text-2xl">{props?.aboutBeond}</div>
           </div>
           <div className="text-base font-normal text-neviblue">{props?.aboutBeondDescription}</div>
@@ -156,8 +163,8 @@ const NewsDetails = (props: {
                           parse(furtherInformationData?.website?.value)}
                       </div>
                     </div>
-                    <div className="flex items-center gap-5 pt-4">
-                      <div className="flex items-center gap-3">
+                    <div className="xl:flex xs:block items-center gap-5 pt-4 ">
+                      <div className="flex items-center gap-3 xs:py-2">
                         <Image
                           src={furtherInformationData?.facebookLogo?.value?.src}
                           alt="image"
@@ -174,7 +181,7 @@ const NewsDetails = (props: {
                             parse(furtherInformationData?.facebook?.value)}
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 underline cursor-pointer">
+                      <div className="flex items-center gap-3 xs:py-2 underline cursor-pointer">
                         <Image
                           src={furtherInformationData?.instagramLogo?.value?.src}
                           alt="image"
@@ -192,7 +199,7 @@ const NewsDetails = (props: {
                             parse(furtherInformationData?.instagram?.value)}
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 underline cursor-pointer ">
+                      <div className="flex items-center gap-3 xs:py-2 underline cursor-pointer ">
                         <Image
                           src={furtherInformationData?.linkedInLogo?.value?.src}
                           alt="image"
@@ -212,17 +219,35 @@ const NewsDetails = (props: {
                     </div>
                   </div>
                   <div>
-                    <Image
-                      src={furtherInformationData?.backgroundImage?.value?.src}
-                      alt="image"
-                      className=" absolute top-4 right-0 h-72 w-1/3"
-                      width={
-                        furtherInformationData?.backgroundImage?.value?.width as unknown as number
-                      }
-                      height={
-                        furtherInformationData?.backgroundImage?.value?.height as unknown as number
-                      }
-                    />
+                    <div className="xl:not-sr-only	xs:sr-only">
+                      <Image
+                        src={furtherInformationData?.backgroundImage?.value?.src}
+                        alt="image"
+                        className=" absolute bottom-0 right-0 h-72 w-1/3"
+                        width={
+                          furtherInformationData?.backgroundImage?.value?.width as unknown as number
+                        }
+                        height={
+                          furtherInformationData?.backgroundImage?.value
+                            ?.height as unknown as number
+                        }
+                      />
+                    </div>
+                    <div className="xs:not-sr-only	xl:sr-only">
+                      <Image
+                        src={furtherInformationData?.backgroundImageMobile?.value?.src}
+                        alt="image"
+                        className=" absolute bottom-0 right-0 h-80 w-2/5"
+                        width={
+                          furtherInformationData?.backgroundImageMobile?.value
+                            ?.width as unknown as number
+                        }
+                        height={
+                          furtherInformationData?.backgroundImageMobile?.value
+                            ?.height as unknown as number
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

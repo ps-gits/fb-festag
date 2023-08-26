@@ -31,12 +31,12 @@ const PriceBreakDown = (props: {
             {(currency ? currency : '') + ' ' + (baseAmount ? baseAmount : '')}
           </p>
         </div>
-        <div className="flex justify-between py-1">
+        {/* <div className="flex justify-between py-1">
           <p className="font-medium text-xs text-pearlgray">
             {getFieldName(priceBreakDownContent, 'seatUpgrade')} x{passengerCount}
           </p>
           <p className="font-medium text-xs text-pearlgray">0</p>
-        </div>
+        </div> */}
         <div className="flex justify-between py-1">
           <p className="font-medium text-xs text-pearlgray">
             {getFieldName(priceBreakDownContent, 'taxesCharges')}

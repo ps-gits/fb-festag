@@ -58,7 +58,7 @@ const HowWeAreSustainable = (props: HowWeAreSustainableProps): JSX.Element => {
                   <FontAwesomeIcon
                     icon={faQuoteLeft}
                     aria-hidden="true"
-                    className="h-12 w-12 text-orange"
+                    className="h-12 w-12 text-lightorange"
                   />
                 </div>
                 <div className="text-xl font-thin pb-4 text-midnightBlue">

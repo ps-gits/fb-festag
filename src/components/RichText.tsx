@@ -23,7 +23,7 @@ export const Default = (props: RichTextProps): JSX.Element => {
       className={`component rich-text ${props.params.styles.trimEnd()}`}
       id={id ? id : undefined}
     >
-      <div className="component-content">{text}</div>
+      <div>{text}</div>
     </div>
   );
 };

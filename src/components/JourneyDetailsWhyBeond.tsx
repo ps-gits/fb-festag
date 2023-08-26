@@ -57,19 +57,19 @@ const JourneyDetailsWhyBeond = (props: JourneyDetailsWhyBeond): JSX.Element => {
                   <div className="xl:flex md:flex xs:block items-center justify-between w-full pt-28">
                     <div className="xl:w-1/2 xs:w-full ">
                       <div className="flex gap-3 ">
-                        <div>
+                        <div className="w-full">
                           <Image
                             src={item.fields.image1.value.src}
-                            className="xl:w-64 xs:w-full journey-img  rounded-xl"
+                            className="xl:w-64 xl:h-96 xs:w-full xs:h-auto rounded-xl"
                             alt="image"
                             width={item.fields.image1.value.width as unknown as number}
                             height={item.fields.image1.value.height as unknown as number}
                           />
                         </div>
-                        <div>
+                        <div className="w-full">
                           <Image
                             src={item.fields.image2.value.src}
-                            className="xl:w-64 xs:w-full journey-img rounded-xl"
+                            className="xl:w-64 xl:h-96 xs:w-full xs:h-auto rounded-xl"
                             alt="image"
                             width={item.fields.image2.value.width as unknown as number}
                             height={item.fields.image2.value.height as unknown as number}
@@ -100,19 +100,19 @@ const JourneyDetailsWhyBeond = (props: JourneyDetailsWhyBeond): JSX.Element => {
                     </div>
                     <div className="xl:w-1/2 xs:w-full ">
                       <div className="flex gap-3 xl:justify-end xs:justify-start xl:py-0 xs:py-4">
-                        <div>
+                        <div className="w-full">
                           <Image
                             src={item.fields.image1.value.src}
-                            className="xl:w-64 xs:w-full journey-img rounded-xl"
+                            className="xl:w-64 xl:h-96 xs:w-full xs:h-auto rounded-xl"
                             alt="image"
                             width={item.fields.image1.value.width as unknown as number}
                             height={item.fields.image1.value.height as unknown as number}
                           />
                         </div>
-                        <div>
+                        <div className="w-full">
                           <Image
                             src={item.fields.image2.value.src}
-                            className="xl:w-64 xs:w-full journey-img rounded-xl"
+                            className="xl:w-64 xl:h-96 xs:w-full xs:h-auto rounded-xl"
                             alt="image"
                             width={item.fields.image2.value.width as unknown as number}
                             height={item.fields.image2.value.height as unknown as number}

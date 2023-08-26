@@ -61,7 +61,7 @@ const Sustainability = (props: SustainabilityProps): JSX.Element => {
                   <FontAwesomeIcon
                     icon={faQuoteLeft}
                     aria-hidden="true"
-                    className="h-12 w-12 text-orange"
+                    className="h-12 w-12 text-lightorange"
                   />
                 </div>
                 <div className="text-xl font-thin pb-4 text-midnightBlue">
@@ -74,7 +74,7 @@ const Sustainability = (props: SustainabilityProps): JSX.Element => {
               <div className="py-6">
                 <button
                   type="submit"
-                  className="text-white bg-lightorange   font-medium rounded-full text-base px-4 py-3 "
+                  className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3 "
                   onClick={() => router.push(props.fields.heading.value.toLowerCase())}
                 >
                   <Text field={props.fields.readMoreButton} />

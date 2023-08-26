@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Text, Field, withDatasourceCheck } from '@sitecore-jss/sitecore-jss-nextjs';
@@ -44,6 +46,7 @@ type FAQsProps = ComponentProps & {
 };
 
 const FAQs = (props: FAQsProps): JSX.Element => {
+  const router = useRouter();
   const [topicIndex, setTopicIndex] = useState(0);
   const [searchText, setSearchText] = useState('');
   const [questionDisplay, setQuestionDisplay] = useState<{
@@ -110,16 +113,16 @@ const FAQs = (props: FAQsProps): JSX.Element => {
     }
   };
 
-
   return (
     <div className="bg-white">
-      <div className="xl:w-5/6 md:w-5/6 m-auto  xl:pb-10 xl:pt-36 xs:pt-24 xs:pb-24 xl:px-0 xs:px-4 md:px-0">
+      <div className="xl:w-5/6 md:w-5/6 m-auto  xl:pb-10 xl:pt-40 xs:pt-24 xs:pb-24 xl:px-0 xs:px-4 md:px-0">
         <div className="py-3">
           <div className="flex">
-            <div className="text-hilightgray text-sm font-normal">
-              <Text field={props.fields.home} />/
+            <div className="text-hilightgray text-sm font-normal" onClick={() => router.push('/')}>
+              {props.fields.home.value + ' ' + '/'}
             </div>
-            <div className="text-neviblue text-sm font-black">
+            <div className="text-neviblue text-sm font-semibold">
+              &nbsp;
               <Text field={props.fields.pageName} />
             </div>
           </div>
@@ -240,9 +243,11 @@ const FAQs = (props: FAQsProps): JSX.Element => {
           <div className="text-base text-neviblue font-bold">
             <Text field={props.fields.stillNotHelpful} />
           </div>
-          <div className="text-base text-orange font-medium">
-            <Text field={props.fields.contactUs} />
-          </div>
+          <Link href={`/contact`}>
+            <div className="text-base text-lightorange font-medium underline cursor-pointer">
+              <Text field={props.fields.contactUs} />
+            </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import parse from 'html-react-parser';
+import { useRouter } from 'next/router';
 import {
   Text,
   Field,
@@ -26,18 +27,22 @@ type ExperiencePageBannerProps = ComponentProps & {
 };
 
 const ExperiencePageBanner = (props: ExperiencePageBannerProps): JSX.Element => {
+  const router = useRouter();
   return (
     <div>
       <div className="bg-white">
         <div>
-          <div className="xl:w-5/6 md:w-5/6 m-auto relative xl:pt-36 xl:pb-0 md:pt-40 md:pb-0 xs:pt-24 xs:pb-5 xl:px-0 xs:px-4 md:px-0">
+          <div className="xl:w-5/6 md:w-5/6 m-auto relative xl:pt-40 xl:pb-0 md:pt-40 md:pb-0 xs:pt-24 xs:pb-5 xl:px-0 xs:px-4 md:px-0">
             <div className=" xs:w-full md:flex xl:flex xs:block h-full justify-between  ">
               <div className="xl:w-2/4 md:w-6/12 xs:w-full">
                 <div className="py-3">
-                  <span className="text-hilightgray text-sm font-normal">
-                    <Text field={props.fields.home} />/
+                  <span
+                    className="text-hilightgray text-sm font-normal cursor-pointer"
+                    onClick={() => router.push('/')}
+                  >
+                    {props.fields.home.value + ' ' + '/' + ' '}
                   </span>
-                  <span className="text-black text-sm font-black">
+                  <span className="text-neviblue text-sm font-semibold">
                     <Text field={props.fields.pageName} />
                   </span>
                 </div>
@@ -49,39 +54,27 @@ const ExperiencePageBanner = (props: ExperiencePageBannerProps): JSX.Element => 
                 </h1>
               </div>
               <div className="xl:w-2/4 md:w-6/12 xs:w-full">
-                <div className="flex xl:mt-0 xs:mt-4 xs:mb-7 gap-2 xs:justify-end">
-                  <div className="xl:mt-36 xs:mt-8">
-                    <JssImage
-                      field={props.fields.image1}
-                      className=" xl:h-44 xl:w-32 xs:w-44 xs:h-36  rounded-xl"
-                      alt="image"
-                    />
+                <div className="flex xl:mt-0 xs:mt-4 xs:mb-7 gap-2 xl:justify-end xs:justify-center">
+                  <div className="xl:mt-24 xs:mt-12 xl:h-56 xl:w-48 xs:w-44 xs:h-36 overflow-hidden rounded-xl object-cover">
+                    <JssImage field={props.fields.image1} className="w-full h-full  " alt="image" />
                   </div>
-                  <div>
-                    <JssImage
-                      field={props.fields.image2}
-                      className=" xl:h-80 xl:w-60 xs:w-44 xs:h-44 rounded-xl"
-                      alt="image"
-                    />
+                  <div className="xl:h-80 xl:w-60 xs:w-48 xs:h-48 rounded-xl overflow-hidden object-cover ">
+                    <JssImage field={props.fields.image2} className="w-full h-full" alt="image" />
                   </div>
-                  <div>
-                    <JssImage
-                      field={props.fields.image3}
-                      className="xl:h-44 xl:w-28 xs:w-44 xs:h-32  rounded-xl"
-                      alt="image"
-                    />
+                  <div className="xl:h-40 xl:w-32 xs:w-36 xs:h-32 rounded-xl overflow-hidden object-cover">
+                    <JssImage field={props.fields.image3} className=" w-full h-full" alt="image" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="absolute xl:top-96 md:top-64">
+          <div className="absolute banner-style">
             <JssImage field={props.fields.banner} className="xl:h-auto xl:w-full" alt="banner" />
           </div>
         </div>
         <div className="">
           <div className="">
-            <div className="flex justify-center xl:py-10 md:py-10">
+            <div className="flex justify-center xl:pt-12 xs:pt-0 xl:pb-20 xs:pb-10">
               <JssImage
                 field={props.fields.bigBanner}
                 className="banner xl:h-full  xl:m-auto md:w-full md:h-full xs:w-full xs:h-44  object-contain rounded-2xl "

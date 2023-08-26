@@ -184,13 +184,13 @@ const PartnersList = (props: PartnersListProps): JSX.Element => {
                                       <span>{item.fields.description.value}</span>
                                     </div>
                                     <div className="flex items-baseline gap-2 py-4">
-                                      <div className="text-orange text-base">
+                                      <div className="text-lightorange text-base">
                                         <Text field={props.fields.readMoreButton} />
                                       </div>
                                       <FontAwesomeIcon
                                         icon={faArrowRight}
                                         aria-hidden="true"
-                                        className="h-3 w-3 text-orange"
+                                        className="h-3 w-3 text-lightorange"
                                       />
                                     </div>
                                   </div>

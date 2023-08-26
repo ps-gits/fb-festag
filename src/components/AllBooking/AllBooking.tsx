@@ -1,19 +1,37 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { AnyAction } from 'redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { RootState } from 'src/redux/store';
 import AllBookingDetails from './Tabs/AllBookingDetails';
 import banner from '../../assets/images/desktopbanner.png';
-import ModifyBookingModal from '../Modal/ModifyBookingModal';
+import { getAllBooking } from 'src/redux/action/SearchFlights';
 
 const AllBooking = () => {
+  const dispatch = useDispatch();
+
+  const allBookingData = useSelector((state: RootState) => state?.flightDetails?.allBooking);
+
   const [tabIndex, setTabIndex] = useState(0);
+  const [searchText, setSearchText] = useState('');
+  const [bookingList, setBookingList] = useState(allBookingData);
+
+  useEffect(() => {
+    dispatch(getAllBooking() as unknown as AnyAction);
+  }, [dispatch]);
+
+  useEffect(() => {
+    bookingList?.length === 0 && setBookingList(allBookingData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allBookingData]);
 
   return (
     <main>
       <div className="relative">
-        <div className="py-5 px-3  ">
+        <div className="py-5 px-3   bg-cadetgray">
           <div className="">
             <div className="xl:not-sr-only	xs:sr-only">
               <div className="w-full h-52 xl:h-screen  xl:w-1/4 overflow-hidden xs:relative xl:fixed right-0">
@@ -24,8 +42,19 @@ const AllBooking = () => {
                 />
               </div>
               <div className="xl:not-sr-only	xs:sr-only">
-                <div className="fixed top-16 right-3.5  xl:m-auto price-modal">
-                  <ModifyBookingModal openModal={() => true} />
+                <div className="fixed top-24 right-3.5  xl:m-auto price-modal">
+                  <div>
+                    <div className="bg-white p-3 rounded-lg">
+                      <div className=" lg:flex md:flex block h-full items-center justify-center relative gap-3 w-full  m-auto">
+                        <button
+                          type="button"
+                          className="w-full xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center "
+                        >
+                          Create New Booking
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -49,26 +78,50 @@ const AllBooking = () => {
                           <input
                             type="text"
                             id="search"
+                            value={searchText}
                             className="block w-full px-4 py-2  text-basetext border border-slategray rounded "
                             placeholder="Search for a booking"
-                            // onChange={(e) => {
-                            //   setLoading(true);
-                            //   setSelectOptions([]);
-                            //   searchDataWithDelay(e?.target?.value);
-                            // }}
+                            onChange={(e) => {
+                              setSearchText(e.target.value);
+                              if (e.target.value.length > 0) {
+                                setBookingList(
+                                  allBookingData?.filter(
+                                    (item: {
+                                      name: string;
+                                      surname: string;
+                                      originCode: string;
+                                      originDate: string;
+                                      destinationCode: string;
+                                      destinationDate: string;
+                                    }) =>
+                                      item &&
+                                      ((item.name + item.surname)
+                                        ?.replaceAll(/\s/g, '')
+                                        ?.toLowerCase()
+                                        ?.includes(e.target.value?.replaceAll(/\s/g, '')) ||
+                                        item.originCode?.toLowerCase()?.includes(e.target.value) ||
+                                        item.destinationCode
+                                          ?.toLowerCase()
+                                          ?.includes(e.target.value))
+                                  )
+                                );
+                              } else {
+                                setBookingList(allBookingData);
+                              }
+                            }}
                             autoComplete="off"
                           />
-                          <button
+                          {/* <button
                             type="submit"
                             className="text-white absolute right-2.5 bottom-2.5  font-medium rounded-lg text-sm px-4 py-2  "
                           >
                             Search
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     </div>
                     <div className="pt-4">
-                      <p className="text-base text-pearlgray opacity-50">
+                      <p className="text-base text-pearlgray font-medium opacity-50 mb-2">
                         Welcome back, Agent Name
                       </p>
                       <div>
@@ -78,7 +131,7 @@ const AllBooking = () => {
                   </div>
                   <div className="my-4">
                     <ul className="flex flex-wrap text-sm font-medium text-center border-graylight border-b">
-                      <li role="presentation" onClick={() => setTabIndex(0)} className="w-1/3">
+                      <li onClick={() => setTabIndex(0)} className="w-1/3">
                         <button
                           className={`xl:w-full xs:w-full inline-block py-4 flex justify-center  ${
                             tabIndex === 0
@@ -86,12 +139,14 @@ const AllBooking = () => {
                               : 'borbgder-transparent p-4 inline-block py-2 px-3   font-medium bg-gray'
                           } `}
                           type="button"
-                          onClick={() => setTabIndex(0)}
                         >
                           <div className="flex gap-2 items-center">Active</div>
                         </button>
                       </li>
-                      <li role="presentation" onClick={() => setTabIndex(1)} className="w-1/3">
+                      <li
+                        //  onClick={() => setTabIndex(1)}
+                        className="w-1/3"
+                      >
                         <button
                           className={`xl:w-full xs:w-full inline-block py-4 flex justify-center  ${
                             tabIndex === 1
@@ -99,12 +154,14 @@ const AllBooking = () => {
                               : 'borbgder-transparent p-4 inline-block py-2 px-3   font-medium bg-gray'
                           } `}
                           type="button"
-                          onClick={() => setTabIndex(1)}
                         >
                           <div className="flex gap-2 items-center">Past</div>
                         </button>
                       </li>
-                      <li role="presentation" onClick={() => setTabIndex(2)} className="w-1/3">
+                      <li
+                        // onClick={() => setTabIndex(2)}
+                        className="w-1/3"
+                      >
                         <button
                           className={`xl:w-full xs:w-full inline-block py-4 flex justify-center  ${
                             tabIndex === 2
@@ -112,7 +169,6 @@ const AllBooking = () => {
                               : 'borbgder-transparent p-4 inline-block py-2 px-3   font-medium bg-gray'
                           } `}
                           type="button"
-                          onClick={() => setTabIndex(2)}
                         >
                           <div className="flex gap-2 items-center">Cancelled</div>
                         </button>
@@ -122,17 +178,17 @@ const AllBooking = () => {
                   <div>
                     {tabIndex === 0 && (
                       <div>
-                        <AllBookingDetails />
+                        <AllBookingDetails bookingList={bookingList} />
                       </div>
                     )}
                     {tabIndex === 1 && (
                       <div>
-                        <AllBookingDetails />
+                        <AllBookingDetails bookingList={bookingList} />
                       </div>
                     )}
                     {tabIndex === 2 && (
                       <div>
-                        <AllBookingDetails />
+                        <AllBookingDetails bookingList={bookingList} />
                       </div>
                     )}
                   </div>

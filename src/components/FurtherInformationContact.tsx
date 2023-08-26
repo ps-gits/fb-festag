@@ -29,6 +29,7 @@ type FurtherInformationContactProps = ComponentProps & {
     instagramLogo: ImageField;
     linkedInLogo: ImageField;
     backgroundImage: ImageField;
+    backgroundImageMobile: ImageField;
     readNewsInDetails: boolean;
   };
 };
@@ -42,9 +43,7 @@ const FurtherInformationContact = (props: FurtherInformationContactProps): JSX.E
   const readNewsInDetails = useSelector((state: RootState) => state?.sitecore?.readNewsInDetails);
 
   useEffect(() => {
-    if (furtherInformationData && furtherInformationData?.length === 0) {
-      dispatch(setFurtherInformation(props.fields));
-    }
+    dispatch(setFurtherInformation(props.fields));
   }, [dispatch, furtherInformationData, props.fields]);
 
   return (
@@ -114,11 +113,20 @@ const FurtherInformationContact = (props: FurtherInformationContactProps): JSX.E
                 </div>
               </div>
               <div>
-                <JssImage
-                  field={props.fields.backgroundImage}
-                  className=" absolute top-4 right-0 h-72 w-1/3"
-                  alt="image"
-                />
+                <div className="xl:not-sr-only	xs:sr-only">
+                  <JssImage
+                    field={props.fields.backgroundImage}
+                    className=" absolute top-8 right-0 h-72 w-1/3"
+                    alt="image"
+                  />
+                </div>
+                <div className="xs:not-sr-only	xl:sr-only">
+                  <JssImage
+                    field={props.fields.backgroundImageMobile}
+                    className=" absolute bottom-0 right-0 h-80 w-2/5"
+                    alt="image"
+                  />
+                </div>
               </div>
             </div>
           </div>

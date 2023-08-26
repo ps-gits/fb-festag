@@ -6,15 +6,20 @@ const initialState = {
   footer: [],
   payment: [],
   cookies: [],
+  mealList: [],
   stepInfo: [],
   dateModal: [],
+  chooseMeal: [],
   chooseSeat: [],
   reviewTrip: [],
+  cookiesList: [],
   cancelModal: [],
   findBooking: [],
+  numberOfMeals: 0,
   newsInDetail: [],
   commonImages: [],
   searchFlight: [],
+  createAccount: [],
   searchAirport: [],
   cancelSuccess: [],
   promoCodeModal: [],
@@ -52,6 +57,9 @@ const sitecoreSlice = createSlice({
     setStepInfo: (state, action) => {
       state.stepInfo = action.payload;
     },
+    setMealList: (state, action) => {
+      state.mealList = action.payload;
+    },
     setDateModal: (state, action) => {
       state.dateModal = action.payload;
     },
@@ -60,6 +68,12 @@ const sitecoreSlice = createSlice({
     },
     setChooseSeat: (state, action) => {
       state.chooseSeat = action.payload;
+    },
+    setChooseMeal: (state, action) => {
+      state.chooseMeal = action.payload;
+    },
+    setCookiesList: (state, action) => {
+      state.cookiesList = action.payload;
     },
     setCancelModal: (state, action) => {
       state.cancelModal = action.payload;
@@ -75,6 +89,12 @@ const sitecoreSlice = createSlice({
     },
     setSearchFlight: (state, action) => {
       state.searchFlight = action.payload;
+    },
+    setCreateAccount: (state, action) => {
+      state.createAccount = action.payload;
+    },
+    setNumberOfMeals: (state, action) => {
+      state.numberOfMeals = action.payload;
     },
     setSearchAirport: (state, action) => {
       state.searchAirport = action.payload;
@@ -124,15 +144,20 @@ export const {
   setHeader,
   setPayment,
   setCookies,
+  setMealList,
   setStepInfo,
   setDateModal,
   setChooseSeat,
+  setChooseMeal,
   setReviewTrip,
+  setCookiesList,
   setCancelModal,
   setFindBooking,
   setCommonImages,
   setNewsInDetail,
   setSearchFlight,
+  setCreateAccount,
+  setNumberOfMeals,
   setCancelSuccess,
   setSearchAirport,
   setPromoCodeModal,

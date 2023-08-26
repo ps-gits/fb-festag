@@ -7,9 +7,7 @@ export const Default = (props: FEaaSComponentProps): JSX.Element => {
 
   return (
     <div className={styles} id={id ? id : undefined}>
-      <div className="component-content">
-        <FEaaSComponent {...props} />
-      </div>
+      <FEaaSComponent {...props} />
     </div>
   );
 };

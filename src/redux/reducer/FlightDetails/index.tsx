@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initalState = {
   yourCart: [],
+  allBooking: [],
+  fareFamily: [],
   findBooking: [],
   chooseSeats: [],
   paymentForm: '',
@@ -13,16 +15,21 @@ const initalState = {
   createBooking: [],
   modifyBooking: [],
   footerTC: false,
+  updateCart: false,
   paymentStatus: '',
   modifyData: false,
   modifySeat: false,
+  modifyMeal: false,
+  modifyDates: false,
   selectedFlight: [],
+  cookiesSettings: [],
   prepareFlightRef: [],
   selectSeatLater: false,
   modifyBookingSeats: [],
   prepareCancelFlight: [],
   exchangeCreateBooking: [],
   prepareExchangeFlight: [],
+  modifyDataFromBooking: false,
   acceptTermsConditions: false,
   originToDestinationDates: [],
   destinationToOriginDates: [],
@@ -43,14 +50,32 @@ const flightDetailsSlice = createSlice({
     setModifySeat: (state, action) => {
       state.modifySeat = action.payload;
     },
+    setFareFamily: (state, action) => {
+      state.fareFamily = action.payload;
+    },
+    setAllBooking: (state, action) => {
+      state.allBooking = action.payload;
+    },
     setModifyData: (state, action) => {
       state.modifyData = action.payload;
+    },
+    setModifyMeal: (state, action) => {
+      state.modifyMeal = action.payload;
+    },
+    setModifyDates: (state, action) => {
+      state.modifyDates = action.payload;
+    },
+    setUpdateCart: (state, action) => {
+      state.updateCart = action.payload;
     },
     setSelectedMeal: (state, action) => {
       state.selectedMeal = action.payload;
     },
     setChooseSeatData: (state, action) => {
       state.chooseSeats = action.payload;
+    },
+    setCookiesSettings: (state, action) => {
+      state.cookiesSettings = action.payload;
     },
     setPaymentFormData: (state, action) => {
       state.paymentForm = action.payload;
@@ -97,6 +122,9 @@ const flightDetailsSlice = createSlice({
     setPrepareCancelFlightData: (state, action) => {
       state.prepareCancelFlight = action.payload;
     },
+    setModifyBookingFromBooking: (state, action) => {
+      state.modifyDataFromBooking = action.payload;
+    },
     setOriginToDestinationDates: (state, action) => {
       state.originToDestinationDates = action.payload;
     },
@@ -121,12 +149,18 @@ const flightDetailsSlice = createSlice({
 export const {
   setYourCart,
   setFooterTC,
+  setFareFamily,
+  setModifyMeal,
   setModifySeat,
+  setAllBooking,
+  setUpdateCart,
   setModifyData,
+  setModifyDates,
   setSelectedMeal,
   setChooseSeatData,
   setPaymentFormData,
   setFindBookingData,
+  setCookiesSettings,
   setSearchFlightData,
   setCancelFlightData,
   setReviewFlightData,
@@ -140,6 +174,7 @@ export const {
   setAcceptTermsConditions,
   setModifyBookingSeatsData,
   setPrepareCancelFlightData,
+  setModifyBookingFromBooking,
   setOriginToDestinationDates,
   setDestinationToOriginDates,
   setPrepareExchangeFlightData,

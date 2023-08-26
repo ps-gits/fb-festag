@@ -127,7 +127,7 @@ const TermsConditions = () => {
               <div className="lg:flex md:flex block h-full items-center justify-center relative gap-3  py-3 m-auto ">
                 <button
                   type="button"
-                  className={`w-full xs:justify-center  xs:text-center text-white bg-aqua focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center ${
+                  className={`w-full xs:justify-center  xs:text-center text-white bg-aqua font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center ${
                     footerTermsConditions !== undefined && footerTermsConditions
                       ? ''
                       : !termsConditionsAccepted

@@ -36,6 +36,7 @@ const CancelBookingModal = (props: {
                   className="arrow-modal cursor-pointer"
                   onClick={() => {
                     setShowModal(false);
+                    document.body.style.overflow = 'unset';
                   }}
                 />
                 <div className="flex justify-center">
@@ -43,8 +44,8 @@ const CancelBookingModal = (props: {
                     className="h-12 w-12 object-contain my-2 "
                     src={getImageSrc(cancelBookingModalContent, 'cancelLogo')}
                     alt="logo"
-                    height={12}
-                    width={12}
+                    height={1200}
+                    width={1200}
                   />
                 </div>
                 <div className="my-3">
@@ -64,6 +65,7 @@ const CancelBookingModal = (props: {
                       className="xs:justify-center  xs:text-center text-aqua border border-aqua bg-white  font-black rounded-lg text-lg inline-flex items-center py-2 text-center button-style xl:w-1/12 "
                       onClick={() => {
                         setShowModal(false);
+                        document.body.style.overflow = 'unset';
                       }}
                     >
                       {getFieldName(cancelBookingModalContent, 'goBackButton')}

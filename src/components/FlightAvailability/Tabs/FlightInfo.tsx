@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useState } from 'react';
 import { AnyAction } from 'redux';
 import { useRouter } from 'next/router';
@@ -8,7 +9,7 @@ import { loader } from 'src/redux/reducer/Loader';
 import FlightSchedule from '../../ReviewTrip/FlightSchedule';
 import { postPrepareFlights } from 'src/redux/action/SearchFlights';
 import DepartReturnDateModal from '../../Modal/DepartReturnDateModal';
-import { getFieldName } from 'components/SearchFlight/SitecoreContent';
+import { getFieldName, getImageSrc } from 'components/SearchFlight/SitecoreContent';
 
 const FlightInfo = (props: flightDetails) => {
   const { showModal, setShowModal, setSelectFlight, setShowFlightInfo } = props;
@@ -16,6 +17,9 @@ const FlightInfo = (props: flightDetails) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const passengerContent = useSelector(
+    (state: RootState) => state?.sitecore?.passengerModal?.fields
+  );
   const flightAvailabilityContent = useSelector(
     (state: RootState) => state?.sitecore?.flightAvailablity?.fields
   );
@@ -43,7 +47,7 @@ const FlightInfo = (props: flightDetails) => {
   return (
     <div>
       <div>
-        <div className="xs:px-3 xl:px-0">
+        <div className="xs:px-0 xl:px-0">
           <DepartReturnDateModal
             editDate={true}
             closeModal={() => {
@@ -53,6 +57,7 @@ const FlightInfo = (props: flightDetails) => {
                 passenger: false,
                 compareFareFamily: false,
               });
+              document.body.style.overflow = 'unset';
             }}
             setShowModal={setShowModal}
             errorMessage={errorMessage}
@@ -79,38 +84,51 @@ const FlightInfo = (props: flightDetails) => {
             showModal={showModal?.depart ? showModal?.depart : showModal?.return}
           />
           {selectedFlight?.details?.FaireFamilies?.length > 0 ? (
-            <div className="xl:block xs:block gap-2">
-              {selectedFlight?.details?.FaireFamilies?.map(
-                (item: selectedFareFamily, index: number) => {
-                  return (
-                    <div className="bg-white p-4  xl:w-full rounded-lg " key={index}>
-                      <FlightSchedule
-                        index={index}
-                        seats={false}
-                        loungeAccess={true}
-                        luxuryPickup={true}
-                        bagAllowances={item.BagAllowances}
-                        originAirportName={item?.originName}
-                        originCode={
-                          index === 0
-                            ? selectedFlight?.details?.OriginCode
-                            : selectedFlight?.details?.DestinationCode
-                        }
-                        destinationCode={
-                          index === 0
-                            ? selectedFlight?.details?.DestinationCode
-                            : selectedFlight?.details?.OriginCode
-                        }
-                        departureDate={item?.orginDepartureDate}
-                        departureTime={item?.orginDepartureTime}
-                        arrivalDate={item?.destinationArrivalDate}
-                        arrivalTime={item?.destinationArrivalTime}
-                        destinationAirportName={item?.destinationName}
-                      />
-                    </div>
-                  );
-                }
-              )}
+            <div>
+              <div className="xl:block xs:block gap-2 xl:w-5/6 m-auto xs:w-full">
+                {selectedFlight?.details?.FaireFamilies?.map(
+                  (item: selectedFareFamily, index: number) => {
+                    return (
+                      <div className="bg-white p-4 xl:w-2/3 xs:w-full rounded-lg mb-5 " key={index}>
+                        {/* // <div className="bg-white p-4  xl:w-full m-auto rounded-lg mb-5" key={index}> */}
+                        <FlightSchedule
+                          index={index}
+                          seats={false}
+                          loungeAccess={
+                            selectedFlight?.name === 'Opulence' || selectedFlight?.name === 'Bliss'
+                              ? true
+                              : false
+                          }
+                          luxuryPickup={selectedFlight?.name === 'Opulence' ? true : false}
+                          bagAllowances={[
+                            {
+                              Quantity: '4',
+                              WeightMeasureQualifier: 'KG',
+                              Weight: '32',
+                            },
+                          ]}
+                          originAirportName={item?.originName}
+                          originCode={
+                            index === 0
+                              ? selectedFlight?.details?.OriginCode
+                              : selectedFlight?.details?.DestinationCode
+                          }
+                          destinationCode={
+                            index === 0
+                              ? selectedFlight?.details?.DestinationCode
+                              : selectedFlight?.details?.OriginCode
+                          }
+                          departureDate={item?.orginDepartureDate}
+                          departureTime={item?.orginDepartureTime}
+                          arrivalDate={item?.destinationArrivalDate}
+                          arrivalTime={item?.destinationArrivalTime}
+                          destinationAirportName={item?.destinationName}
+                        />
+                      </div>
+                    );
+                  }
+                )}
+              </div>
             </div>
           ) : (
             <div> {getFieldName(flightAvailabilityContent, 'noDataFound')}</div>
@@ -119,27 +137,92 @@ const FlightInfo = (props: flightDetails) => {
         <div className="xs:not-sr-only xl:sr-only">
           <div className="mt-6">
             <div className="bg-white p-3">
-              <div className="flex justify-between my-1">
-                <p className="text-slategray text-lg font-medium">
-                  {getFieldName(flightAvailabilityContent, 'numberOfPassengers')}
-                </p>
-                <p className="font-black text-lg">{adult + children}</p>
+              <div className="mb-2">
+                <h1 className="text-lg font-black text-black">
+                  {getFieldName(flightAvailabilityContent, 'bookingSummary')}
+                </h1>
               </div>
-              <div className="flex justify-between my-1">
-                <p className="text-slategray text-lg font-medium">
-                  {getFieldName(flightAvailabilityContent, 'totalPrice')}
-                </p>
-                <p className="font-black text-lg text-black">
-                  {(selectedFlight?.details?.currency ? selectedFlight?.details?.currency : '') +
-                    ' ' +
-                    (selectedFlight?.details?.TotalAmount
-                      ? selectedFlight?.details?.TotalAmount
-                      : '')}
-                </p>
+              <div className="flex gap-3 p-3 border border-cadetgray rounded-lg mb-3">
+                <div className="flex justify-center items-center">
+                  <Image
+                    className="h-5 w-5 object-containt"
+                    src={getImageSrc(passengerContent, 'passengerLogo') as string}
+                    alt=""
+                    height={57}
+                    width={57}
+                  />
+                </div>
+                <div>
+                  <p className="text-black font-medium text-lg">
+                    {getFieldName(flightAvailabilityContent, 'passengersLabel')}
+                  </p>
+                  <p className="text-sm font-medium text-pearlgray">
+                    {`${adult} ${
+                      adult > 1
+                        ? getFieldName(passengerContent, 'adults')
+                        : getFieldName(passengerContent, 'adult')
+                    } ${
+                      children && children > 0
+                        ? `, ${children} ${
+                            children > 1
+                              ? getFieldName(passengerContent, 'children')
+                              : getFieldName(passengerContent, 'child')
+                          }`
+                        : ''
+                    }`}
+                  </p>
+                </div>
               </div>
+              <div className="bg-purpal p-4 rounded-lg">
+                <h1 className="font-black text-base black text-black">
+                  {getFieldName(flightAvailabilityContent, 'summary')}
+                </h1>
+                <div className="flex justify-between py-1">
+                  <p className="font-medium text-xs text-pearlgray">
+                    {selectedFlight?.name} {getFieldName(flightAvailabilityContent, 'xTicket')}
+                    {(adult ? adult : 1) + (children ? children : 0)}
+                  </p>
+                  <p className="font-medium text-xs text-pearlgray">
+                    {(selectedFlight?.details?.currency ? selectedFlight?.details?.currency : '') +
+                      ' ' +
+                      (selectedFlight?.details?.BaseAmount
+                        ? selectedFlight?.details?.BaseAmount.toLocaleString('en-GB')
+                        : '')}
+                  </p>
+                </div>
+                <div className="flex justify-between py-1">
+                  <p className="font-medium text-xs text-pearlgray">
+                    {getFieldName(flightAvailabilityContent, 'charges')}
+                  </p>
+                  <p className="font-medium text-xs text-pearlgray">
+                    {(selectedFlight?.details?.currency ? selectedFlight?.details?.currency : '') +
+                      ' ' +
+                      (selectedFlight?.details?.TaxAmount
+                        ? selectedFlight?.details?.TaxAmount.toLocaleString('en-GB')
+                        : '')}
+                  </p>
+                </div>
+                <div className="flex justify-between py-1">
+                  <p className="font-black text-md text-black">
+                    {getFieldName(flightAvailabilityContent, 'totalPrice')}
+                  </p>
+                  <p className="font-black text-md text-black">
+                    {(selectedFlight?.details?.currency ? selectedFlight?.details?.currency : '') +
+                      ' ' +
+                      (selectedFlight?.details?.TotalAmount
+                        ? selectedFlight?.details?.TotalAmount.toLocaleString('en-GB')
+                        : '')}
+                  </p>
+                </div>
+              </div>
+              {/* <div className="pt-3 pb-1">
+                <p className="text-aqua underline cursor-pointer">
+                  {getFieldName(flightAvailabilityContent, 'baggageRules')}
+                </p>
+              </div> */}
               <div className="flex flex-wrap -mb-px text-sm font-medium text-center  text-black ">
-                <div className="flex md:flex block h-full items-center justify-center  relative gap-3 py-3 xs:w-full">
-                  <button
+                <div className="xl:flex md:flex xs:block h-full items-center justify-center  relative gap-3 py-3 w-full">
+                  {/* <button
                     type="button"
                     className="xs:justify-center  xs:text-center text-aqua border border-aqua bg-white  font-black rounded-lg text-lg inline-flex items-center py-2 text-center button-style xl:w-1/12"
                     onClick={() => {
@@ -149,13 +232,14 @@ const FlightInfo = (props: flightDetails) => {
                         passenger: false,
                         compareFareFamily: false,
                       });
+                      document.body.style.overflow = 'hidden';
                     }}
                   >
                     {getFieldName(flightAvailabilityContent, 'editDateButton')}
-                  </button>
+                  </button> */}
                   <button
                     type="button"
-                    className={`xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center py-2 text-center button-style xl:w-1/12 ${
+                    className={`xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center py-2 text-center w-full ${
                       selectedFlight?.display && selectedFlight?.details?.OriginCode?.length > 1
                         ? ''
                         : 'opacity-40'
@@ -171,7 +255,7 @@ const FlightInfo = (props: flightDetails) => {
                         dispatch(
                           loader({
                             show: true,
-                            name: 'search',
+                            name: 'exp',
                           })
                         );
                         dispatch(

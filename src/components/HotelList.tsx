@@ -101,7 +101,7 @@ const HotelList = (props: HotelListProps): JSX.Element => {
               <div className=" xl:w-1/6 xs:w-full xl:flex md:flex xl:justify-end md:justify-end xs:pt-4">
                 <button
                   type="submit"
-                  className="text-white bg-lightorange   font-medium rounded-full text-base px-4 py-3"
+                  className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3"
                 >
                   <Text field={props.fields.browseResortsButton} />
                 </button>

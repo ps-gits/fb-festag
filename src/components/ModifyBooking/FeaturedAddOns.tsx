@@ -17,17 +17,14 @@ const FeaturedAddOns = (props: {
   const dispatch = useDispatch();
   const { featuredAddons, setFeaturedAddons } = props;
 
-  const modifyData = useSelector((state: RootState) => state?.flightDetails?.modifyData);
   const featuredAddOnsContent = useSelector(
     (state: RootState) => state?.sitecore?.bookingComplete?.fields
   );
-  const allAddOnsData = useSelector((state: RootState) =>
-    !modifyData
-      ? state?.flightDetails?.prepareFlight?.EMDTicketFareOptions
-      : state?.flightDetails?.prepareBookingModification?.EMDTicketFareOptions
+  const allAddOnsData = useSelector(
+    (state: RootState) => state?.flightDetails?.prepareBookingModification?.EMDTicketFareOptions
   );
-
   const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
+  const modifyBookingInfo = useSelector((state: RootState) => state?.flightDetails?.modifyBooking);
 
   useEffect(() => {
     const images = document.querySelectorAll('img');
@@ -50,7 +47,12 @@ const FeaturedAddOns = (props: {
     };
   };
 
-  const addCartItem = (label: string, appliableRefPassengers: string[], amount: string) => {
+  const addCartItem = (
+    label: string,
+    appliableRefPassengers: string[],
+    amount: string,
+    code: string
+  ) => {
     if (
       getParticularAddon(label) !== undefined &&
       getParticularAddon(label)?.quantity < appliableRefPassengers?.length
@@ -59,6 +61,7 @@ const FeaturedAddOns = (props: {
         featuredAddons?.map((dt) => {
           if (dt?.name === label) {
             return {
+              code: code,
               name: label,
               quantity: getParticularAddon(label)?.quantity + 1,
               amount: getParticularAddon(label)?.amount + Number(amount),
@@ -71,6 +74,7 @@ const FeaturedAddOns = (props: {
           featuredAddons?.map((dt) => {
             if (dt?.name === label) {
               return {
+                code: code,
                 name: label,
                 quantity: getParticularAddon(label)?.quantity + 1,
                 amount: getParticularAddon(label)?.amount + Number(amount),
@@ -82,12 +86,13 @@ const FeaturedAddOns = (props: {
     }
   };
 
-  const removeCartItem = (label: string, amount: string) => {
+  const removeCartItem = (label: string, amount: string, code: string) => {
     setFeaturedAddons(
       getParticularAddon(label)?.quantity > 1
         ? featuredAddons?.map((dt) => {
             if (dt?.name === label) {
               return {
+                code: code,
                 name: label,
                 quantity: getParticularAddon(label)?.quantity - 1,
                 amount: getParticularAddon(label)?.amount - Number(amount),
@@ -102,6 +107,7 @@ const FeaturedAddOns = (props: {
           ? featuredAddons?.map((dt) => {
               if (dt?.name === label) {
                 return {
+                  code: code,
                   name: label,
                   quantity: getParticularAddon(label)?.quantity - 1,
                   amount: getParticularAddon(label)?.amount - Number(amount),
@@ -115,20 +121,23 @@ const FeaturedAddOns = (props: {
 
   return (
     <div className="xs:mb-40 xl:mb-0">
-      <div>
-        <h1 className="font-black text-xl text-black">
-          {getFieldName(featuredAddOnsContent, 'featuredAddons')}
-        </h1>
-      </div>
+      {selectedAddOns?.length > 0 && (
+        <div>
+          <h1 className="font-black text-xl text-black">
+            {getFieldName(featuredAddOnsContent, 'featuredAddons')}
+          </h1>
+        </div>
+      )}
       {selectedAddOns?.map(
         (
           item: {
             Label: string;
             SaleCurrencyAmount: {
-              TotalAmount: string;
+              TotalAmount: number;
             };
             AppliableRefPassengers: string[];
             HtmlDescription: string;
+            AncillaryCode: string;
           },
           index: number
         ) => {
@@ -138,15 +147,19 @@ const FeaturedAddOns = (props: {
                 <div>
                   <h1 className="text-base font-black text-black">{item?.Label}</h1>
                   <p className="font-black text-sm text-aqua">
-                    {(flightInfo?.details?.currency ? flightInfo?.details?.currency : '') +
+                    {(modifyBookingInfo?.Amount?.SaleCurrencyCode
+                      ? modifyBookingInfo?.Amount?.SaleCurrencyCode
+                      : flightInfo?.details?.currency
+                      ? flightInfo?.details?.currency
+                      : '') +
                       ' ' +
-                      item?.SaleCurrencyAmount?.TotalAmount}{' '}
+                      item?.SaleCurrencyAmount?.TotalAmount?.toLocaleString('en-GB')}{' '}
                     {getFieldName(featuredAddOnsContent, 'perPerson')}
                   </p>
                 </div>
                 {featuredAddons?.find((dt) => dt?.name === item?.Label) === undefined ? (
                   <div
-                    className="h-28 w-44 object-contain rounded-md flex justify-end"
+                    className="h-28 w-44  object-contain rounded-md flex justify-end"
                     onClick={() => {
                       setFeaturedAddons((prev) => [
                         ...prev,
@@ -154,6 +167,7 @@ const FeaturedAddOns = (props: {
                           name: item?.Label,
                           amount: Number(item?.SaleCurrencyAmount?.TotalAmount),
                           quantity: 1,
+                          code: item?.AncillaryCode,
                         },
                       ]);
                       dispatch(
@@ -163,12 +177,14 @@ const FeaturedAddOns = (props: {
                             name: item?.Label,
                             amount: Number(item?.SaleCurrencyAmount?.TotalAmount),
                             quantity: 1,
+                            code: item?.AncillaryCode,
                           },
                         ])
                       );
                     }}
                   >
-                    {parse(item?.HtmlDescription?.replace(/style="[^"]*"/, ''))}
+                    {item?.HtmlDescription &&
+                      parse(item?.HtmlDescription?.replace(/style="[^"]*"/, ''))}
                   </div>
                 ) : (
                   <div>
@@ -176,12 +192,16 @@ const FeaturedAddOns = (props: {
                       <div className="custom-number-input h-7 w-20">
                         <div className="flex flex-row h-7 w-full rounded-lg relative bg-transparent mt-1">
                           <button
-                            className={`bg-lightblue flex text-gray-600 rounded-md  h-full w-20 `}
+                            className={`bg-lightred flex text-gray-600 rounded-md  h-full w-20 `}
                             onClick={() =>
-                              removeCartItem(item?.Label, item?.SaleCurrencyAmount?.TotalAmount)
+                              removeCartItem(
+                                item?.Label,
+                                String(item?.SaleCurrencyAmount?.TotalAmount),
+                                item?.AncillaryCode
+                              )
                             }
                           >
-                            <span className="m-auto text-xl font-thin text-aqua ">
+                            <span className="m-auto text-xl font-thin text-lightred ">
                               <Image
                                 src={getImageSrc(featuredAddOnsContent, 'trashIcon') as string}
                                 className="text-red text-sm font-black h-5 w-5"
@@ -191,7 +211,7 @@ const FeaturedAddOns = (props: {
                               />
                             </span>
                           </button>
-                          <div className="text-center w-full font-semibold text-md flex items-center text-black">
+                          <div className="text-center w-full justify-center font-semibold text-md flex items-center text-black">
                             {getParticularAddon(item?.Label)?.quantity}
                           </div>
                           <button
@@ -211,7 +231,8 @@ const FeaturedAddOns = (props: {
                               addCartItem(
                                 item?.Label,
                                 item?.AppliableRefPassengers,
-                                item?.SaleCurrencyAmount?.TotalAmount
+                                String(item?.SaleCurrencyAmount?.TotalAmount),
+                                item?.AncillaryCode
                               )
                             }
                           >

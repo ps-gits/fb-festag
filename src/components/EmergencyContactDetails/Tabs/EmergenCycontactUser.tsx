@@ -88,7 +88,7 @@ const EmergencyContactUser = () => {
                   id="default-checkbox"
                   type="checkbox"
                   value=""
-                  className="w-4 h-4 text-black-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  className="w-4 h-4 text-black-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2    dark:border-gray-600"
                 />
                 <label htmlFor="default-checkbox" className="font-normal text-base text-black ml-2">
                   Apply to all passengers{' '}
@@ -117,7 +117,7 @@ const EmergencyContactUser = () => {
           <div className="lg:flex md:flex block h-full items-center justify-center relative gap-3 w-full m-auto opacity-30">
             <button
               type="button"
-              className="w-full xs:justify-center  xs:text-center text-white bg-aqua focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center "
+              className="w-full xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center "
             >
               Save & Continue
             </button>

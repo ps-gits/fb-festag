@@ -138,7 +138,7 @@ const Departments = (props: DepartmentsProps): JSX.Element => {
         <div className="pt-10">
           <button
             type="submit"
-            className="text-white bg-lightorange   font-medium rounded-full text-base px-4 py-3"
+            className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3"
             onClick={() => router.push('/faqs')}
           >
             <Text field={props.fields.browseAllFaqsButton} />

@@ -19,6 +19,35 @@ function App({ Component, pageProps }: AppProps<SitecorePageProps>): JSX.Element
 
   useEffect(() => {
     setMount(true);
+    function disableForwardButton() {
+      let flag: boolean,
+        loop = false;
+      window.addEventListener('popstate', function () {
+        if (flag) {
+          if (history.state && history.state.hasOwnProperty('page')) {
+            loop = true;
+            history.go(-1);
+          } else {
+            loop = false;
+            history.go(-1);
+          }
+        } else {
+          history.pushState(
+            {
+              page: true,
+            },
+            null as unknown as string,
+            null
+          );
+        }
+        flag = loop ? true : !flag;
+      });
+
+      window.onclick = function () {
+        flag = false;
+      };
+    }
+    disableForwardButton();
   }, []);
 
   return (
