@@ -59,7 +59,7 @@ const HomepageDetails = (props: HomepageDetailsProps): JSX.Element => {
                         </button>
                       </div>
                     </div>
-                    <div className="md:w-1/2 lg:w-7/12xs:w-full xs:mt-7 md:flex justify-end">
+                    <div className="md:w-1/2 lg:w-7/12 xs:w-full xs:mt-7 md:flex justify-end">
                       <div className="flex max-w-md justify-center m-auto md:m-0 md:max-w-2xl md:justify-end flex-wrap">
                         <div className='gallery-images'>
                           <JssImage

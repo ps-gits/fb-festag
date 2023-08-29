@@ -179,7 +179,7 @@ const CancelBooking = () => {
                 />
               </div>
               <div className="xl:not-sr-only	xs:sr-only">
-                <div className="fixed top-24 right-3.5  xl:m-auto price-modal ">
+                <div className="fixed top-24 right-3.5  xl:m-auto price-modal  z-50	">
                   <TotalRefundPrice />
                 </div>
               </div>

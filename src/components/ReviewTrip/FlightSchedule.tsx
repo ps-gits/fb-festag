@@ -126,22 +126,12 @@ const FlightSchedule = (props: flightSchedule) => {
                 <p className="font-black text-sm text-black">
                   Baggage{' '}
                   {Array.isArray(bagAllowances)
-                    ? bagAllowances?.map((dt) =>
-                        dt?.Quantity
-                          ? dt?.Quantity +
-                            'x' +
-                            dt?.Weight +
-                            dt?.WeightMeasureQualifier?.toLowerCase()
-                          : ''
-                      )
-                    : bagAllowances?.Quantity
-                    ? bagAllowances?.Quantity +
-                      'x' +
-                      bagAllowances?.Weight +
-                      bagAllowances?.WeightMeasureQualifier?.toLowerCase()
+                    ? bagAllowances?.map((dt) => (dt?.Weight ? dt?.Weight : ''))
+                    : bagAllowances?.Weight
+                    ? bagAllowances?.Weight
                     : ''}
                 </p>
-                <p className="font-medium text-xs text-slategray">Cabin Baggage 7kg</p>
+                <p className="font-medium text-xs text-slategray">Maximum bags allowed - 4</p>
               </div>
             </div>
             {/* <div className="flex gap-3 py-2">

@@ -799,6 +799,51 @@ svg.h-6.w-6.shrink-0 {
   height: 389px;
 }
 
+.my-row {
+  margin-left: -6px;
+  margin-right: -6px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-6 {
+  flex: 0 0 50%;
+  width: 50%;
+  padding: 0 6px;
+}
+
+.col-3 {
+  flex: 0 0 25%;
+  width: 25%;
+  padding: 0 6px;
+}
+
+.col-75 {
+  flex: 0 0 75%;
+  width: 75%;
+  padding: 0 6px;
+}
+
+.farelist ul {
+  text-align: left;
+  padding-left: 25px;
+}
+
+.farelist ul li {
+  list-style: disc;
+  margin: 0 0 8px;
+}
+
+.farelist ul ul li {
+  list-style: circle;
+  margin: 0 0 8px;
+}
+
+.farelist ul ul ul li {
+  list-style: square;
+  margin: 0 0 8px;
+}
+
 @media screen and (max-width: 1536.1px) {
   .flight-img {
     width: 650px;
@@ -836,8 +881,8 @@ svg.h-6.w-6.shrink-0 {
   }
 
   .flight-img {
-    width: 350px;
-    height: 330px;
+    width: 400px;
+    height: 380px;
   }
 
   .gallery-images {
@@ -863,5 +908,9 @@ svg.h-6.w-6.shrink-0 {
     width: 100%;
     height: 100%;
     margin-bottom: 25px;
+  }
+
+  .blog-img {
+    height: auto !important;
   }
 }

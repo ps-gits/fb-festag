@@ -87,7 +87,8 @@ const ReviewTrip = () => {
     return (
       <div>
         <div className="bg-white p-3 rounded-lg">
-          <div className="flex justify-between my-1">
+          {/* hide-flightPrice */}
+          {/* <div className="flex justify-between my-1">
             <p className="text-slategray text-base font-medium">
               {getFieldName(reviewTripContent, 'flightPrice')}
             </p>
@@ -98,13 +99,14 @@ const ReviewTrip = () => {
                   ? createBookingInfo?.Amount?.TotalAmount?.toLocaleString('en-GB')
                   : '')}
             </p>
-          </div>
-          <div className="flex justify-between my-1">
+          </div> */}
+          {/* hide-addOns */}
+          {/* <div className="flex justify-between my-1">
             <p className="text-slategray text-base font-medium">
               {getFieldName(reviewTripContent, 'addons')}
             </p>
             <p className="font-medium text-base text-black">0</p>
-          </div>
+          </div> */}
           <div className="flex justify-between mt-5">
             <p className="text-slategray text-lg font-medium">
               {getFieldName(reviewTripContent, 'totalPrice')}
@@ -117,8 +119,8 @@ const ReviewTrip = () => {
                   : '')}
             </p>
           </div>
-          <div className="flex justify-between mt-5" onClick={() => setFareModal(true)}>
-            <p className="text-aqua underline cursor-pointer">Fare & Baggage Rules</p>
+          <div className="flex justify-between ">
+            <p className="text-slategray text-sm font-medium">With Seats, Add-ons and Taxes </p>
           </div>
           <div className="flex items-center my-2">
             <input
@@ -142,6 +144,16 @@ const ReviewTrip = () => {
               >
                 {getFieldName(reviewTripContent, 'termsConditions')}
               </a>
+              <span className="text-sm font-medium"> and </span>
+              <span
+                className="text-sm text-aqua font-medium cursor-pointer"
+                onClick={() => {
+                  setFareModal(true);
+                  document.body.style.overflow = 'hidden';
+                }}
+              >
+                Fare & Baggage Rules
+              </span>
             </label>
           </div>
           <div className="py-3 lg:flex md:flex block h-full items-center justify-center relative gap-3 w-full   m-auto">
@@ -201,7 +213,7 @@ const ReviewTrip = () => {
               />
             </div>
             <div className="xl:not-sr-only	xs:sr-only">
-              <div className="fixed top-24 right-3.5  xl:m-auto price-modal ">
+              <div className="fixed top-24 right-3.5  xl:m-auto price-modal  z-50	">
                 <TotalPricing />
               </div>
             </div>

@@ -34,8 +34,8 @@ const BookYourDreamFlight = (props: BookYourDreamFlightProps): JSX.Element => {
             <div className="xl:pt-32 xl:pb-32 md:pt-28 md:pb-28 relative flex align-center">
               <div className="xl:flex md:flex xs:block items-center bg-purpal w-full rounded-3xl xs:h-auto relative md:items-center">
                 <div className="xl:w-5/12 md:w-1/2  xs:w-full xl:py-20 md:py-8 lg:py-16">
-                  <div className="px-6 pt-6 xl:pl-14 pb-64 md:pb-0 lg:pl-10 md:pl-8">
-                    <h2 className="text-3xl xl:text-5xl md:text-4xl md:text-2xl md:mb-6 lg:mb-8 mb-5 font-bold text-black xl:leading-tight">
+                  <div className="px-6 pt-6 md:pt-0 xl:pl-14 pb-64 md:pb-0 lg:pl-10 md:pl-8">
+                    <h2 className="text-3xl xl:text-5xl lg:text-4xl md:text-2xl md:mb-6 lg:mb-8 mb-5 font-bold text-black xl:leading-tight">
                       <Text field={props.fields.heading} />
                     </h2>
                     <p className="text-xl text-pearlgray md:mb-6 lg:mb-8 mb-5 leading-8">

@@ -780,7 +780,7 @@ const FlightAvailability = () => {
                                             {index === 0 ? originCode : destinationCode}
                                           </h1>
                                           <p className="font-light text-xs text-pearlgray">
-                                            {index === 0 ? item?.originName : item?.destinationName}
+                                            {item?.originName}
                                           </p>
                                         </div>
                                         <div className="flex justify-around items-center w-2/6">
@@ -827,7 +827,7 @@ const FlightAvailability = () => {
                                             {index === 0 ? destinationCode : originCode}
                                           </h1>
                                           <p className="font-light text-xs text-pearlgray">
-                                            {index === 0 ? item?.destinationName : item?.originName}
+                                            {item?.destinationName}
                                           </p>
                                         </div>
                                       </div>
@@ -1180,7 +1180,7 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 ${
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${
                                             item?.delight?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
@@ -1192,7 +1192,7 @@ const FlightAvailability = () => {
                                               'null' && (
                                               <div className="relative flex flex-col items-center group">
                                                 <span className="pl-1">
-                                                  {/* <Image
+                                                  <Image
                                                     src={getImageSrc(
                                                       flightAvailabilityContent,
                                                       'infoIcon'
@@ -1201,7 +1201,7 @@ const FlightAvailability = () => {
                                                     alt="tooltip"
                                                     width={336}
                                                     height={201}
-                                                  /> */}
+                                                  />
                                                 </span>
                                                 <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex  w-64 pl-3">
                                                   <span className="relative z-10 p-2 text-xs   whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
@@ -1277,7 +1277,7 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 ${
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${
                                             item?.delight?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
@@ -1289,7 +1289,7 @@ const FlightAvailability = () => {
                                               'null' && (
                                               <div className="relative flex flex-col items-center group">
                                                 <span className="pl-1">
-                                                  {/* <Image
+                                                  <Image
                                                     src={getImageSrc(
                                                       flightAvailabilityContent,
                                                       'infoIcon'
@@ -1298,7 +1298,7 @@ const FlightAvailability = () => {
                                                     alt="tooltip"
                                                     width={336}
                                                     height={201}
-                                                  /> */}
+                                                  />
                                                 </span>
                                                 <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex  w-64 pl-3">
                                                   <span className="relative z-10 p-2 text-xs   whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
@@ -1321,7 +1321,7 @@ const FlightAvailability = () => {
                             <div className="mt-2">
                               <button
                                 type="button"
-                                className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-2 py-2 text-center my-1"
+                                className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-3 py-2 text-center border border-aqua"
                                 onClick={continueButton}
                               >
                                 {getFieldName(flightAvailabilityContent, 'continue')}
@@ -1451,7 +1451,7 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 ${
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${
                                             item?.bliss?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
@@ -1462,7 +1462,7 @@ const FlightAvailability = () => {
                                             item?.bliss?.description?.toLowerCase() !== 'null' && (
                                               <div className="relative flex flex-col items-center group">
                                                 <span className="pl-1">
-                                                  {/* <Image
+                                                  <Image
                                                     src={getImageSrc(
                                                       flightAvailabilityContent,
                                                       'infoIcon'
@@ -1471,7 +1471,7 @@ const FlightAvailability = () => {
                                                     alt="tooltip"
                                                     width={336}
                                                     height={201}
-                                                  /> */}
+                                                  />
                                                 </span>
                                                 <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex  w-64 pl-3">
                                                   <span className="relative z-10 p-2 text-xs   whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
@@ -1547,7 +1547,7 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 ${
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black align-center ${
                                             item?.bliss?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
@@ -1558,7 +1558,7 @@ const FlightAvailability = () => {
                                             item?.bliss?.description?.toLowerCase() !== 'null' && (
                                               <div className="relative flex flex-col items-center group">
                                                 <span className="pl-1">
-                                                  {/* <Image
+                                                  <Image
                                                     src={getImageSrc(
                                                       flightAvailabilityContent,
                                                       'infoIcon'
@@ -1567,7 +1567,7 @@ const FlightAvailability = () => {
                                                     alt="tooltip"
                                                     width={336}
                                                     height={201}
-                                                  /> */}
+                                                  />
                                                 </span>
                                                 <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex  w-64 pl-3">
                                                   <span className="relative z-10 p-2 text-xs   whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
@@ -1589,7 +1589,7 @@ const FlightAvailability = () => {
                             getFieldName(flightAvailabilityContent, 'bliss') && (
                             <button
                               type="button"
-                              className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-base inline-flex items-center px-2 py-2 text-center my-3"
+                              className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-3 py-2 text-center border border-aqua"
                               onClick={continueButton}
                             >
                               {getFieldName(flightAvailabilityContent, 'continue')}
@@ -1726,7 +1726,7 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 ${
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black align-center ${
                                             item?.opulence?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
@@ -1738,7 +1738,7 @@ const FlightAvailability = () => {
                                               'null' && (
                                               <div className="relative flex flex-col items-center group">
                                                 <span className="pl-1">
-                                                  {/* <Image
+                                                  <Image
                                                     src={getImageSrc(
                                                       flightAvailabilityContent,
                                                       'infoIcon'
@@ -1747,7 +1747,7 @@ const FlightAvailability = () => {
                                                     alt="tooltip"
                                                     width={336}
                                                     height={201}
-                                                  /> */}
+                                                  />
                                                 </span>
                                                 <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex  w-64 pl-3">
                                                   <span className="relative z-10 p-2 text-xs   whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
@@ -1822,38 +1822,43 @@ const FlightAvailability = () => {
                                         </div>
                                       </th>
                                       <td className="px-2 py-4 ">
-                                        <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 ${
-                                            item?.opulence?.information?.toLowerCase() === 'free'
-                                              ? 'text-green'
-                                              : 'text-black'
-                                          }`}
-                                        >
-                                          {item?.opulence?.information}
+                                        <div className="flex align-center justify-between">
+                                          <div
+                                            className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black align-center ${
+                                              item?.opulence?.information?.toLowerCase() === 'free'
+                                                ? 'text-green'
+                                                : 'text-black'
+                                            }`}
+                                          >
+                                            {item?.opulence?.information}
+                                          </div>
+                                          <div>
+                                            {item?.opulence?.description?.length > 0 &&
+                                              item?.opulence?.description?.toLowerCase() !==
+                                                'null' && (
+                                                <div className="relative flex flex-col items-center group ">
+                                                  <span className="pl-1">
+                                                    <Image
+                                                      src={getImageSrc(
+                                                        flightAvailabilityContent,
+                                                        'infoIcon'
+                                                      )}
+                                                      width={16}
+                                                      height={17}
+                                                      className=" w-5 h-5 object-cover"
+                                                      alt="tooltip"
+                                                    />
+                                                  </span>
+                                                  <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex  w-64 pl-3">
+                                                    <span className="relative z-10 p-2 text-xs   whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
+                                                      {item?.opulence?.description}
+                                                    </span>
+                                                    <div className="w-4 h-4 -mt-2 rotate-45 border border-t-0 border-l-0 z-50 shadow-lg border-graylight bg-white"></div>
+                                                  </div>
+                                                </div>
+                                              )}
+                                          </div>
                                         </div>
-                                        {item?.opulence?.description?.length > 0 &&
-                                          item?.opulence?.description?.toLowerCase() !== 'null' && (
-                                            <div className="relative flex flex-col items-center group">
-                                              <span className="pl-1">
-                                                {/* <Image
-                                                  src={getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'infoIcon'
-                                                  )}
-                                                  width={16}
-                                                  height={17}
-                                                  className=" w-5 h-5 object-cover"
-                                                  alt="tooltip"
-                                                /> */}
-                                              </span>
-                                              <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex  w-64 pl-3">
-                                                <span className="relative z-10 p-2 text-xs   whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
-                                                  {item?.opulence?.description}
-                                                </span>
-                                                <div className="w-4 h-4 -mt-2 rotate-45 border border-t-0 border-l-0 z-50 shadow-lg border-graylight bg-white"></div>
-                                              </div>
-                                            </div>
-                                          )}
                                       </td>
                                     </tr>
                                   )
@@ -1865,7 +1870,7 @@ const FlightAvailability = () => {
                             getFieldName(flightAvailabilityContent, 'opulence') && (
                             <button
                               type="button"
-                              className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-5 py-3 text-center my-1"
+                              className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-3 py-2 text-center border border-aqua"
                               onClick={continueButton}
                             >
                               {getFieldName(flightAvailabilityContent, 'continue')}

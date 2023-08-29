@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { AnyAction } from 'redux';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-//imports
+
 import {
   setModifyMeal,
   setModifySeat,
@@ -344,7 +344,7 @@ const BookingComplete = () => {
               ''
             ) : (
               <div className="xl:not-sr-only	xs:sr-only">
-                <div className="fixed top-24 right-3.5  xl:m-auto price-modal ">
+                <div className="fixed top-24 right-3.5  xl:m-auto price-modal  z-50	">
                   <ModifyBookingModal
                     openModal={() => {
                       setShowModal({

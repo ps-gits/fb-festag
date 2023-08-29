@@ -36,7 +36,7 @@ const CheckIn = () => {
                   />
                 </div>
                 <div className="xl:not-sr-only	xs:sr-only">
-                  <div className="fixed top-24 right-3.5  xl:m-auto price-modal ">
+                  <div className="fixed top-24 right-3.5  xl:m-auto price-modal  z-50	">
                     <div>
                       <div className="bg-white p-3 rounded-lg">
                         <div className="pt-3 lg:flex md:flex block h-full items-center justify-center relative gap-3 w-full   m-auto">

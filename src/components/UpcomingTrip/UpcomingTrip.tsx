@@ -52,7 +52,7 @@ const UpcomingTrip = () => {
           <Image src={banner} className="xs:absolute  inset-0 h-full w-full object-cover" alt="" />
         </div>
         <div className="xl:not-sr-only	xs:sr-only">
-          <div className="fixed top-24 right-3.5  xl:m-auto price-modal ">
+          <div className="fixed top-24 right-3.5  xl:m-auto price-modal  z-50	">
             <ModifyBooking />
           </div>
         </div>

@@ -68,27 +68,27 @@ const LandingPageSearchBar = (props: tabType) => {
       Passengers:
         childrens > 0
           ? [
-              {
-                Ref: 'P1',
-                RefClient: '',
-                PassengerQuantity: adult,
-                PassengerTypeCode: 'AD',
-              },
-              {
-                Ref: 'P2',
-                RefClient: '',
-                PassengerQuantity: childrens,
-                PassengerTypeCode: 'CHD',
-              },
-            ]
+            {
+              Ref: 'P1',
+              RefClient: '',
+              PassengerQuantity: adult,
+              PassengerTypeCode: 'AD',
+            },
+            {
+              Ref: 'P2',
+              RefClient: '',
+              PassengerQuantity: childrens,
+              PassengerTypeCode: 'CHD',
+            },
+          ]
           : [
-              {
-                Ref: 'P1',
-                RefClient: '',
-                PassengerQuantity: adult,
-                PassengerTypeCode: 'AD',
-              },
-            ],
+            {
+              Ref: 'P1',
+              RefClient: '',
+              PassengerQuantity: adult,
+              PassengerTypeCode: 'AD',
+            },
+          ],
       OriginDestinations: [
         {
           TargetDate: departDate as Date,
@@ -139,12 +139,12 @@ const LandingPageSearchBar = (props: tabType) => {
           <div className="xl:flex md:flex xl:py-0   xs:block  xl:m-auto gap-2 relative items-center ">
             <div className="w-full">
               <div>
-                <div className="xl:flex md:flex xs:block w-full gap-2">
-                  <div className="xl:w-1/4 xs:w-full xl:mb-0 xs:mb-2 md:mb-0">
+                <div className="flex my-row mb-6">
+                  <div className="col-3 xl:mb-0 mb-2 md:mb-0">
                     <div>
-                      <div className=" bg-white px-2 xl:py-0 xs:py-2 rounded border border-cadetgray w-full ">
+                      <div className="bg-white p-2 rounded border border-cadetgray w-full">
                         <div
-                          className="flex gap-3 items-center py-2 cursor-pointer"
+                          className="flex items-center cursor-pointer"
                           onClick={() => {
                             setOpenSelectModal(true);
                             setLoading(true);
@@ -153,37 +153,36 @@ const LandingPageSearchBar = (props: tabType) => {
                             document.body.style.overflow = 'hidden';
                           }}
                         >
-                          <div className="w-full">
-                            <div className="flex items-center gap-2">
-                              <div>
-                                <Image src={takeoff} className=" h-4 w-4" alt="" />
+                          <div className="w-full relative">
+                            <div className="flex items-center px-6">
+                              <div className='absolute left-0 m-auto'>
+                                <Image src={takeoff} className="h-4 w-4" alt="" />
                               </div>
-                              <div>
+                              <div className='w-full'>
                                 <div
-                                  className={`font-medium text-sm ${
-                                    originCode?.length > 0 ? 'text-slategray' : 'text-black'
-                                  }`}
+                                  className={`font-medium text-sm ${originCode?.length > 0 ? 'text-slategray' : 'text-black'
+                                    }`}
                                 >
                                   <p>{getFieldName(landingPageSearchContent, 'from')}</p>
                                 </div>
                                 <div className="flex justify-between">
                                   <div
-                                    className={`block text-start dark:focus:ring-blue-800 ${
-                                      originCode?.length > 0 ? 'text-black' : 'text-slategray'
-                                    } font-normal  text-sm  w-full`}
+                                    className={`block text-start dark:focus:ring-blue-800 whitespace-nowrap text-ellipsis block overflow-hidden ${originCode?.length > 0 ? 'text-black' : 'text-slategray'
+                                      } font-normal  text-sm  w-full`}
                                   >
                                     {originCode?.length
                                       ? dropdownOptions?.find((item) => item?.code === originCode)
-                                          ?.Label
+                                        ?.Label
                                       : getFieldName(searchFlightContent, 'departFromPlaceholder')}
                                   </div>
                                 </div>
                               </div>
+                              <div className="text-black text-sm absolute right-2 m-auto">
+                                <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
+                              </div>
                             </div>
                           </div>
-                          <div className="text-black text-sm">
-                            <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
-                          </div>
+
                         </div>
                         {openSelectModal && (
                           <DropdownModal
@@ -212,13 +211,12 @@ const LandingPageSearchBar = (props: tabType) => {
                       </div>
                     </div>
                   </div>
-                  <div className="xl:w-1/4 xs:w-full xl:mb-0 xs:mb-2 md:mb-0">
+                  <div className="col-3 xl:mb-0 mb-2 md:mb-0">
                     <div
-                      className={` bg-white px-2 xl:py-0 rounded border border-cadetgray w-full ${
-                        flightDetails?.originCode?.length > 0
-                          ? 'cursor-pointer'
-                          : 'cursor-not-allowed'
-                      }`}
+                      className={`bg-white px-2 xl:py-0 rounded border border-cadetgray w-full ${flightDetails?.originCode?.length > 0
+                        ? 'cursor-pointer'
+                        : 'cursor-not-allowed'
+                        }`}
                     >
                       <div
                         className="flex gap-3 items-center py-2"
@@ -236,40 +234,38 @@ const LandingPageSearchBar = (props: tabType) => {
                           }
                         }}
                       >
-                        <div className="w-full">
-                          <div className="flex items-center gap-2">
-                            <div>
+                        <div className="w-full relative">
+                          <div className="flex items-center px-6">
+                            <div className='absolute left-0 m-auto'>
                               <Image src={land} className=" h-4 w-4" alt="" />
                             </div>
-                            <div>
+                            <div className='w-full'>
                               <div
-                                className={`font-medium text-sm ${
-                                  destinationCode?.length > 0 ? 'text-slategray' : 'text-black'
-                                }`}
+                                className={`font-medium text-sm ${destinationCode?.length > 0 ? 'text-slategray' : 'text-black'
+                                  }`}
                               >
                                 <p>{getFieldName(landingPageSearchContent, 'destination')}</p>
                               </div>
                               <div className="flex justify-between">
                                 <div
-                                  className={`block text-start dark:focus:ring-blue-800 ${
-                                    destinationCode?.length > 0 ? 'text-black' : 'text-slategray'
-                                  } font-normal text-sm w-full`}
+                                  className={`block text-start dark:focus:ring-blue-800 whitespace-nowrap text-ellipsis block overflow-hidden ${destinationCode?.length > 0 ? 'text-black' : 'text-slategray'
+                                    } font-normal text-sm w-full`}
                                 >
                                   {destinationCode?.length &&
-                                  dropdownOptionDestination?.find(
-                                    (item) => item?.code === destinationCode
-                                  )?.Label
+                                    dropdownOptionDestination?.find(
+                                      (item) => item?.code === destinationCode
+                                    )?.Label
                                     ? dropdownOptionDestination?.find(
-                                        (item) => item?.code === destinationCode
-                                      )?.Label
+                                      (item) => item?.code === destinationCode
+                                    )?.Label
                                     : getFieldName(searchFlightContent, 'departFromPlaceholder')}
                                 </div>
                               </div>
                             </div>
+                            <div className="text-black text-sm absolute right-2 m-auto">
+                              <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
+                            </div>
                           </div>
-                        </div>
-                        <div className="text-black text-sm">
-                          <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
                         </div>
                       </div>
                       {showModal?.destination && (
@@ -320,10 +316,10 @@ const LandingPageSearchBar = (props: tabType) => {
                       </p>
                     </div>
                   </div>
-                  <div className="xl:w-1/4 md:w-full xs:full rounded border bg-white border-cadetgray xl:mb-0 xs:mb-2">
-                    <div className="flex items-center xl:py-2 xs:py-2">
+                  <div className="col-3 xs:full mb-2 md:mb-0">
+                    <div className="flex items-center p-2 rounded border bg-white border-cadetgray">
                       <button
-                        className="relative  px-2 font-semibold  border-0 w-full block text-black  text-sm  text-left "
+                        className="relative font-semibold border-0 w-full block text-black text-sm text-left "
                         type="button"
                         onClick={() => {
                           setShowModal({
@@ -336,20 +332,18 @@ const LandingPageSearchBar = (props: tabType) => {
                           document.body.style.overflow = 'hidden';
                         }}
                       >
-                        <div className="flex items-center gap-2">
-                          <div>
+                        <div className="flex items-center px-6 w-full relative">
+                          <div className='absolute left-0 m-auto'>
                             <Image src={calendar} className=" h-4 w-4" alt="" />
                           </div>
-                          <div>
-                            <p className="font-medium text-sm text-slategray">
+                          <div className='w-full'>
+                            <p className="font-medium text-sm text-slategray whitespace-nowrap text-ellipsis block overflow-hidden">
                               {getFieldName(landingPageSearchContent, 'departOn')}
                             </p>
-                            <div className="flex justify-between">
-                              <p className=" font-normal text-sm text-black">{getDate('depart')}</p>
-                              <div className="absolute right-2 top-4 text-black text-sm">
-                                <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
-                              </div>
-                            </div>
+                            <p className=" font-normal text-sm text-black whitespace-nowrap text-ellipsis block overflow-hidden">{getDate('depart')}</p>
+                          </div>
+                          <div className="absolute right-0 m-auto text-black text-sm">
+                            <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
                           </div>
                         </div>
                       </button>
@@ -380,10 +374,10 @@ const LandingPageSearchBar = (props: tabType) => {
                       />
                     </div>
                   </div>
-                  <div className="xl:w-1/4 md:w-full xs:full rounded border bg-white border-cadetgray xl:mb-0 xs:mb-2 ">
-                    <div className="flex items-center xl:py-2 xs:py-2">
+                  <div className="col-3 xs:full mb-2 md:mb-0">
+                    <div className="flex items-center p-2 rounded border bg-white border-cadetgray">
                       <button
-                        className="relative  px-2   font-semibold  border-0 w-full block text-black text-left"
+                        className="relative font-semibold border-0 w-full block text-black text-left"
                         type="button"
                         onClick={() => {
                           setShowModal({
@@ -396,20 +390,18 @@ const LandingPageSearchBar = (props: tabType) => {
                           document.body.style.overflow = 'hidden';
                         }}
                       >
-                        <div className="flex items-center gap-2">
-                          <div>
+                        <div className="flex items-center relative px-6">
+                          <div className='absolute left-0 m-auto'>
                             <Image src={calendar} className=" h-4 w-4" alt="" />
                           </div>
-                          <div>
-                            <p className="font-medium text-sm text-slategray">
+                          <div className='w-full'>
+                            <p className="font-medium text-sm text-slategray whitespace-nowrap text-ellipsis block overflow-hidden">
                               {getFieldName(landingPageSearchContent, 'returnOn')}
                             </p>
-                            <div>
-                              <p className=" font-normal text-sm text-black">{getDate('return')}</p>
-                              <div className="absolute right-2 top-4 text-black text-sm">
-                                <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
-                              </div>
-                            </div>
+                            <p className="font-normal text-sm text-black whitespace-nowrap text-ellipsis block overflow-hidden">{getDate('return')}</p>
+                          </div>
+                          <div className="absolute right-0 m-auto text-black text-sm">
+                            <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
                           </div>
                         </div>
                       </button>
@@ -476,13 +468,13 @@ const LandingPageSearchBar = (props: tabType) => {
                   </div>
                 </div>
 
-                <div>
-                  <div className="xl:flex md:flex xs:block search-boxes gap-2 xl:pt-2 xs:pt-0">
-                    <div className="xl:flex md:flex  xs:block gap-2 w-full">
-                      <div className="xl:w-1/2 xs:w-full  rounded border bg-white  border-cadetgray ">
-                        <div className="flex items-center xl:py-2 xs:py-2 ">
+                <div className="my-row">
+                  <div className="col-75">
+                    <div className="my-row">
+                      <div className="col-6">
+                        <div className="flex items-center p-2 rounded border bg-white  border-cadetgray">
                           <button
-                            className="relative  px-2  font-semibold  border-0 w-full block text-black  text-sm  text-left"
+                            className="relative font-semibold border-0 w-full block text-black text-sm text-left"
                             type="button"
                             onClick={() => {
                               setShowModal({
@@ -495,33 +487,30 @@ const LandingPageSearchBar = (props: tabType) => {
                               document.body.style.overflow = 'hidden';
                             }}
                           >
-                            <div className="flex items-center gap-2">
-                              <div>
+                            <div className="flex items-center w-full px-6 relative">
+                              <div className='absolute left-0 m-auto'>
                                 <Image src={users} className=" h-4 w-4" alt="" />
                               </div>
-                              <div>
+                              <div className='w-full'>
                                 <p className="font-medium text-sm text-slategray">
                                   {getFieldName(searchFlightContent, 'passengers')}
                                 </p>
                                 <div>
                                   <p className=" font-normal text-sm text-black">
-                                    {`${adult} ${
-                                      adult > 1
-                                        ? getFieldName(passengerContent, 'adults')
-                                        : getFieldName(passengerContent, 'adult')
-                                    } ${
-                                      childrens > 0
-                                        ? `, ${childrens} ${
-                                            childrens > 1
-                                              ? getFieldName(passengerContent, 'children')
-                                              : getFieldName(passengerContent, 'child')
-                                          }`
+                                    {`${adult} ${adult > 1
+                                      ? getFieldName(passengerContent, 'adults')
+                                      : getFieldName(passengerContent, 'adult')
+                                      } ${childrens > 0
+                                        ? `, ${childrens} ${childrens > 1
+                                          ? getFieldName(passengerContent, 'children')
+                                          : getFieldName(passengerContent, 'child')
+                                        }`
                                         : ''
-                                    }`}
+                                      }`}
                                   </p>
                                 </div>
                               </div>
-                              <div className="absolute right-2 top-4 text-black text-sm">
+                              <div className="absolute right-0 m-auto text-black text-sm">
                                 <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
                               </div>
                             </div>
@@ -547,10 +536,10 @@ const LandingPageSearchBar = (props: tabType) => {
                           />
                         </div>
                       </div>
-                      <div className="xl:w-1/2 xs:w-full xl:mt-0 xs:mt-2 md:mt-0 rounded border bg-white  border-cadetgray ">
-                        <div className="flex items-center xl:py-2 xs:py-2">
+                      <div className="col-6">
+                        <div className="flex items-center p-2 rounded border bg-white  border-cadetgray">
                           <button
-                            className="relative  px-2   font-semibold  border-0 w-full block text-black  text-sm  text-left"
+                            className="relative font-semibold border-0 w-full block text-black text-sm text-left"
                             type="button"
                             onClick={() => {
                               setShowModal({
@@ -563,24 +552,24 @@ const LandingPageSearchBar = (props: tabType) => {
                               document.body.style.overflow = 'hidden';
                             }}
                           >
-                            <p
-                              className={`font-medium text-sm ${
-                                promoCode?.length > 0 ? 'text-slategray' : 'text-black'
-                              }`}
-                            >
-                              {getFieldName(searchFlightContent, 'promoCode')}
-                            </p>
-                            <div>
-                              <p
-                                className={`${
-                                  promoCode?.length > 0 ? 'text-black' : 'text-slategray'
-                                } font-normal text-sm`}
-                              >
-                                {promoCode?.length > 0
-                                  ? promoCode
-                                  : getFieldName(searchFlightContent, 'promoCodePlaceholder')}
-                              </p>
-                              <div className="absolute right-2 top-4 text-black text-sm">
+                            <div className='flex align-center relative'>
+                              <div className='w-full pr-6'>
+                                <p
+                                  className={`font-medium text-sm ${promoCode?.length > 0 ? 'text-slategray' : 'text-black'
+                                    }`}
+                                >
+                                  {getFieldName(searchFlightContent, 'promoCode')}
+                                </p>
+                                <p
+                                  className={`${promoCode?.length > 0 ? 'text-black' : 'text-slategray'
+                                    } font-normal text-sm`}
+                                >
+                                  {promoCode?.length > 0
+                                    ? promoCode
+                                    : getFieldName(searchFlightContent, 'promoCodePlaceholder')}
+                                </p>
+                              </div>
+                              <div className="absolute right-0 m-auto text-black text-sm">
                                 <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
                               </div>
                             </div>
@@ -605,58 +594,57 @@ const LandingPageSearchBar = (props: tabType) => {
                         </div>
                       </div>
                     </div>
-                    <div className="xl:w-2/6 xs:w-full xl:mt-0 xs:mt-2 md:mt-0  bg-white ">
-                      <div className="lg:flex md:flex block h-full items-center justify-center relative gap-3  ">
-                        <button
-                          type="button"
-                          className={`w-full text-md font-black xs:justify-center xs:text-center text-white bg-aqua  rounded-lg text-md inline-flex items-center xl:py-4 xs:py-2 text-center ${
+                  </div>
+                  <div className="col-3">
+                    <div className="lg:flex md:flex block h-full items-center justify-center relative gap-3  ">
+                      <button
+                        type="button"
+                        className={`w-full text-md font-black xs:justify-center xs:text-center text-white bg-aqua  rounded-lg text-md inline-flex items-center xl:py-4 xs:py-2 text-center ${(Date.parse(String(departDate)) < Date.parse(String(returnDate)) ||
+                          Date.parse(new Date(departDate).toDateString()) <
+                          Date.parse(new Date(String(returnDate)).toDateString())) &&
+                          originCode?.length !== 0 &&
+                          destinationCode?.length !== 0
+                          ? ''
+                          : 'opacity-40'
+                          }`}
+                        onClick={() => {
+                          if (
                             (Date.parse(String(departDate)) < Date.parse(String(returnDate)) ||
                               Date.parse(new Date(departDate).toDateString()) <
-                                Date.parse(new Date(String(returnDate)).toDateString())) &&
+                              Date.parse(new Date(String(returnDate)).toDateString())) &&
                             originCode?.length !== 0 &&
                             destinationCode?.length !== 0
-                              ? ''
-                              : 'opacity-40'
-                          }`}
-                          onClick={() => {
-                            if (
-                              (Date.parse(String(departDate)) < Date.parse(String(returnDate)) ||
-                                Date.parse(new Date(departDate).toDateString()) <
-                                  Date.parse(new Date(String(returnDate)).toDateString())) &&
-                              originCode?.length !== 0 &&
-                              destinationCode?.length !== 0
-                            ) {
-                              searchFlight();
-                            } else {
-                              setErrorMessage({
-                                departure:
-                                  originCode?.length === 0
-                                    ? getFieldName(searchFlightContent, 'chooseDepartAirport')
-                                    : '',
-                                arrival:
-                                  destinationCode?.length === 0
-                                    ? getFieldName(searchFlightContent, 'chooseArrivalAirport')
-                                    : '',
-                                returnDate:
-                                  Date.parse(String(departDate)) < Date.parse(String(returnDate))
-                                    ? ''
-                                    : getFieldName(searchFlightContent, 'returnDateCantBeGreater'),
-                              });
-                            }
-                          }}
-                        >
-                          <div className="flex gap-2">
-                            <p>{getFieldName(landingPageSearchContent, 'searchButton')}</p>
-                            <div>
-                              <FontAwesomeIcon
-                                icon={faArrowRight}
-                                aria-hidden="true"
-                                className="text-sm text-white"
-                              />
-                            </div>
+                          ) {
+                            searchFlight();
+                          } else {
+                            setErrorMessage({
+                              departure:
+                                originCode?.length === 0
+                                  ? getFieldName(searchFlightContent, 'chooseDepartAirport')
+                                  : '',
+                              arrival:
+                                destinationCode?.length === 0
+                                  ? getFieldName(searchFlightContent, 'chooseArrivalAirport')
+                                  : '',
+                              returnDate:
+                                Date.parse(String(departDate)) < Date.parse(String(returnDate))
+                                  ? ''
+                                  : getFieldName(searchFlightContent, 'returnDateCantBeGreater'),
+                            });
+                          }
+                        }}
+                      >
+                        <div className="flex gap-2">
+                          <p>{getFieldName(landingPageSearchContent, 'searchButton')}</p>
+                          <div>
+                            <FontAwesomeIcon
+                              icon={faArrowRight}
+                              aria-hidden="true"
+                              className="text-sm text-white"
+                            />
                           </div>
-                        </button>
-                      </div>
+                        </div>
+                      </button>
                     </div>
                   </div>
                 </div>

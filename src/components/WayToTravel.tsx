@@ -59,7 +59,7 @@ const WayToTravel = (props: WayToTravelProps): JSX.Element => {
 
               <div className="xl:flex md:flex xs:block justify-between gap-8 py-5 ">
                 {props.fields.wayToTravelItem.map((item, index) => (
-                  <div key={index} className="xl:w-2/6 md:w-2/6">
+                  <div key={index} className="xl:w-2/6 md:w-2/6 mb-10 md:mb-0">
                     <div className="blog-img md:h-48 lg:h-52 xl:h-64 2xl:h-72 overflow-hidden rounded-xl">
                       <Image
                         src={item.fields.image.value.src}

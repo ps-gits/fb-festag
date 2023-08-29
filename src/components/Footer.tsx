@@ -103,7 +103,7 @@ const Footer = (props: FooterProps): JSX.Element => {
             </div>
             <div className="w-full bg-black lg:py-14 xs:py-10 md:py-6 ">
               <div className="container relative z-20">
-                <div className="xl:flex md:flex xs:block ">
+                <div className="xl:flex md:flex xs:block gap-8">
                   <div className="xs:mb-5 xl:w-6/12 md:w-full">
                     <div>
                       <JssImage field={props.fields.logo} className="cursor-pointer" />
