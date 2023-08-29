@@ -3,6 +3,8 @@
  */
 import React from 'react';
 import Head from 'next/head';
+import { Analytics } from '@vercel/analytics/react';
+
 import {
   Placeholder,
   getPublicUrl,
@@ -50,6 +52,7 @@ const Layout = ({ layoutData }: LayoutProps): JSX.Element => {
           <div>{route && <Placeholder name="headless-footer" rendering={route} />}</div>
         </section>
       </div>
+      <Analytics />
     </>
   );
 };
