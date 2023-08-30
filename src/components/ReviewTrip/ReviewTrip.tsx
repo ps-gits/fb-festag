@@ -277,6 +277,7 @@ const ReviewTrip = () => {
                                 luxuryPickup={item?.Luxury}
                                 originCode={item?.OriginCode}
                                 arrivalDate={item?.ArrivalDate}
+                                FlightNumber={item?.FlightNumber}
                                 bagAllowances={item.BagAllowances}
                                 departureDate={item?.DepartureDate}
                                 destinationCode={item?.DestinationCode}

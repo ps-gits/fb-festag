@@ -1803,7 +1803,7 @@ const PassengerDetails = () => {
                                                           Wheelchair to aircraft door
                                                         </label>
                                                       </div>
-                                                      <div className="ml-6  max-h-36 overflow-y-auto">
+                                                      <div className="ml-6">
                                                         <div className="flex items-center mt-3">
                                                           <input
                                                             checked
@@ -1874,7 +1874,7 @@ const PassengerDetails = () => {
                                                         tripIndex: number
                                                       ) => (
                                                         <div
-                                                          className="bg-white px-3 xl:my-0 xl:mb-3 w-full   xs:py-2  border border-cadetgray rounded-lg p-3 "
+                                                          className="bg-white px-3 xl:my-0 xl:mb-3 w-full xs:py-2 border border-cadetgray rounded-lg p-3 max-h-60 overflow-y-auto"
                                                           key={tripIndex}
                                                         >
                                                           <div>
@@ -1885,7 +1885,7 @@ const PassengerDetails = () => {
                                                             </p>
                                                           </div>
                                                           <div>
-                                                            <h1 className="text-lg font-extrabold  text-black">
+                                                            <h1 className="text-lg font-extrabold text-black">
                                                               {data?.OriginCity} -{' '}
                                                               {data?.DestinationCity}{' '}
                                                             </h1>
@@ -1954,7 +1954,7 @@ const PassengerDetails = () => {
                                                             'returnMeal',
                                                             'Dietary Meal'
                                                           ) !== undefined && (
-                                                            <div className="mt-4 ml-6 max-h-36 overflow-y-auto">
+                                                            <div className="mt-4 ml-6">
                                                               {(tripIndex === 0
                                                                 ? departureMealData
                                                                 : returnMealData

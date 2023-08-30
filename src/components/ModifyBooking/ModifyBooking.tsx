@@ -58,7 +58,7 @@ const ModifyBooking = () => {
     (state: RootState) => state?.flightDetails?.prepareBookingModification?.MealsDetails
   );
   const numberOfMeals = useSelector((state: RootState) => state?.sitecore?.numberOfMeals);
-  const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
+  // const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
   const findBookingInfo = useSelector((state: RootState) => state?.flightDetails?.findBooking);
   const chooseMealContent = useSelector((state: RootState) => state?.sitecore?.chooseMeal?.fields);
   const modifyBookingInfo = useSelector((state: RootState) => state?.flightDetails?.modifyBooking);
@@ -449,6 +449,7 @@ const ModifyBooking = () => {
                                 index={index}
                                 seats={true}
                                 loungeAccess={item?.Lounge}
+                                FlightNumber={item?.FlightNumber}
                                 luxuryPickup={item?.Luxury}
                                 originCode={item?.OriginCode}
                                 arrivalDate={item?.ArrivalDate}
@@ -459,12 +460,14 @@ const ModifyBooking = () => {
                                 arrivalTime={item?.DestinationArrivalTime}
                                 seatsDestinationToOrigin={seatsDestinationToOrigin}
                                 seatsOriginToDestination={seatsOriginToDestination}
-                                originAirportName={
-                                  flightInfo?.details?.FaireFamilies[index]?.originName
-                                }
-                                destinationAirportName={
-                                  flightInfo?.details?.FaireFamilies[index]?.destinationName
-                                }
+                                originAirportName={item?.OriginName}
+                                destinationAirportName={item?.DestinationName}
+                                // originAirportName={
+                                //   flightInfo?.details?.FaireFamilies[index]?.originName
+                                // }
+                                // destinationAirportName={
+                                //   flightInfo?.details?.FaireFamilies[index]?.destinationName
+                                // }
                               />
                             </div>
                           );

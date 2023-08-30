@@ -495,10 +495,12 @@ interface selectedFareFamily {
     Quantity: string;
     Weight: string;
     WeightMeasureQualifier: string;
+    TotalWeight: string;
   }[];
   destinationName: string;
   destinationArrivalTime: string;
   destinationArrivalDate: string;
+  FlightNumber: string;
 }
 
 interface youngAdultAgeModal {
@@ -535,11 +537,13 @@ interface flightSchedule {
         Quantity: string;
         Weight: string;
         WeightMeasureQualifier: string;
+        TotalWeight: string;
       }
     | {
         Quantity: string;
         Weight: string;
         WeightMeasureQualifier: string;
+        TotalWeight: string;
       }[];
   originCode: string;
   arrivalDate: string;
@@ -550,6 +554,7 @@ interface flightSchedule {
   departureTime: string;
   destinationCode: string;
   originAirportName: string;
+  FlightNumber?: string;
   destinationAirportName: string;
   seatsDestinationToOrigin?: { Text: string }[];
   seatsOriginToDestination?: { Text: string }[];
@@ -581,6 +586,7 @@ interface bookingDetails {
     Quantity: string;
     Weight: string;
     WeightMeasureQualifier: string;
+    TotalWeight: string;
   };
   OriginCode: string;
   ArrivalDate: string;
@@ -590,6 +596,9 @@ interface bookingDetails {
   DestinationArrivalTime: string;
   Lounge: boolean;
   Luxury: boolean;
+  FlightNumber: string;
+  OriginName: string;
+  DestinationName: string;
 }
 
 interface modifyBookingDetailsModal {

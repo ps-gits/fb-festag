@@ -268,7 +268,7 @@ const FindBooking = () => {
               </Formik>
             </div>
           </div>
-          <div className="xs:not-sr-only	xl:sr-only">
+          <div className="xs:not-sr-only  xl:sr-only">
             <div className="w-full h-36 overflow-hidden absolute bottom-0">
               <Image
                 src={getImageSrc(findBookingContent, 'bottomBanner') as string}

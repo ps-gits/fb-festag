@@ -99,14 +99,9 @@ const FlightInfo = (props: flightDetails) => {
                               ? true
                               : false
                           }
+                          FlightNumber={item?.FlightNumber}
                           luxuryPickup={selectedFlight?.name === 'Opulence' ? true : false}
-                          bagAllowances={[
-                            {
-                              Quantity: '4',
-                              WeightMeasureQualifier: 'KG',
-                              Weight: '32',
-                            },
-                          ]}
+                          bagAllowances={item?.BagAllowances}
                           originAirportName={item?.originName}
                           originCode={
                             index === 0

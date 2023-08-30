@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faEdit, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import leftbg from '../../assets/images/leftbg.png';
 import seat from '../../assets/images/chooseseat.png';
@@ -887,6 +887,8 @@ const ChooseSeats = () => {
                 } ${
                   modifySeat
                     ? modifyBookingInfo?.Amount?.SaleCurrencyCode
+                      ? modifyBookingInfo?.Amount?.SaleCurrencyCode
+                      : ''
                     : selectedFlight?.details?.currency
                     ? selectedFlight?.details?.currency
                     : ''
@@ -898,6 +900,8 @@ const ChooseSeats = () => {
               } ${
                 modifySeat
                   ? modifyBookingInfo?.Amount?.SaleCurrencyCode
+                    ? modifyBookingInfo?.Amount?.SaleCurrencyCode
+                    : ''
                   : selectedFlight?.details?.currency
                   ? selectedFlight?.details?.currency
                   : ''
@@ -1340,7 +1344,8 @@ const ChooseSeats = () => {
                                     >
                                       <p className="text-pearlgray hover:text-black text-base font-medium">
                                         {/* {getFieldName(chooseSeatsContent, 'selectSeatLater')} */}
-                                        <div className="border-aqua border py-2 px-3 rounded-md flex gap-2">
+                                        {/* hide-modify-button */}
+                                        {/* <div className="border-aqua border py-2 px-3 rounded-md flex gap-2">
                                           <FontAwesomeIcon
                                             icon={faEdit}
                                             aria-hidden="true"
@@ -1349,7 +1354,7 @@ const ChooseSeats = () => {
                                           <span className="font-extrabold text-xs text-aqua">
                                             Modify Search
                                           </span>
-                                        </div>
+                                        </div> */}
                                       </p>
                                     </div>
                                   </div>

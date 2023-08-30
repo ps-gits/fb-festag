@@ -12,6 +12,7 @@ const FlightSchedule = (props: flightSchedule) => {
     originCode,
     arrivalDate,
     arrivalTime,
+    FlightNumber,
     loungeAccess,
     luxuryPickup,
     bagAllowances,
@@ -50,6 +51,9 @@ const FlightSchedule = (props: flightSchedule) => {
             <div className="">
               <p className="font-extrabold text-2xl text-black">{originCode}</p>
               <p className="font-normal text-xs text-pearlgray">{originAirportName}</p>
+              <p className="font-normal text-xs text-pearlgray">
+                {FlightNumber ? `Flight Number : ${FlightNumber}` : ''}{' '}
+              </p>
             </div>
             <div className="">
               <p className="font-black text-2xl text-black text-end">{departureTime}</p>
@@ -126,9 +130,15 @@ const FlightSchedule = (props: flightSchedule) => {
                 <p className="font-black text-sm text-black">
                   Baggage{' '}
                   {Array.isArray(bagAllowances)
-                    ? bagAllowances?.map((dt) => (dt?.Weight ? dt?.Weight : ''))
-                    : bagAllowances?.Weight
-                    ? bagAllowances?.Weight
+                    ? bagAllowances?.map((dt) =>
+                        dt?.TotalWeight
+                          ? dt?.TotalWeight + ' ' + dt?.WeightMeasureQualifier?.toLowerCase()
+                          : ''
+                      )
+                    : bagAllowances?.TotalWeight
+                    ? bagAllowances?.TotalWeight +
+                      ' ' +
+                      bagAllowances?.WeightMeasureQualifier?.toLowerCase()
                     : ''}
                 </p>
                 <p className="font-medium text-xs text-slategray">Maximum bags allowed - 4</p>
@@ -166,6 +176,10 @@ const FlightSchedule = (props: flightSchedule) => {
             <div className="">
               <p className="font-extrabold text-2xl text-black">{destinationCode}</p>
               <p className="font-normal text-xs text-pearlgray">{destinationAirportName}</p>
+              <p className="font-normal text-xs text-pearlgray">
+                {' '}
+                {FlightNumber ? `Flight Number : ${FlightNumber}` : ''}{' '}
+              </p>
             </div>
             <div className="">
               <p className="font-black text-2xl text-black text-end">{arrivalTime}</p>

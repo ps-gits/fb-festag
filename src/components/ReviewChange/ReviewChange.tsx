@@ -10,12 +10,14 @@ import {
   setUpdateCart,
   setModifyDates,
   setModifyBookingFromBooking,
+  setAcceptTermsConditions,
 } from 'src/redux/reducer/FlightDetails';
 import { RootState } from 'src/redux/store';
 import { loader } from 'src/redux/reducer/Loader';
 import SavingDataLoader from '../Loader/SavingData';
 import SearchSeatLoader from '../Loader/SearchSeat';
 import FlightSchedule from '../ReviewTrip/FlightSchedule';
+import FareBaggageModal from 'components/Modal/FareBaggageModal';
 import SearchFlightLoader from 'components/Loader/SearchFlightLoader';
 import DepartReturnDateModal from 'components/Modal/DepartReturnDateModal';
 import { getImageSrc, getFieldName } from 'components/SearchFlight/SitecoreContent';
@@ -32,6 +34,9 @@ const ReviewChange = () => {
   );
   const modifyBookingSeats = useSelector(
     (state: RootState) => state?.flightDetails?.modifyBookingSeats
+  );
+  const termsConditionsAccepted = useSelector(
+    (state: RootState) => state?.flightDetails?.acceptTermsConditions
   );
   const createExchangeBookingInfo = useSelector(
     (state: RootState) => state?.flightDetails?.exchangeCreateBooking
@@ -67,6 +72,7 @@ const ReviewChange = () => {
     depart: false,
     return: false,
   });
+  const [showFare, setFareModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState({
     departure: '',
     returnDate: '',
@@ -125,6 +131,9 @@ const ReviewChange = () => {
                 : '')}
           </p>
         </div>
+        <div className="flex justify-between ">
+          <p className="text-slategray text-sm font-medium">With Seats, Add-ons and Taxes </p>
+        </div>
         {!updateCart && !modifyMeal && !selectSeatLater && chooseSeats?.length === 0 ? (
           <div className="flex flex-wrap -mb-px text-sm font-medium text-center  text-black ">
             <div className="flex md:flex block h-full items-center justify-center relative gap-3 py-3 xs:w-full  ">
@@ -168,28 +177,75 @@ const ReviewChange = () => {
             </div>
           </div>
         ) : (
-          <div className="py-3 lg:flex md:flex block h-full items-center justify-center relative gap-3 w-full   m-auto">
-            <button
-              type="submit"
-              form="hpp"
-              disabled={
-                (modifyMeal || modifySeat || updateCart
-                  ? modifyBookingSeats
-                  : createExchangeBookingInfo
-                )?.Amount?.TotalAmount === undefined
-              }
-              className={`w-full xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center ${
-                (modifyMeal || modifySeat || updateCart
-                  ? modifyBookingSeats
-                  : createExchangeBookingInfo
-                )?.Amount?.TotalAmount === undefined
-                  ? 'opacity-40'
-                  : ''
-              }`}
-            >
-              {getFieldName(reviewChangeContent, 'confirmPayButton')}
-            </button>
-          </div>
+          <>
+            <div className="flex items-center my-2">
+              <input
+                id="default-checkbox"
+                type="checkbox"
+                checked={termsConditionsAccepted}
+                onChange={(e) => {
+                  dispatch(setAcceptTermsConditions(e?.target?.checked));
+                }}
+                className="accent-orange-600	 text-white w-4 h-4 opacity-70"
+              />
+
+              <label className="ml-2 text-sm font-medium text-black">
+                I accept the{' '}
+                <a
+                  className="text-sm text-aqua font-medium cursor-pointer"
+                  href="https://edge.sitecorecloud.io/arabesquefl0f70-demoproject-demoenv-79bc/media/flightbooking/Legal-Docs/CoC_Beond_MS_080823_v2.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {/* {getFieldName(reviewTripContent, 'termsConditions')} */}
+                  Conditions of Carriage
+                </a>
+                <span className="text-sm font-medium"> and </span>
+                <span
+                  className="text-sm text-aqua font-medium cursor-pointer"
+                  onClick={() => {
+                    setFareModal(true);
+                    document.body.style.overflow = 'hidden';
+                  }}
+                >
+                  Fare & Baggage Rules
+                </span>
+              </label>
+            </div>
+            <div className="py-3 lg:flex md:flex block h-full items-center justify-center relative gap-3 w-full   m-auto">
+              <button
+                type="submit"
+                form="hpp"
+                disabled={
+                  !termsConditionsAccepted ||
+                  (modifyMeal || modifySeat || updateCart
+                    ? modifyBookingSeats
+                    : createExchangeBookingInfo
+                  )?.Amount?.TotalAmount === undefined
+                }
+                className={`w-full xs:justify-center  xs:text-center text-white bg-aqua  font-black rounded-lg text-lg inline-flex items-center px-5 py-2 text-center ${
+                  !termsConditionsAccepted ||
+                  (modifyMeal || modifySeat || updateCart
+                    ? modifyBookingSeats
+                    : createExchangeBookingInfo
+                  )?.Amount?.TotalAmount === undefined
+                    ? 'opacity-40'
+                    : ''
+                }`}
+              >
+                {getFieldName(reviewChangeContent, 'confirmPayButton')}
+              </button>
+            </div>
+          </>
+        )}
+        {showFare && (
+          <FareBaggageModal
+            showFare={showFare}
+            closeModal={() => {
+              setFareModal(false);
+              document.body.style.overflow = 'unset';
+            }}
+          />
         )}
       </div>
     );
@@ -210,7 +266,7 @@ const ReviewChange = () => {
               />
             </div>
             <div className="xl:not-sr-only	xs:sr-only">
-              <div className="fixed top-10 right-3.5  xl:m-auto price-modal ">
+              <div className="fixed top-10 right-3.5  xl:m-auto price-modal z-50">
                 <div className="mt-14">
                   <TotalPrice />
                 </div>
@@ -313,6 +369,7 @@ const ReviewChange = () => {
                           luxuryPickup={true}
                           bagAllowances={item.BagAllowances}
                           originAirportName={item?.originName}
+                          FlightNumber={item?.FlightNumber}
                           originCode={
                             index === 0
                               ? modifyMeal || modifySeat || updateCart

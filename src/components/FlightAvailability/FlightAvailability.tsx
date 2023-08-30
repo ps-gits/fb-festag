@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import Bliss from './Tabs/Bliss';
 import Delight from './Tabs/Delight';
@@ -543,7 +543,8 @@ const FlightAvailability = () => {
                       {getFieldName(flightAvailabilityContent, 'backButton')}
                     </span>
                   </div>
-                  <div className="border-aqua border py-2 px-3 rounded-md flex gap-2">
+                  {/* hide-modify-button */}
+                  {/* <div className="border-aqua border py-2 px-3 rounded-md flex gap-2">
                     <FontAwesomeIcon
                       icon={faEdit}
                       aria-hidden="true"
@@ -554,7 +555,7 @@ const FlightAvailability = () => {
                         ' ' +
                         getFieldName(flightAvailabilityContent, 'search')}
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div>
@@ -1837,7 +1838,13 @@ const FlightAvailability = () => {
                                               item?.opulence?.description?.toLowerCase() !==
                                                 'null' && (
                                                 <div className="relative flex flex-col items-center group ">
-                                                  <span className="pl-1">
+                                                  <span
+                                                    style={{
+                                                      width: '22px',
+                                                      height: '22px',
+                                                      textAlign: 'center',
+                                                    }}
+                                                  >
                                                     <Image
                                                       src={getImageSrc(
                                                         flightAvailabilityContent,
