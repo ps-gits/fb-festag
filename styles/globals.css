@@ -827,21 +827,25 @@ svg.h-6.w-6.shrink-0 {
 .farelist ul {
   text-align: left;
   padding-left: 25px;
+  color: black !important;
 }
 
 .farelist ul li {
   list-style: disc;
   margin: 0 0 8px;
+  color: black !important;
 }
 
 .farelist ul ul li {
   list-style: circle;
   margin: 0 0 8px;
+  color: black !important;
 }
 
 .farelist ul ul ul li {
   list-style: square;
   margin: 0 0 8px;
+  color: black !important;
 }
 
 @media screen and (max-width: 1536.1px) {
