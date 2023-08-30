@@ -1963,7 +1963,7 @@ const PassengerDetails = () => {
                                                                   dt: {
                                                                     Code: string;
                                                                     Label: string;
-                                                                    Describtion: string;
+                                                                    Description: string;
                                                                   },
                                                                   index: number
                                                                 ) => (
@@ -2020,8 +2020,8 @@ const PassengerDetails = () => {
 
                                                                       <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex  w-64 pl-3">
                                                                         <span className="relative z-10 p-2 text-xs   whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
-                                                                          {dt?.Describtion
-                                                                            ? dt?.Describtion
+                                                                          {dt?.Description
+                                                                            ? dt?.Description
                                                                             : 'Description'}
                                                                         </span>
                                                                         <div className="w-4 h-4 -mt-2 rotate-45 border border-t-0 border-l-0 z-50 shadow-lg border-graylight bg-white"></div>
