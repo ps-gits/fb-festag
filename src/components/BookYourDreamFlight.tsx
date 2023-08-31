@@ -1,4 +1,4 @@
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import {
   Text,
@@ -21,8 +21,8 @@ type BookYourDreamFlightProps = ComponentProps & {
 };
 
 const BookYourDreamFlight = (props: BookYourDreamFlightProps): JSX.Element => {
-  // const router = useRouter();
-  const win: Window = window;
+  const router = useRouter();
+  // const win: Window = window;
 
   const load = useSelector((state: RootState) => state?.loader?.loader);
 
@@ -60,10 +60,12 @@ const BookYourDreamFlight = (props: BookYourDreamFlightProps): JSX.Element => {
                         //     );
                         //   }
                         // }}
-                        onClick={() =>
-                        (win.location =
-                          'mailto:groups@flybeond.com?subject=Group%20Booking%20Inquiry&body=Hi%20Team%2C%0A%0AI%20am%20interested%20in%20a%20group%20booking%20with%20Beyond.%20Please%20find%20the%20following%20details%20below.%0A%0ATravel%20Agency%20Name%20(if%20applicable)%3A%20%0AIATA%20number%20(if%20applicable)%3A%0AGroup%20Name%3A%0ANumber%20of%20Passengers%3A%20%20xx%20Adult%20%2f%20xx%20Child%20(aged%205%20years%20–%20below%2012%20years%20old)%0ATravel%20Dates%3A%0AOrigin%2f%20destination%3A%0AFlight%20numbers%3A%0AContact%20details%20of%20the%20Group%20coordinator%3A%0A-%20Email%20address%3A%0A-%20Contact%20number%20(country%20code%20%2B%20area%20code%20%2B%20number)%3A')
-                        }
+                        onClick={() => router.push('/')}
+                        // onClick={() =>
+                        // (win.location =
+                        //   'mailto:groups@flybeond.com?subject=Group%20Booking%20Inquiry&body=Hi%20Team%2C%0A%0AI%20am%20interested%20in%20a%20group%20booking%20with%20Beyond.%20Please%20find%20the%20following%20details%20below.%0A%0ATravel%20Agency%20Name%20(if%20applicable)%3A%20%0AIATA%20number%20(if%20applicable)%3A%0AGroup%20Name%3A%0ANumber%20of%20Passengers%3A%20%20xx%20Adult%20%2f%20xx%20Child%20(aged%205%20years%20–%20below%2012%20years%20old)%0ATravel%20Dates%3A%0AOrigin%2f%20destination%3A%0AFlight%20numbers%3A%0AContact%20details%20of%20the%20Group%20coordinator%3A%0A-%20Email%20address%3A%0A-%20Contact%20number%20(country%20code%20%2B%20area%20code%20%2B%20number)%3A')
+                        // }
+
                       >
                         <Text field={props.fields.searchFlightsButton} />
                       </button>
