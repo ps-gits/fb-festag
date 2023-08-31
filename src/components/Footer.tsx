@@ -52,6 +52,11 @@ type FooterProps = ComponentProps & {
     termsConditions: Field<string>;
     emailPlaceholder: Field<string>;
     signUpForNewsLetter: Field<string>;
+    contactUs:Field<string>;
+    imprint:Field<string>;
+    noticeOfPassenger:Field<string>;
+    conditionsOfCarriage:Field<string>;
+    cookiePolicy:Field<string>;
   };
 };
 
@@ -226,6 +231,15 @@ const Footer = (props: FooterProps): JSX.Element => {
                             <Text field={props.fields.careers} />
                           </Link>
                         </div>
+                        <div className="text-sm font-normal text-Silvergray py-1 cursor-pointer  ">
+                          <Link
+                            href={`/${props.fields.contactUs.value
+                              ?.toLowerCase()
+                              ?.replace(/\s/g, '')}`}
+                          >
+                            <Text field={props.fields.contactUs} />
+                          </Link>
+                        </div>
                         {/* <div className="xs:w-2/4">
                           <div className="text-base font-black text-white">
                             <Text field={props.fields.legal} />
@@ -311,6 +325,34 @@ const Footer = (props: FooterProps): JSX.Element => {
                           }}
                         >
                           <Text field={props.fields.cookies} />
+                        </div>
+                        <div className="text-sm font-normal text-Silvergray py-1 cursor-pointer z-50">
+                          <Link
+                            href="https://edge.sitecorecloud.io/arabesquefl0f70-demoproject-demoenv-79bc/media/flightbooking/Legal-Docs/CoC_Beond_MS_080823_v2.pdf"
+                          >
+                            <Text field={props.fields.conditionsOfCarriage} />
+                          </Link>
+                        </div>
+                        {/* <div className="text-sm font-normal text-Silvergray py-1 cursor-pointer z-50">
+                          <Link
+                            href={`/${props.fields.imprint.value?.toLowerCase()?.replace(/\s/g, '')}`}
+                          >
+                            <Text field={props.fields.imprint} />
+                          </Link>
+                        </div> */}
+                        <div className="text-sm font-normal text-Silvergray py-1 cursor-pointer z-50">
+                          <Link
+                            href="https://edge.sitecorecloud.io/arabesquefl0f70-demoproject-demoenv-79bc/media/flightbooking/Legal-Docs/Notice-Of-Passenger-Rights.pdf"
+                          >
+                            <Text field={props.fields.noticeOfPassenger} />
+                          </Link>
+                        </div>
+                        <div className="text-sm font-normal text-Silvergray py-1 cursor-pointer z-50">
+                          <Link
+                            href="https://edge.sitecorecloud.io/arabesquefl0f70-demoproject-demoenv-79bc/media/flightbooking/Legal-Docs/Cookie-Policy.pdf"
+                          >
+                            <Text field={props.fields.cookiePolicy} />
+                          </Link>
                         </div>
                       </div>
                     </div>
