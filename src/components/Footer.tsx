@@ -57,6 +57,7 @@ type FooterProps = ComponentProps & {
     noticeOfPassenger:Field<string>;
     conditionsOfCarriage:Field<string>;
     cookiePolicy:Field<string>;
+    termsAndConditions:Field<string>;
   };
 };
 
@@ -292,15 +293,14 @@ const Footer = (props: FooterProps): JSX.Element => {
                       </div>
                       <div className="py-3">
                         <div className="text-sm font-normal text-Silvergray py-1 cursor-pointer ">
-                          <Link
-                            href={`/${props.fields.termsConditions.value
-                              ?.toLowerCase()
-                              ?.replace(/\s/g, '')}`}
-                            onClick={() => dispatch(setFooterTC(true))}
-                          >
-                            <Text field={props.fields.termsConditions} />
-                          </Link>
-                        </div>
+                            <Link
+                              href={`/${props.fields.termsAndConditions.value
+                                ?.replace(/\s/g, '')}`}
+                              onClick={() => dispatch(setFooterTC(true))}
+                            >
+                              <Text field={props.fields.termsAndConditions} />
+                            </Link>
+                          </div>
                         <div className="text-sm font-normal text-Silvergray py-1 cursor-pointer z-50">
                           <Link
                             href={`/${props.fields.privacyPolicy.value
@@ -343,7 +343,7 @@ const Footer = (props: FooterProps): JSX.Element => {
                       
                         <div className="text-sm font-normal text-Silvergray py-1 cursor-pointer z-50">
                           <Link
-                            href="https://edge.sitecorecloud.io/arabesquefl0f70-demoproject-demoenv-79bc/media/flightbooking/Legal-Docs/Notice-Of-Passenger-Rights.pdf"
+                            href={`/${props.fields.noticeOfPassenger.value?.replace(/\s/g, '')}`}
                           >
                             <Text field={props.fields.noticeOfPassenger} />
                           </Link>

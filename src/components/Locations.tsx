@@ -62,7 +62,8 @@ const Locations = (props: LocationsProps): JSX.Element => {
               <div>
                 <div className="text-2xl font-black text-black py-3">{item.fields.name.value}</div>
                 <div className="xl:pb-10 md:pb-10 xs:pb-5">
-                  <div className="text-base text-neviblue">
+                  
+                  {/* <div className="text-base text-neviblue">
                     <Text field={props.fields.phone} />
                   </div>
                   <div className="text-base font-black text-neviblue">
@@ -79,7 +80,8 @@ const Locations = (props: LocationsProps): JSX.Element => {
                   </div>
                   <div className="text-base font-black text-neviblue">
                     {item.fields.address.value}
-                  </div>
+                  </div> */}
+
                 </div>
               </div>
             </div>

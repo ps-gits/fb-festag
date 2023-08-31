@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import {
   Text,
   Field,
@@ -24,6 +25,7 @@ type GetThereWithBeondProps = ComponentProps & {
 };
 
 const GetThereWithBeond = (props: GetThereWithBeondProps): JSX.Element => {
+  const router = useRouter();
   const load = useSelector((state: RootState) => state?.loader?.loader);
 
   return (
@@ -72,6 +74,7 @@ const GetThereWithBeond = (props: GetThereWithBeondProps): JSX.Element => {
                     <button
                       type="submit"
                       className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3 "
+                      onClick={() => router.push('/Experience')}
                     >
                       <Text field={props.fields.learnMoreButton} />
                     </button>
