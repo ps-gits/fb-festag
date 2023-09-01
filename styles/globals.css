@@ -74,6 +74,10 @@ h1 {
   font-size: 42px;
 }
 
+h2 {
+  font-family: 'Avenir-Book';
+}
+
 p {
   font-weight: 300;
 }

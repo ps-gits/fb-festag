@@ -80,9 +80,9 @@ const CommonHeadBanner = (props: CommonHeadBannerProps): JSX.Element => {
                         <Text field={props.fields.heading} />
                       </h1>
                       {props.fields.content.value && (
-                        <h1 className="xs:w-full  xl:text-xl  rounded-lg  inline-flex items-center  py-3 text-black text-xl font-light">
+                        <h2 className="xs:w-full  xl:text-xl  rounded-lg  inline-flex items-center  py-3 text-black text-xl font-light">
                           {parse(props.fields.content.value )}
-                        </h1>
+                        </h2>
                       )}
                     </div>
                     <div className="xl:w-2/4 md:w-6/12  xs:w-full ">

@@ -49,9 +49,9 @@ const ExperiencePageBanner = (props: ExperiencePageBannerProps): JSX.Element => 
                 <h1 className="maldivtext xs:w-full  text-black rounded-lg  inline-flex items-center  py-3 font-semibold xl:text-6xl xs:text-3xl">
                   <Text field={props.fields.heading} />
                 </h1>
-                <h1 className="xs:w-full text-xl  rounded-lg  inline-flex items-center  py-3 font-normal text-black">
+                <h2 className="xs:w-full text-xl  rounded-lg  inline-flex items-center  py-3  text-black">
                   <Text field={props.fields.content} />
-                </h1>
+                </h2>
               </div>
               <div className="xl:w-2/4 md:w-6/12 xs:w-full">
                 <div className="flex xl:mt-0 xs:mt-4 xs:mb-7 gap-2 xl:justify-end xs:justify-center">
