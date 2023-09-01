@@ -1,6 +1,5 @@
-import { useRouter } from 'next/router';
-
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Text, Field, withDatasourceCheck } from '@sitecore-jss/sitecore-jss-nextjs';
 
@@ -46,7 +45,7 @@ const WayToTravel = (props: WayToTravelProps): JSX.Element => {
       {!load?.show ? (
         <section className="w-full bg-white">
           <div className="container">
-            <div className="xl:px-0 xs:px-7 xl:pt-36 xl:pb-24 xs:pt-2 xs:pb-2 md:px-0">
+            <div className="xl:pt-36 xl:pb-24 xs:pt-2 xs:pb-2 md:px-0">
               <div className="xl:flex md:flex xs:block items-center justify-between xl:py-2 xs:py-0">
                 <div className="xl:text-4xl xs:text-2xl text-black font-black">
                   <Text field={props.fields.heading} />
@@ -54,8 +53,8 @@ const WayToTravel = (props: WayToTravelProps): JSX.Element => {
                 <div className="xl:py-0 xs:py-3">
                   <button
                     type="submit"
-                    className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3"
                     onClick={() => router.push('/Experience')}
+                    className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3"
                   >
                     {props.fields.learnMoreButton?.value}
                   </button>
@@ -75,10 +74,10 @@ const WayToTravel = (props: WayToTravelProps): JSX.Element => {
                       />
                     </div>
                     <div className="pt-5">
-                      <div className="font-black text-2xl text-black">
+                      <div className="text-2xl text-black card-heading">
                         {item.fields.heading.value}
                       </div>
-                      <div className="text-base font-normal text-neviblue py-2">
+                      <div className="text-base text-neviblue py-2 card-description">
                         {item.fields.content.value}
                       </div>
                     </div>

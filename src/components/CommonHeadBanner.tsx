@@ -43,9 +43,9 @@ const CommonHeadBanner = (props: CommonHeadBannerProps): JSX.Element => {
       ) && (
         <>
           {!load?.show ? (
-            <div className="bg-white">
-              <div>
-                <div className="xl:w-5/6 m-auto md:w-5/6 relative xl:pt-40 xl:pb-40 md:pt-40 md:pb-30 xs:pb-20 xs:pt-24 xl:px-0 xs:px-4 md:px-0">
+            <section className="bg-white">
+              <div className='container'>
+                <div className="m-auto relative xl:pt-40 xl:pb-40 md:pt-40 md:pb-30 xs:pb-20 xs:pt-24 xl:px-0 xs:px-4 md:px-0">
                   <div className=" xs:w-full  xl:flex md:flex  xs:block h-full justify-between  ">
                     <div className="xl:w-2/4 md:w-6/12  xs:w-full">
                       <div className="py-3">
@@ -80,8 +80,8 @@ const CommonHeadBanner = (props: CommonHeadBannerProps): JSX.Element => {
                         <Text field={props.fields.heading} />
                       </h1>
                       {props.fields.content.value && (
-                        <h1 className="xs:w-full  xl:text-xl  rounded-lg  inline-flex items-center  py-3 font-normal text-black">
-                          {parse(props.fields.content.value)}
+                        <h1 className="xs:w-full  xl:text-xl  rounded-lg  inline-flex items-center  py-3 text-black text-xl font-light">
+                          {parse(props.fields.content.value )}
                         </h1>
                       )}
                     </div>
@@ -112,7 +112,7 @@ const CommonHeadBanner = (props: CommonHeadBannerProps): JSX.Element => {
                     </div>
                   </div>
                 </div>
-                <div className="absolute top-style w-full">
+                <div className="absolute top-style w-full left-0 right-0 overflow-hidden">
                   <JssImage
                     field={props.fields.banner}
                     className=" xl:w-full z-50 object-cover"
@@ -120,7 +120,7 @@ const CommonHeadBanner = (props: CommonHeadBannerProps): JSX.Element => {
                   />
                 </div>
               </div>
-            </div>
+            </section>
           ) : (
             <div></div>
           )}

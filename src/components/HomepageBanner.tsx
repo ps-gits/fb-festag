@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Text,
@@ -26,12 +26,13 @@ type HomepageBannerProps = ComponentProps & {
 const HomepageBanner = (props: HomepageBannerProps): JSX.Element => {
   const load = useSelector((state: RootState) => state?.loader?.loader);
 
-  useEffect(() => {
-    const element = document.getElementById('landing-page-search');
-    if (!load?.show && element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, [load?.show]);
+  //for main page departure scroll
+  // useEffect(() => {
+  //   const element = document.getElementById('landing-page-search');
+  //   if (!load?.show && element) {
+  //     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  //   }
+  // }, [load?.show]);
 
   return (
     <>
@@ -42,15 +43,10 @@ const HomepageBanner = (props: HomepageBannerProps): JSX.Element => {
               <div className="relative flex xl:w-1/4 xs:w-full xs:m-auto">
                 <div className="relative my-14 md:my-0 w-56 mx-auto md:mx-0 md:w-full ms:h-full">
                   <div className="relative -top-8 w-32 h-40 lg:w-48 lg:h-64 lg:left-1/3 left-1/4 rounded-3xl overflow-hidden">
-                    <JssImage
-                      field={props.fields.image2}
-                      className="w-full h-full"
-                    />
+                    <JssImage field={props.fields.image2} className="w-full h-full" />
                   </div>
                   <div className="absolute -bottom-10 w-32 h-40 lg:w-48 lg:h-64 lg:left-0 left-0 mr-auto rounded-3xl overflow-hidden border-8 border-cadetgray">
-                    <JssImage
-                      field={props.fields.image1}
-                    />
+                    <JssImage field={props.fields.image1} />
                   </div>
                 </div>
               </div>
@@ -64,23 +60,14 @@ const HomepageBanner = (props: HomepageBannerProps): JSX.Element => {
               </div>
               <div className="relative flex xl:w-1/4   xs:w-full md:m-auto">
                 <div className="relative my-14 md:my-0 w-56 mx-auto md:mx-0 md:w-full ms:h-full">
-                  <div className='absolute right-10 lg:right-8 -top-10 lg:-top-20 lg:h-44 lg:w-32 w-24 h-32 rounded-xl overflow-hidden'>
-                    <JssImage
-                      field={props.fields.image5}
-                      className="w-full h-full"
-                    />
+                  <div className="absolute right-10 lg:right-8 -top-10 lg:-top-20 lg:h-44 lg:w-32 w-24 h-32 rounded-xl overflow-hidden">
+                    <JssImage field={props.fields.image5} className="w-full h-full" />
                   </div>
-                  <div className='absolute bottom-5 lg:bottom-10 right-20 lg:right-32 w-32 h-40 lg:w-48 lg:h-64 rounded-3xl overflow-hidden border-8 border-cadetgray'>
-                    <JssImage
-                      field={props.fields.image4}
-                      className="w-full h-full"
-                    />
+                  <div className="absolute bottom-5 lg:bottom-10 right-20 lg:right-32 w-32 h-40 lg:w-48 lg:h-64 rounded-3xl overflow-hidden border-8 border-cadetgray">
+                    <JssImage field={props.fields.image4} className="w-full h-full" />
                   </div>
                   <div className="relative right-0 -bottom-10 lg:-bottom-14 ml-auto w-32 h-40 lg:w-48 lg:h-64 rounded-3xl overflow-hidden border-8 border-cadetgray">
-                    <JssImage
-                      field={props.fields.image3}
-                      className="w-full h-full"
-                    />
+                    <JssImage field={props.fields.image3} className="w-full h-full" />
                   </div>
                 </div>
               </div>

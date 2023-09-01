@@ -29,10 +29,10 @@ type ExperiencePageBannerProps = ComponentProps & {
 const ExperiencePageBanner = (props: ExperiencePageBannerProps): JSX.Element => {
   const router = useRouter();
   return (
-    <div>
-      <div className="bg-white">
-        <div>
-          <div className="xl:w-5/6 md:w-5/6 m-auto relative xl:pt-40 xl:pb-0 md:pt-40 md:pb-0 xs:pt-24 xs:pb-5 xl:px-0 xs:px-4 md:px-0">
+    <>
+      <section className="bg-white">
+        <div className='container'>
+          <div className="relative xl:pt-40 xl:pb-0 md:pt-40 md:pb-0 xs:pt-24 xs:pb-5 xl:px-0 xs:px-4 md:px-0">
             <div className=" xs:w-full md:flex xl:flex xs:block h-full justify-between  ">
               <div className="xl:w-2/4 md:w-6/12 xs:w-full">
                 <div className="py-3">
@@ -72,15 +72,13 @@ const ExperiencePageBanner = (props: ExperiencePageBannerProps): JSX.Element => 
             <JssImage field={props.fields.banner} className="xl:h-auto xl:w-full" alt="banner" />
           </div>
         </div>
-        <div className="">
-          <div className="">
-            <div className="flex justify-center xl:pt-12 xs:pt-0 xl:pb-20 xs:pb-10">
-              <JssImage
-                field={props.fields.bigBanner}
-                className="banner xl:h-full  xl:m-auto md:w-full md:h-full xs:w-full xs:h-44  object-contain rounded-2xl "
-                alt="island"
-              />
-            </div>
+        <div className="container">
+          <div className="flex justify-center xl:pt-12 xs:pt-0 xl:pb-20 xs:pb-10">
+            <JssImage
+              field={props.fields.bigBanner}
+              className="w-full xl:m-auto md:h-full xs:h-44 object-contain rounded-2xl "
+              alt="island"
+            />
           </div>
         </div>
         {props.fields.richText.value && props.fields.richText.value?.length > 0 && (
@@ -90,8 +88,8 @@ const ExperiencePageBanner = (props: ExperiencePageBannerProps): JSX.Element => 
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </>
   );
 };
 

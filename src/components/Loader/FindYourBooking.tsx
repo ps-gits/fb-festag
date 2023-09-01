@@ -23,7 +23,7 @@ const FindYourBookingLoader = (props: { open: boolean }) => {
       {props?.open && (
         <main className="mx-0 px-3 bg-black  ">
           <div className="">
-            <div className=" flex flex-col justify-center items-center align-center h-screen">
+            <div className=" flex flex-col justify-center items-center align-items h-screen">
               <Lottie
                 options={defaultOptions}
                 height={200}
@@ -71,4 +71,3 @@ const FindYourBookingLoader = (props: { open: boolean }) => {
 };
 
 export default FindYourBookingLoader;
-

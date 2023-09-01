@@ -136,11 +136,11 @@ const LandingPageSearchBar = (props: tabType) => {
     >
       <div className="relative">
         <div>
-          <div className="xl:flex md:flex xl:py-0   xs:block  xl:m-auto gap-2 relative items-center ">
+          <div className="xl:flex md:flex xl:py-0 xs:block xl:m-auto gap-2 relative items-center">
             <div className="w-full">
               <div>
-                <div className="flex my-row mb-6">
-                  <div className="col-3 xl:mb-0 mb-2 md:mb-0">
+                <div className="my-row lg:mb-3">
+                  <div className="col-3">
                     <div>
                       <div className="bg-white p-2 rounded border border-cadetgray w-full">
                         <div
@@ -177,7 +177,7 @@ const LandingPageSearchBar = (props: tabType) => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="text-black text-sm absolute right-2 m-auto">
+                              <div className="text-black text-sm absolute right-0 m-auto">
                                 <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
                               </div>
                             </div>
@@ -206,12 +206,12 @@ const LandingPageSearchBar = (props: tabType) => {
                           />
                         )}
                       </div>
-                      <div className="	xl:sr-only xs:not-sr-only">
-                        <p className="text-xs text-red">{errorMessage?.departure}</p>
-                      </div>
+                    </div>
+                    <div className="error">
+                      <p className="text-xs text-red">{errorMessage?.departure}</p>
                     </div>
                   </div>
-                  <div className="col-3 xl:mb-0 mb-2 md:mb-0">
+                  <div className="col-3">
                     <div
                       className={`bg-white px-2 xl:py-0 rounded border border-cadetgray w-full ${flightDetails?.originCode?.length > 0
                         ? 'cursor-pointer'
@@ -262,7 +262,7 @@ const LandingPageSearchBar = (props: tabType) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="text-black text-sm absolute right-2 m-auto">
+                            <div className="text-black text-sm absolute right-0 m-auto">
                               <FontAwesomeIcon icon={faAngleDown} aria-hidden="true" />
                             </div>
                           </div>
@@ -302,7 +302,7 @@ const LandingPageSearchBar = (props: tabType) => {
                         </div>
                       )}
                     </div>
-                    <div className="	xl:sr-only xs:not-sr-only">
+                    <div className="error">
                       <p className="text-xs text-red">
                         {
                           (
@@ -316,7 +316,7 @@ const LandingPageSearchBar = (props: tabType) => {
                       </p>
                     </div>
                   </div>
-                  <div className="col-3 xs:full mb-2 md:mb-0">
+                  <div className="col-3">
                     <div className="flex items-center p-2 rounded border bg-white border-cadetgray">
                       <button
                         className="relative font-semibold border-0 w-full block text-black text-sm text-left "
@@ -374,7 +374,7 @@ const LandingPageSearchBar = (props: tabType) => {
                       />
                     </div>
                   </div>
-                  <div className="col-3 xs:full mb-2 md:mb-0">
+                  <div className="col-3">
                     <div className="flex items-center p-2 rounded border bg-white border-cadetgray">
                       <button
                         className="relative font-semibold border-0 w-full block text-black text-left"
@@ -431,39 +431,8 @@ const LandingPageSearchBar = (props: tabType) => {
                         setFlightDetails={setFlightDetails}
                       />
                     </div>
-                  </div>
-                  <div className="xs:not-sr-only	xl:sr-only">
-                    <p className="text-xs text-red">{errorMessage?.returnDate}</p>
-                  </div>
-                </div>
-                <div className="flex">
-                  <div className="w-2/6">
-                    <div className="xs:sr-only xl:not-sr-only">
-                      <p className="text-xs text-red">{errorMessage?.departure}</p>
-                    </div>
-                  </div>
-                  <div className="w-2/6">
-                    <div className=" xs:sr-only xl:not-sr-only">
-                      <p className="text-xs text-red">
-                        {
-                          (
-                            errorMessage as {
-                              departure: string;
-                              returnDate: string;
-                              arrival: string;
-                            }
-                          )?.arrival
-                        }
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-2/6">
-                    <div className="xl:w-full flex justify-end xs:w-full xl:mb-0 xs:mb-0 md:mb-0">
-                      <div className="xl:not-sr-only	xs:sr-only xl:w-1/2 xl:ml-5">
-                        <p className="text-xs text-red w-full xl:ml-3">
-                          {errorMessage?.returnDate}
-                        </p>
-                      </div>
+                    <div className="error">
+                      <p className="text-xs text-red">{errorMessage?.returnDate}</p>
                     </div>
                   </div>
                 </div>
@@ -552,8 +521,8 @@ const LandingPageSearchBar = (props: tabType) => {
                               document.body.style.overflow = 'hidden';
                             }}
                           >
-                            <div className='flex align-center relative'>
-                              <div className='w-full pr-6'>
+                            <div className='flex items-center w-full pr-6 relative'>
+                              <div className='w-full'>
                                 <p
                                   className={`font-medium text-sm ${promoCode?.length > 0 ? 'text-slategray' : 'text-black'
                                     }`}
@@ -599,7 +568,7 @@ const LandingPageSearchBar = (props: tabType) => {
                     <div className="lg:flex md:flex block h-full items-center justify-center relative gap-3  ">
                       <button
                         type="button"
-                        className={`w-full text-md font-black xs:justify-center xs:text-center text-white bg-aqua  rounded-lg text-md inline-flex items-center xl:py-4 xs:py-2 text-center ${(Date.parse(String(departDate)) < Date.parse(String(returnDate)) ||
+                        className={`w-full text-md font-bold xs:justify-center xs:text-center text-white bg-aqua rounded-lg text-md inline-flex items-center md:py-4 xs:py-2 text-center ${(Date.parse(String(departDate)) < Date.parse(String(returnDate)) ||
                           Date.parse(new Date(departDate).toDateString()) <
                           Date.parse(new Date(String(returnDate)).toDateString())) &&
                           originCode?.length !== 0 &&
@@ -635,7 +604,7 @@ const LandingPageSearchBar = (props: tabType) => {
                         }}
                       >
                         <div className="flex gap-2">
-                          <p>{getFieldName(landingPageSearchContent, 'searchButton')}</p>
+                          <p className='font-bold'>{getFieldName(landingPageSearchContent, 'searchButton')}</p>
                           <div>
                             <FontAwesomeIcon
                               icon={faArrowRight}

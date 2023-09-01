@@ -154,10 +154,10 @@ const NewsList = (props: NewsListProps): JSX.Element => {
                             {item.fields.date.value}
                           </div>
                         </div>
-                        <div className="text-2xl font-black text-black">
+                        <div className="text-2xl font-black text-black card-heading">
                           {item.fields.heading.value}
                         </div>
-                        <div className="text-neviblue text-base py-3">
+                        <div className="text-neviblue text-base py-3 card-description">
                           {item.fields.content.value}
                         </div>
                         <div

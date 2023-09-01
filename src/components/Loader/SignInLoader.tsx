@@ -23,7 +23,7 @@ const SignInLoader = (props: { open: boolean }) => {
       {props?.open && (
         <main className="mx-0 px-0 bg-black  ">
           <div className="">
-            <div className=" flex flex-col justify-center items-center align-center h-screen">
+            <div className=" flex flex-col justify-center items-center items-center h-screen">
               <Lottie
                 options={defaultOptions}
                 height={200}
@@ -71,4 +71,3 @@ const SignInLoader = (props: { open: boolean }) => {
 };
 
 export default SignInLoader;
-

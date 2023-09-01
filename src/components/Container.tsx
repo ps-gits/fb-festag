@@ -33,7 +33,7 @@ const DefaultContainer = (props: ComponentProps): JSX.Element => {
   }
 
   return (
-    <div className={`component container-default ${styles}`} id={id ? id : undefined}>
+    <div className={`component ${styles}`} id={id ? id : undefined}>
       <div style={backgroundStyle}>
         <Placeholder name={phKey} rendering={props.rendering} />
       </div>

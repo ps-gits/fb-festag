@@ -6,7 +6,7 @@ import { faXmark, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import NoOptionFound from './NoOptionFound';
 import { RootState } from 'src/redux/store';
-import { loader } from 'src/redux/reducer/Loader';
+// import { loader } from 'src/redux/reducer/Loader';
 import { getDestinationDetails } from 'src/redux/action/AirportDetails';
 import { getEligibleOriginToDestinations } from 'src/redux/action/SearchFlights';
 import { getFieldName, getImageSrc } from 'components/SearchFlight/SitecoreContent';
@@ -39,12 +39,12 @@ const DropdownModal = ({
   const modalContent = useSelector((state: RootState) => state?.sitecore?.searchAirport?.fields);
 
   const dropdownChangeEvent = (code: string) => {
-    dispatch(
-      loader({
-        show: true,
-        name: 'search',
-      })
-    );
+    // dispatch(
+    //   loader({
+    //     show: true,
+    //     name: 'search',
+    //   })
+    // );
     if (destinationCode?.length > 0 && destinationCode !== code) {
       setFlightDetails({
         ...flightDetails,
@@ -108,12 +108,12 @@ const DropdownModal = ({
         arrival: '',
       });
     if (destinationCode?.length === 0) {
-      dispatch(
-        loader({
-          show: true,
-          name: 'search',
-        })
-      );
+      // dispatch(
+      //   loader({
+      //     show: true,
+      //     name: 'search',
+      //   })
+      // );
       dispatch(
         getEligibleOriginToDestinations(
           {

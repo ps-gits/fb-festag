@@ -12,7 +12,7 @@ const PaymentGatewayLoader = (props: { open: boolean }) => {
       {props?.open && (
         <main className="mx-0 px-3 bg-black  ">
           <div className="">
-            <div className=" flex flex-col justify-center items-center align-center h-screen">
+            <div className=" flex flex-col justify-center items-center h-screen">
               <Image
                 alt=""
                 width={800}

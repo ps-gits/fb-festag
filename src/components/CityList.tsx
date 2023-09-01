@@ -127,13 +127,13 @@ const CityList = (props: CityListProps): JSX.Element => {
       const findData = dataFound?.find((item) => item.index === countryIndex);
       data?.length === 0
         ? findData === undefined &&
-          setDataFound((prev) =>
-            [...prev, { index: countryIndex, data: false }]?.filter(
-              (item, index, arr) => index === arr?.findIndex((dt) => dt?.index === item?.index)
-            )
+        setDataFound((prev) =>
+          [...prev, { index: countryIndex, data: false }]?.filter(
+            (item, index, arr) => index === arr?.findIndex((dt) => dt?.index === item?.index)
           )
+        )
         : findData !== undefined &&
-          setDataFound(dataFound?.filter((item) => item.index !== countryIndex));
+        setDataFound(dataFound?.filter((item) => item.index !== countryIndex));
     }
     return data;
   };
@@ -141,39 +141,39 @@ const CityList = (props: CityListProps): JSX.Element => {
   return (
     <>
       {!load?.show ? (
-        <div className="bg-white">
-          <div className="xl:w-5/6 m-auto md:w-5/6 xl:pt-28 ">
+        <section className="py-20 bg-white">
+          <div className="container xl:pt-20">
             <div className="relative">
-              <div className="xl:w-2/6 md:w-1/2 xs:w-full xl:absolute xl:right-0 xl:top-24">
-                <div className="relative xl:px-0 xs:px-4">
-                  <div className="absolute inset-y-0 right-7 -top-3 flex items-center xl:pl-6  xs:pl-10 pointer-events-none">
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      aria-hidden="true"
-                      className="arrow-modal cursor-pointer text-bluedark"
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    id="search"
-                    className="block w-full px-3 py-2  text-black text-basetext border border-graymix rounded bg-graymix "
-                    placeholder={props.fields.searchDestinationPlaceholder.value}
-                    autoComplete="off"
-                    value={searchCity}
-                    onChange={(e) => setSearchCity(e.target.value)}
-                  />
-                </div>
-              </div>
               {uniqueCountryNames?.map((item, countryIndex) => {
                 return (
                   <div key={countryIndex}>
                     {cityArrayList(item, countryIndex)?.length > 0 ? (
                       <>
                         <div
-                          className={`xl:flex md:flex xs:block justify-start items-center pt-24  xl:px-0 xs:px-4 `}
+                          className={`xl:flex md:flex xs:block justify-between items-center xl:px-0 xs:px-4 `}
                         >
                           <div>
-                            <p className=" text-4xl text-black font-black">{item}</p>
+                            <p className="text-4xl text-black font-black">{item}</p>
+                          </div>
+                          <div className="xl:w-2/6">
+                            <div className="relative xl:px-0 xs:px-4">
+                              <div className="absolute inset-y-0 right-7 -top-3 flex items-center xl:pl-6  xs:pl-10 pointer-events-none">
+                                <FontAwesomeIcon
+                                  icon={faSearch}
+                                  aria-hidden="true"
+                                  className="arrow-modal cursor-pointer text-bluedark"
+                                />
+                              </div>
+                              <input
+                                type="text"
+                                id="search"
+                                className="block w-full px-3 py-2  text-black text-basetext border border-graymix rounded bg-graymix "
+                                placeholder={props.fields.searchDestinationPlaceholder.value}
+                                autoComplete="off"
+                                value={searchCity}
+                                onChange={(e) => setSearchCity(e.target.value)}
+                              />
+                            </div>
                           </div>
                         </div>
                         <div className="xl:flex md:flex xl:flex-wrap md:flex-wrap xs:block pt-10  xl:px-0 xs:px-4 md:px-0 ">
@@ -239,7 +239,7 @@ const CityList = (props: CityListProps): JSX.Element => {
               })}
             </div>
           </div>
-        </div>
+        </section>
       ) : (
         <div></div>
       )}

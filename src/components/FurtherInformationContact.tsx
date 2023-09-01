@@ -49,8 +49,8 @@ const FurtherInformationContact = (props: FurtherInformationContactProps): JSX.E
   return (
     <>
       {readNewsInDetails !== undefined && !readNewsInDetails && (
-        <div className="bg-white">
-          <div className="xl:w-5/6 m-auto xl:pt-10 pb-14 xl:px-0 xs:px-4">
+        <section className="bg-white pt-6 pb-12">
+          <div className="container">
             <div className="relative">
               <div className="bg-purpal p-10 rounded-3xl ">
                 <div className="text-2xl font-black text-black">
@@ -130,7 +130,7 @@ const FurtherInformationContact = (props: FurtherInformationContactProps): JSX.E
               </div>
             </div>
           </div>
-        </div>
+        </section>
       )}
     </>
   );
