@@ -110,7 +110,7 @@ const NewsList = (props: NewsListProps): JSX.Element => {
                 return (
                   <div key={index} className="xl:w-2/6 md:w-1/3  xs:w-full">
                     <div className="mr-3">
-                      <div>
+                      <div className="blog-img md:h-48 lg:h-52 xl:h-64 2xl:h-72 overflow-hidden rounded-xl">
                         <Image
                           src={
                             item.fields.newsImages?.find(
@@ -121,7 +121,7 @@ const NewsList = (props: NewsListProps): JSX.Element => {
                                 imageItem.fields.image.value.src !== undefined
                             )?.fields.image.value.src as string
                           }
-                          className="xl:w-full xl:h-52 xs:w-full xs:h-96 rounded-xl"
+                          className="h-full w-full"
                           alt="image"
                           width={
                             item.fields.newsImages?.find(

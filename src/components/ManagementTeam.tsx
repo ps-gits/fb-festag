@@ -57,7 +57,7 @@ const ManagementTeam = (props: ManagementTeamProps): JSX.Element => {
           <Text field={props.fields.content} />
         </div>
         <div className="xl:flex md:flex xs:block gap-5 pt-5 xl:pb-32 xs:pb-16">
-          <div className="xl:w-1/2 md:w-6/12">
+          <div className="blog-img md:h-48 lg:h-52 xl:h-64 2xl:h-72 overflow-hidden rounded-xl">
             <JssImage
               field={props.fields.ceoImage}
               className="xl:h-96 xl:w-full md:w-full  rounded-2xl"
