@@ -61,15 +61,15 @@ const GetThereWithBeond = (props: GetThereWithBeondProps): JSX.Element => {
                   <div className="text-3xl font-black text-black pb-4">
                     <Text field={props.fields.ourAircraft} />
                   </div>
-                  <div className="text-midnightBlue text-lg pb-4">
+                  <h2 className="text-midnightBlue text-lg pb-4">
                     <Text field={props.fields.ourAircraftContent} />
-                  </div>
+                  </h2>
                   <div className="text-3xl font-black text-black pb-4">
                     <Text field={props.fields.mealAndDining} />
                   </div>
-                  <div className="text-midnightBlue text-lg pb-4">
+                  <h2 className="text-midnightBlue text-lg pb-4">
                     <Text field={props.fields.mealAndDiningContent} />
-                  </div>
+                  </h2>
                   <div>
                     <button
                       type="submit"
