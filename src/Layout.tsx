@@ -24,6 +24,8 @@ interface LayoutProps {
 interface RouteFields {
   [key: string]: unknown;
   Title?: Field;
+  MetaDescription?: Field;
+  MetaKeywords?: Field;
 }
 
 const Layout = ({ layoutData }: LayoutProps): JSX.Element => {
@@ -37,6 +39,8 @@ const Layout = ({ layoutData }: LayoutProps): JSX.Element => {
       <Scripts />
       <Head>
         <title>{fields?.Title?.value?.toString() || 'Page'}</title>
+        <meta name="description" content={fields?.MetaDescription?.value?.toString() || 'Description'} />
+        <meta name="keywords" content={fields?.MetaKeywords?.value?.toString() || 'Keywords'} />
         <link rel="icon" href={`${publicUrl}/favicon.ico`} />
       </Head>
 
