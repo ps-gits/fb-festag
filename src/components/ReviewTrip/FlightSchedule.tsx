@@ -56,7 +56,7 @@ const FlightSchedule = (props: flightSchedule) => {
               key={index}
               className="bg-white text-center flex flex-col group items-center relative"
             >
-              <span className="cursor-pointer">
+              <span className="cursor-pointer color-black">
                 {/* <input
                 type="radio"
                 checked={index === selectedItem}
