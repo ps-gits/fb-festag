@@ -501,6 +501,10 @@ interface selectedFareFamily {
   destinationArrivalTime: string;
   destinationArrivalDate: string;
   FlightNumber: string;
+  Remarks: string;
+  Stops: {
+    LocationCode: string;
+  }[];
 }
 
 interface youngAdultAgeModal {
@@ -532,6 +536,10 @@ interface youngAdultAgeModal {
 interface flightSchedule {
   index: number;
   seats: boolean;
+  Remarks: string;
+  Stops: {
+    LocationCode: string;
+  }[];
   bagAllowances:
     | {
         Quantity: string;
@@ -558,6 +566,8 @@ interface flightSchedule {
   destinationAirportName: string;
   seatsDestinationToOrigin?: { Text: string }[];
   seatsOriginToDestination?: { Text: string }[];
+  selectedItem: null | number;
+  setSelectedItem: (arg0: SetStateAction<number | null>) => void;
 }
 
 interface compareFareFamily {
@@ -599,6 +609,10 @@ interface bookingDetails {
   FlightNumber: string;
   OriginName: string;
   DestinationName: string;
+  Remarks: string;
+  Stops: {
+    LocationCode: string;
+  }[];
 }
 
 interface modifyBookingDetailsModal {

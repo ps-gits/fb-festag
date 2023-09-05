@@ -93,6 +93,7 @@ const ModifyBooking = () => {
   // const [featuredAddons, setFeaturedAddons] = useState<
   //   { name: string; amount: number; quantity: number }[]
   // >(cartData ? cartData : []);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [passengerModify, setPassengerModify] = useState(false);
   const [flightDetails, setFlightDetails] = useState({
     departDate: new Date(new Date(departDate).setDate(new Date(departDate).getUTCDate())),
@@ -448,10 +449,14 @@ const ModifyBooking = () => {
                               <FlightSchedule
                                 index={index}
                                 seats={true}
+                                Stops={item?.Stops}
+                                Remarks={item?.Remarks}
                                 loungeAccess={item?.Lounge}
-                                FlightNumber={item?.FlightNumber}
                                 luxuryPickup={item?.Luxury}
                                 originCode={item?.OriginCode}
+                                selectedItem={selectedItem}
+                                setSelectedItem={setSelectedItem}
+                                FlightNumber={item?.FlightNumber}
                                 arrivalDate={item?.ArrivalDate}
                                 bagAllowances={item.BagAllowances}
                                 departureDate={item?.DepartureDate}

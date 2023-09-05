@@ -50,6 +50,8 @@ export const completeFlightDetails = {
       orginDepartureDate: '',
       orginDepartureTime: '',
       originName: '',
+      Remarks: '',
+      Stops: [{ LocationCode: '' }],
       luxuryPickup: true,
       loungeAccess: true,
       BagAllowances: [

@@ -67,7 +67,7 @@ const ReviewChange = () => {
 
   const { returnDate, departDate, dateFlexible, originCode, destinationCode } =
     selectedDetailsForFlight;
-
+  const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState({
     depart: false,
     return: false,
@@ -367,7 +367,11 @@ const ReviewChange = () => {
                           seats={false}
                           loungeAccess={true}
                           luxuryPickup={true}
+                          Stops={item?.Stops}
+                          Remarks={item?.Remarks}
+                          selectedItem={selectedItem}
                           bagAllowances={item.BagAllowances}
+                          setSelectedItem={setSelectedItem}
                           originAirportName={item?.originName}
                           FlightNumber={item?.FlightNumber}
                           originCode={

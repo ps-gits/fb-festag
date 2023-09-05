@@ -108,8 +108,8 @@ const FlightAvailability = () => {
         findFareFamilyInfo?.name === 'delight'
           ? setTabIndex(0)
           : findFareFamilyInfo?.name === 'bliss'
-            ? setTabIndex(1)
-            : setTabIndex(2);
+          ? setTabIndex(1)
+          : setTabIndex(2);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -154,7 +154,7 @@ const FlightAvailability = () => {
         (item: { Dtr: string; Otr: string }) =>
           selectedDetailsForFlight?.length > 1
             ? item?.Dtr?.split('T')[0] === selectFlight?.details?.Dtr &&
-            item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
+              item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
             : item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
       );
       const findIndex = fareFamilyData[findFareFamilyInfo?.name]?.findIndex(
@@ -177,7 +177,7 @@ const FlightAvailability = () => {
       (item: { Dtr: string; Otr: string }) =>
         selectedDetailsForFlight?.length > 1
           ? item?.Dtr?.split('T')[0] === selectFlight?.details?.Dtr &&
-          item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
+            item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
           : item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
     );
     return (
@@ -193,10 +193,10 @@ const FlightAvailability = () => {
     return selectFlight?.name !== getFieldName(flightAvailabilityContent, fareFamilyName)
       ? findTotalAmount(getFieldName(flightAvailabilityContent, fareFamilyName)?.toLowerCase())
       : (selectFlight?.details?.currency ? selectFlight?.details?.currency : '') +
-      ' ' +
-      (!Number.isNaN(Math.floor(selectFlight?.details?.TotalAmount))
-        ? Math.floor(selectFlight?.details?.TotalAmount)?.toLocaleString('en-GB')
-        : '');
+          ' ' +
+          (!Number.isNaN(Math.floor(selectFlight?.details?.TotalAmount))
+            ? Math.floor(selectFlight?.details?.TotalAmount)?.toLocaleString('en-GB')
+            : '');
   };
 
   const updateFareFamily = (fareFamilyName: string) => {
@@ -204,7 +204,7 @@ const FlightAvailability = () => {
       (item: { Dtr: string; Otr: string }) =>
         selectedDetailsForFlight?.length > 1
           ? item?.Dtr?.split('T')[0] === selectFlight?.details?.Dtr &&
-          item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
+            item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
           : item?.Otr?.split('T')[0] === selectFlight?.details?.Otr
     );
     const findIndex = fareFamilyData[fareFamilyName?.toLowerCase()]?.findIndex(
@@ -363,16 +363,19 @@ const FlightAvailability = () => {
                                     {getFieldName(flightAvailabilityContent, 'passengersLabel')}
                                   </p>
                                   <p className="text-sm font-medium text-pearlgray">
-                                    {`${adult} ${adult > 1
+                                    {`${adult} ${
+                                      adult > 1
                                         ? getFieldName(passengerContent, 'adults')
                                         : getFieldName(passengerContent, 'adult')
-                                      } ${children && children > 0
-                                        ? `, ${children} ${children > 1
-                                          ? getFieldName(passengerContent, 'children')
-                                          : getFieldName(passengerContent, 'child')
-                                        }`
+                                    } ${
+                                      children && children > 0
+                                        ? `, ${children} ${
+                                            children > 1
+                                              ? getFieldName(passengerContent, 'children')
+                                              : getFieldName(passengerContent, 'child')
+                                          }`
                                         : ''
-                                      }`}
+                                    }`}
                                   </p>
                                 </div>
                               </div>
@@ -484,27 +487,30 @@ const FlightAvailability = () => {
               </div>
             </div>
             <div
-              className={`${!showFlightInfo
+              className={`${
+                !showFlightInfo
                   ? 'xl:bg-cadetgray xl:h-screen  xl:rounded-none rounded-lg inherit   w-full  xl:py-16 index-style'
                   : 'px-3  bg-cadetgray  xl:rounded-none rounded-lg xs:shadow-2xl xl:shadow-none inherit xs:absolute   w-full  xl:w-3/4  index-style'
-                }`}
+              }`}
             >
               <div className="xl:not-sr-only	xs:sr-only">
                 <div
-                  className={`${!showFlightInfo
+                  className={`${
+                    !showFlightInfo
                       ? 'xl:w-5/6 xl:m-auto xl:pl-0 xl:pt-8 gap-10'
                       : 'xl:w-5/6 xl:m-auto xl:pl-0 xl:pt-24 gap-10'
-                    }`}
+                  }`}
                 >
                   <StepsInfo selected={2} />
                 </div>
               </div>
               <div className="xl:w-5/6 xs:w-full m-auto  xl:py-0 xs:pt-24 xs:pb-3">
                 <div
-                  className={`${!showFlightInfo
+                  className={`${
+                    !showFlightInfo
                       ? 'flex items-center justify-between xl:px-0 xs:px-3'
                       : 'flex items-center justify-between xl:px-0 xs:px-0'
-                    }`}
+                  }`}
                 >
                   <div
                     className=" xl:py-3 xs:py-2 cursor-pointer"
@@ -512,10 +518,10 @@ const FlightAvailability = () => {
                       showFlightInfo && dateFlexible
                         ? setShowFlightInfo(false)
                         : modifyDataFromBooking
-                          ? router.push('/bookingcomplete')
-                          : modifyData
-                            ? router.push('/modifybooking')
-                            : router?.push('/');
+                        ? router.push('/bookingcomplete')
+                        : modifyData
+                        ? router.push('/modifybooking')
+                        : router?.push('/');
                       if (!showFlightInfo && (modifyBookingInfo || modifyData)) {
                         dispatch(
                           setSelectedFlightCodesWithDate({
@@ -554,16 +560,18 @@ const FlightAvailability = () => {
               </div>
               <div>
                 <div
-                  className={`${!showFlightInfo
+                  className={`${
+                    !showFlightInfo
                       ? 'xl:bg-white   xl:w-5/6 m-auto  xs:w-full xl:py-4  px-3 rounded-2xl xl:mt-1 xs:mt-0 xl:mb-10 xs:mb-5'
                       : 'xl:w-5/6 m-auto  xs:w-full rounded-2xl '
-                    }`}
+                  }`}
                 >
                   <div
-                    className={`${!showFlightInfo
+                    className={`${
+                      !showFlightInfo
                         ? 'xl:flex xs:block justify-between xl:px-6'
                         : 'xl:flex xs:block justify-between px-0'
-                      }`}
+                    }`}
                   >
                     <div className="xs:mt-0 ">
                       <div className="xl:my-2 xs:py-0">
@@ -595,14 +603,16 @@ const FlightAvailability = () => {
                   </div>
                   <div className="xl:pt-0 xs:pt-4">
                     <div
-                      className={`${!showFlightInfo
+                      className={`${
+                        !showFlightInfo
                           ? 'xl:flex xs:block  xl:w-full xs:w-full m-auto rounded-2xl xl:mb-5'
                           : 'xl:flex xs:block   p-0 rounded-2xl xl:mt-1 xs:mt-0'
-                        }`}
+                      }`}
                     >
                       <div
-                        className={`${!showFlightInfo ? 'xl:w-1/2 xs:w-full' : 'xl:w-full xs:w-full'
-                          }`}
+                        className={`${
+                          !showFlightInfo ? 'xl:w-1/2 xs:w-full' : 'xl:w-full xs:w-full'
+                        }`}
                       >
                         <div
                           className={`${!showFlightInfo ? 'xl:px-5 xl:pt-3 ' : 'xl:py-3 xl:px-0'}`}
@@ -620,10 +630,11 @@ const FlightAvailability = () => {
                                   role="presentation"
                                 >
                                   <button
-                                    className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${tabIndex === 0
+                                    className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${
+                                      tabIndex === 0
                                         ? 'text-darkskyblue border-darkskyblue bg-lightskyblue '
                                         : 'border-transparent '
-                                      }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
+                                    }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
                                     onClick={() => {
                                       tabClicked(0, 'delight');
                                     }}
@@ -659,10 +670,11 @@ const FlightAvailability = () => {
                                   role="presentation"
                                 >
                                   <button
-                                    className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${tabIndex === 1
+                                    className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${
+                                      tabIndex === 1
                                         ? 'text-darkskyblue border-darkskyblue bg-lightskyblue '
                                         : 'border-transparent '
-                                      }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
+                                    }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
                                     onClick={() => {
                                       tabClicked(1, 'bliss');
                                     }}
@@ -706,10 +718,11 @@ const FlightAvailability = () => {
                                     </div>
                                   </div>
                                   <button
-                                    className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${tabIndex === 2
+                                    className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${
+                                      tabIndex === 2
                                         ? 'text-darkskyblue border-darkskyblue bg-lightskyblue '
                                         : 'border-transparent '
-                                      }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
+                                    }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
                                     onClick={() => {
                                       tabClicked(2, 'opulence');
                                     }}
@@ -763,7 +776,7 @@ const FlightAvailability = () => {
                                   <Fragment key={index}>
                                     <div className="border-cadetgray border bg-white p-3 rounded-lg mt-3">
                                       <div className="flex justify-between">
-                                        <div className="w-2/6">
+                                        <div className="w-2/6 mb-2">
                                           <h1 className="text-lg font-black text-aqua">
                                             {index === 0 ? originCode : destinationCode}
                                           </h1>
@@ -776,13 +789,13 @@ const FlightAvailability = () => {
                                             <p className="font-extrabold text-xs text-aqua">
                                               {index === 0
                                                 ? getFieldName(
-                                                  flightAvailabilityContent,
-                                                  'outbound'
-                                                )
+                                                    flightAvailabilityContent,
+                                                    'outbound'
+                                                  )
                                                 : getFieldName(
-                                                  flightAvailabilityContent,
-                                                  'inbound'
-                                                )}
+                                                    flightAvailabilityContent,
+                                                    'inbound'
+                                                  )}
                                             </p>
                                           </div>
                                           <div>
@@ -819,6 +832,27 @@ const FlightAvailability = () => {
                                           </p>
                                         </div>
                                       </div>
+                                      {item?.Stops &&
+                                        item?.Stops?.length > 0 &&
+                                        item?.Stops[0]?.LocationCode !== null && (
+                                          <div className="flex items-center">
+                                            <div className="pr-1">
+                                              <Image
+                                                src={getImageSrc(
+                                                  flightAvailabilityContent,
+                                                  'infoIcon'
+                                                )}
+                                                className=" w-5 h-5 object-cover cursor-pointer"
+                                                alt="tooltip"
+                                                width={336}
+                                                height={201}
+                                              />
+                                            </div>
+                                            <div className="pl-1 text-pearlgray text-xs">
+                                              {item?.Remarks !== null && item?.Remarks}
+                                            </div>
+                                          </div>
+                                        )}
                                       {selectFlight?.details?.FaireFamilies?.length > 1 &&
                                         index === 0 && (
                                           <div className="my-3">
@@ -1074,16 +1108,18 @@ const FlightAvailability = () => {
                 <div className="xl:flex xs:block gap-3  xl:w-5/6 xs:w-full xs:px-3 m-auto rounded-2xl mt-1 pb-7">
                   <div className="xl:w-1/3 xs:w-full">
                     <div
-                      className={`${selectFlight?.name === getFieldName(flightAvailabilityContent, 'delight')
+                      className={`${
+                        selectFlight?.name === getFieldName(flightAvailabilityContent, 'delight')
                           ? ''
                           : 'xl:not-sr-only	xs:sr-only'
-                        } `}
+                      } `}
                     >
                       <div
-                        className={`bg-white p-4 rounded-2xl ${selectFlight?.name === getFieldName(flightAvailabilityContent, 'delight')
+                        className={`bg-white p-4 rounded-2xl ${
+                          selectFlight?.name === getFieldName(flightAvailabilityContent, 'delight')
                             ? 'border border-aqua'
                             : 'my-8'
-                          }`}
+                        }`}
                       >
                         <div className="flex gap-2 items-center justify-center py-3">
                           <div>
@@ -1143,13 +1179,13 @@ const FlightAvailability = () => {
                                               src={
                                                 item?.delight?.information?.toLowerCase() === 'no'
                                                   ? getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCancelIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCancelIcon'
+                                                    )
                                                   : getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'checkIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'checkIcon'
+                                                    )
                                               }
                                               className="h-6 w-6"
                                               alt=""
@@ -1166,15 +1202,16 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${item?.delight?.information?.toLowerCase() === 'free'
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${
+                                            item?.delight?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
-                                            }`}
+                                          }`}
                                         >
                                           {item?.delight?.information}
                                           {item?.delight?.description?.length > 0 &&
                                             item?.delight?.description?.toLowerCase() !==
-                                            'null' && (
+                                              'null' && (
                                               <div className="relative flex flex-col items-center group">
                                                 <span className="pl-1">
                                                   <Image
@@ -1239,13 +1276,13 @@ const FlightAvailability = () => {
                                               src={
                                                 item?.delight?.information?.toLowerCase() === 'no'
                                                   ? getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCancelIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCancelIcon'
+                                                    )
                                                   : getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCheckIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCheckIcon'
+                                                    )
                                               }
                                               className="h-6 w-6"
                                               alt=""
@@ -1262,15 +1299,16 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${item?.delight?.information?.toLowerCase() === 'free'
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${
+                                            item?.delight?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
-                                            }`}
+                                          }`}
                                         >
                                           {item?.delight?.information}
                                           {item?.delight?.description?.length > 0 &&
                                             item?.delight?.description?.toLowerCase() !==
-                                            'null' && (
+                                              'null' && (
                                               <div className="relative flex flex-col items-center group">
                                                 <span className="pl-1">
                                                   <Image
@@ -1302,38 +1340,38 @@ const FlightAvailability = () => {
                           </div>
                           {selectFlight?.name ===
                             getFieldName(flightAvailabilityContent, 'delight') && (
-                              <div className="mt-2">
-                                <button
-                                  type="button"
-                                  className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-3 py-2 text-center border border-aqua"
-                                  onClick={continueButton}
-                                >
-                                  {getFieldName(flightAvailabilityContent, 'continue')}
-                                </button>
-                              </div>
-                            )}
+                            <div className="mt-2">
+                              <button
+                                type="button"
+                                className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-3 py-2 text-center border border-aqua"
+                                onClick={continueButton}
+                              >
+                                {getFieldName(flightAvailabilityContent, 'continue')}
+                              </button>
+                            </div>
+                          )}
                           <button
                             type="button"
                             className="w-full xs:justify-center font-extrabold xs:text-center text-aqua border border-aqua  rounded-lg text-lg inline-flex items-center px-2 py-2 text-center mt-3"
                             onClick={() => {
                               selectFlight?.name ===
-                                getFieldName(flightAvailabilityContent, 'delight')
+                              getFieldName(flightAvailabilityContent, 'delight')
                                 ? updateFareFamily(
-                                  getFieldName(flightAvailabilityContent, 'opulence')
-                                )
+                                    getFieldName(flightAvailabilityContent, 'opulence')
+                                  )
                                 : updateFareFamily(
-                                  getFieldName(flightAvailabilityContent, 'delight')
-                                );
+                                    getFieldName(flightAvailabilityContent, 'delight')
+                                  );
                             }}
                           >
                             {selectFlight?.name ===
-                              getFieldName(flightAvailabilityContent, 'delight')
+                            getFieldName(flightAvailabilityContent, 'delight')
                               ? getFieldName(flightAvailabilityContent, 'upgradeOpulence')
                               : getFieldName(flightAvailabilityContent, 'choosePackage') +
-                              ' ' +
-                              getFieldName(flightAvailabilityContent, 'delight') +
-                              ' ' +
-                              getFieldName(flightAvailabilityContent, 'experience')}
+                                ' ' +
+                                getFieldName(flightAvailabilityContent, 'delight') +
+                                ' ' +
+                                getFieldName(flightAvailabilityContent, 'experience')}
                           </button>
                         </div>
                       </div>
@@ -1341,16 +1379,18 @@ const FlightAvailability = () => {
                   </div>
                   <div className="xl:w-1/3 xs:w-full">
                     <div
-                      className={`${selectFlight?.name === getFieldName(flightAvailabilityContent, 'bliss')
+                      className={`${
+                        selectFlight?.name === getFieldName(flightAvailabilityContent, 'bliss')
                           ? ''
                           : 'xl:not-sr-only	xs:sr-only'
-                        } `}
+                      } `}
                     >
                       <div
-                        className={` p-4 bg-white rounded-2xl ${selectFlight?.name === getFieldName(flightAvailabilityContent, 'bliss')
+                        className={` p-4 bg-white rounded-2xl ${
+                          selectFlight?.name === getFieldName(flightAvailabilityContent, 'bliss')
                             ? 'border border-aqua'
                             : 'my-8'
-                          }`}
+                        }`}
                       >
                         <div className="flex gap-2 items-center justify-center py-3">
                           <div>
@@ -1410,13 +1450,13 @@ const FlightAvailability = () => {
                                               src={
                                                 item?.bliss?.information?.toLowerCase() === 'no'
                                                   ? getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCancelIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCancelIcon'
+                                                    )
                                                   : getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'checkIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'checkIcon'
+                                                    )
                                               }
                                               className="h-6 w-6"
                                               alt=""
@@ -1433,10 +1473,11 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${item?.bliss?.information?.toLowerCase() === 'free'
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 flex justify-between ${
+                                            item?.bliss?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
-                                            }`}
+                                          }`}
                                         >
                                           {item?.bliss?.information}
                                           {item?.bliss?.description?.length > 0 &&
@@ -1505,13 +1546,13 @@ const FlightAvailability = () => {
                                               src={
                                                 item?.bliss?.information?.toLowerCase() === 'no'
                                                   ? getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCancelIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCancelIcon'
+                                                    )
                                                   : getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCheckIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCheckIcon'
+                                                    )
                                               }
                                               className="h-6 w-6"
                                               alt=""
@@ -1528,10 +1569,11 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black items-center ${item?.bliss?.information?.toLowerCase() === 'free'
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black items-center ${
+                                            item?.bliss?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
-                                            }`}
+                                          }`}
                                         >
                                           {item?.bliss?.information}
                                           {item?.bliss?.description?.length > 0 &&
@@ -1567,35 +1609,35 @@ const FlightAvailability = () => {
                           </div>
                           {selectFlight?.name ===
                             getFieldName(flightAvailabilityContent, 'bliss') && (
-                              <button
-                                type="button"
-                                className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-3 py-2 text-center border border-aqua"
-                                onClick={continueButton}
-                              >
-                                {getFieldName(flightAvailabilityContent, 'continue')}
-                              </button>
-                            )}
+                            <button
+                              type="button"
+                              className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-3 py-2 text-center border border-aqua"
+                              onClick={continueButton}
+                            >
+                              {getFieldName(flightAvailabilityContent, 'continue')}
+                            </button>
+                          )}
                           <button
                             type="button"
                             className="w-full xs:justify-center font-extrabold xs:text-center text-aqua border border-aqua  rounded-lg text-lg inline-flex items-center px-2 py-2 text-center mt-3 "
                             onClick={() => {
                               selectFlight?.name ===
-                                getFieldName(flightAvailabilityContent, 'bliss')
+                              getFieldName(flightAvailabilityContent, 'bliss')
                                 ? updateFareFamily(
-                                  getFieldName(flightAvailabilityContent, 'opulence')
-                                )
+                                    getFieldName(flightAvailabilityContent, 'opulence')
+                                  )
                                 : updateFareFamily(
-                                  getFieldName(flightAvailabilityContent, 'bliss')
-                                );
+                                    getFieldName(flightAvailabilityContent, 'bliss')
+                                  );
                             }}
                           >
                             {selectFlight?.name === getFieldName(flightAvailabilityContent, 'bliss')
                               ? getFieldName(flightAvailabilityContent, 'upgradeOpulence')
                               : getFieldName(flightAvailabilityContent, 'choosePackage') +
-                              ' ' +
-                              getFieldName(flightAvailabilityContent, 'bliss') +
-                              ' ' +
-                              getFieldName(flightAvailabilityContent, 'experience')}
+                                ' ' +
+                                getFieldName(flightAvailabilityContent, 'bliss') +
+                                ' ' +
+                                getFieldName(flightAvailabilityContent, 'experience')}
                           </button>
                         </div>
                       </div>
@@ -1603,16 +1645,18 @@ const FlightAvailability = () => {
                   </div>
                   <div className="xl:w-1/3 xs:w-full">
                     <div
-                      className={`${selectFlight?.name === getFieldName(flightAvailabilityContent, 'opulence')
+                      className={`${
+                        selectFlight?.name === getFieldName(flightAvailabilityContent, 'opulence')
                           ? ''
                           : 'xl:not-sr-only	xs:sr-only'
-                        } `}
+                      } `}
                     >
                       <div
-                        className={`bg-white p-4 rounded-2xl relative ${selectFlight?.name === getFieldName(flightAvailabilityContent, 'opulence')
+                        className={`bg-white p-4 rounded-2xl relative ${
+                          selectFlight?.name === getFieldName(flightAvailabilityContent, 'opulence')
                             ? 'border border-aqua'
                             : 'my-8'
-                          }`}
+                        }`}
                       >
                         <div className="flex justify-center">
                           <div className="bg-lightorange absolute -top-2 rounded-full py-1 px-3">
@@ -1681,13 +1725,13 @@ const FlightAvailability = () => {
                                               src={
                                                 item?.opulence?.information?.toLowerCase() === 'no'
                                                   ? getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCancelIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCancelIcon'
+                                                    )
                                                   : getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'checkIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'checkIcon'
+                                                    )
                                               }
                                               className="h-6 w-6"
                                               alt=""
@@ -1704,15 +1748,16 @@ const FlightAvailability = () => {
                                       </th>
                                       <td className="px-2 py-4 ">
                                         <div
-                                          className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black items-center ${item?.opulence?.information?.toLowerCase() === 'free'
+                                          className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black items-center ${
+                                            item?.opulence?.information?.toLowerCase() === 'free'
                                               ? 'text-green'
                                               : 'text-black'
-                                            }`}
+                                          }`}
                                         >
                                           {item?.opulence?.information}
                                           {item?.opulence?.description?.length > 0 &&
                                             item?.opulence?.description?.toLowerCase() !==
-                                            'null' && (
+                                              'null' && (
                                               <div className="relative flex flex-col items-center group">
                                                 <span className="pl-1">
                                                   <Image
@@ -1777,13 +1822,13 @@ const FlightAvailability = () => {
                                               src={
                                                 item?.opulence?.information?.toLowerCase() === 'no'
                                                   ? getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCancelIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCancelIcon'
+                                                    )
                                                   : getImageSrc(
-                                                    flightAvailabilityContent,
-                                                    'circleCheckIcon'
-                                                  )
+                                                      flightAvailabilityContent,
+                                                      'circleCheckIcon'
+                                                    )
                                               }
                                               className="h-6 w-6"
                                               alt=""
@@ -1801,17 +1846,18 @@ const FlightAvailability = () => {
                                       <td className="px-2 py-4 ">
                                         <div className="flex items-center justify-between">
                                           <div
-                                            className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black items-center ${item?.opulence?.information?.toLowerCase() === 'free'
+                                            className={`font-extrabold text-xs w-full flex items-center gap-1 justify-between text-black items-center ${
+                                              item?.opulence?.information?.toLowerCase() === 'free'
                                                 ? 'text-green'
                                                 : 'text-black'
-                                              }`}
+                                            }`}
                                           >
                                             {item?.opulence?.information}
                                           </div>
                                           <div>
                                             {item?.opulence?.description?.length > 0 &&
                                               item?.opulence?.description?.toLowerCase() !==
-                                              'null' && (
+                                                'null' && (
                                                 <div className="relative flex flex-col items-center group ">
                                                   <span
                                                     style={{
@@ -1839,17 +1885,17 @@ const FlightAvailability = () => {
                                                   </div>
                                                 </div>
                                               )}
+                                          </div>
                                         </div>
-                                      </div>
-                                    </td>
+                                      </td>
                                     </tr>
-                              )
+                                  )
                                 )}
-                            </tbody>
-                          </table>
-                        </div>
-                        {selectFlight?.name ===
-                          getFieldName(flightAvailabilityContent, 'opulence') && (
+                              </tbody>
+                            </table>
+                          </div>
+                          {selectFlight?.name ===
+                            getFieldName(flightAvailabilityContent, 'opulence') && (
                             <button
                               type="button"
                               className="w-full xs:justify-center font-extrabold xs:text-center text-white  bg-aqua  rounded-lg text-lg inline-flex items-center px-3 py-2 text-center border border-aqua"
@@ -1858,49 +1904,48 @@ const FlightAvailability = () => {
                               {getFieldName(flightAvailabilityContent, 'continue')}
                             </button>
                           )}
-                        <button
-                          type="button"
-                          className="w-full xs:justify-center font-extrabold xs:text-center text-aqua border border-aqua  rounded-lg text-lg inline-flex items-center px-2 py-2 text-center mt-3 "
-                          onClick={() => {
-                            selectFlight?.name !==
-                              getFieldName(flightAvailabilityContent, 'opulence') &&
-                              updateFareFamily(
-                                getFieldName(flightAvailabilityContent, 'opulence')
-                              );
-                          }}
-                        >
-                          {selectFlight?.name ===
+                          <button
+                            type="button"
+                            className="w-full xs:justify-center font-extrabold xs:text-center text-aqua border border-aqua  rounded-lg text-lg inline-flex items-center px-2 py-2 text-center mt-3 "
+                            onClick={() => {
+                              selectFlight?.name !==
+                                getFieldName(flightAvailabilityContent, 'opulence') &&
+                                updateFareFamily(
+                                  getFieldName(flightAvailabilityContent, 'opulence')
+                                );
+                            }}
+                          >
+                            {selectFlight?.name ===
                             getFieldName(flightAvailabilityContent, 'opulence')
-                            ? getFieldName(flightAvailabilityContent, 'bestExperience')
-                            : getFieldName(flightAvailabilityContent, 'choosePackage') +
-                            ' ' +
-                            getFieldName(flightAvailabilityContent, 'opulence') +
-                            ' ' +
-                            getFieldName(flightAvailabilityContent, 'experience')}
-                        </button>
+                              ? getFieldName(flightAvailabilityContent, 'bestExperience')
+                              : getFieldName(flightAvailabilityContent, 'choosePackage') +
+                                ' ' +
+                                getFieldName(flightAvailabilityContent, 'opulence') +
+                                ' ' +
+                                getFieldName(flightAvailabilityContent, 'experience')}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                </div>
-            ) : (
-            <FlightInfo
-              showModal={showModal}
-              setShowModal={setShowModal}
-              setSelectFlight={setSelectFlight}
-              setShowFlightInfo={setShowFlightInfo}
-            />
+              ) : (
+                <FlightInfo
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                  setSelectFlight={setSelectFlight}
+                  setShowFlightInfo={setShowFlightInfo}
+                />
               )}
+            </div>
           </div>
-        </div>
         </Fragment>
-  ) : load?.name === 'search' ? (
-    <SearchFlightLoader open={load?.show} />
-  ) : (
-    load.name === 'exp' && <SavingExpLoader open={load?.show} />
-  )
-}
-    </main >
+      ) : load?.name === 'search' ? (
+        <SearchFlightLoader open={load?.show} />
+      ) : (
+        load.name === 'exp' && <SavingExpLoader open={load?.show} />
+      )}
+    </main>
   );
 };
 
