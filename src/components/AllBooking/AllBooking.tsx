@@ -118,7 +118,7 @@ const AllBooking = () => {
                             Search
                           </button> */}
                         </div>
-                      </div>
+                      </div> 
                     </div>
                     <div className="pt-4">
                       <p className="text-base text-pearlgray font-medium opacity-50 mb-2">
