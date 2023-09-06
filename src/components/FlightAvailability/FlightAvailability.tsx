@@ -632,7 +632,7 @@ const FlightAvailability = () => {
                                   <button
                                     className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${
                                       tabIndex === 0
-                                        ? 'text-darkskyblue border-darkskyblue bg-lightskyblue '
+                                        ? 'text-darkskyblue border-darkskyblue bg-lightskyblue bg-lightaqua'
                                         : 'border-transparent '
                                     }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
                                     onClick={() => {
@@ -672,7 +672,7 @@ const FlightAvailability = () => {
                                   <button
                                     className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${
                                       tabIndex === 1
-                                        ? 'text-darkskyblue border-darkskyblue bg-lightskyblue '
+                                        ? 'text-darkskyblue border-darkskyblue bg-lightskyblue bg-lightaqua'
                                         : 'border-transparent '
                                     }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
                                     onClick={() => {
@@ -720,7 +720,7 @@ const FlightAvailability = () => {
                                   <button
                                     className={`xl:w-full xs:w-full inline-block  p-2 border-2 ${
                                       tabIndex === 2
-                                        ? 'text-darkskyblue border-darkskyblue bg-lightskyblue '
+                                        ? 'text-darkskyblue border-darkskyblue bg-lightskyblue bg-lightaqua'
                                         : 'border-transparent '
                                     }hover:text-darkskyblue hover:border-darkskyblue hover:bg-lightskyblue rounded-lg`}
                                     onClick={() => {
