@@ -55,7 +55,7 @@ const ReviewTrip = () => {
     passenger: false,
   });
   const [showFare, setFareModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+
   const [passengerCount, setPassengerCount] = useState({
     adult: createBookingInfo?.Passengers?.Adult ? createBookingInfo?.Passengers?.Adult : 1,
     children: createBookingInfo?.Passengers?.Children ? createBookingInfo?.Passengers?.Children : 0,
@@ -278,10 +278,8 @@ const ReviewTrip = () => {
                                 Remarks={item?.Remarks}
                                 loungeAccess={item?.Lounge}
                                 luxuryPickup={item?.Luxury}
-                                selectedItem={selectedItem}
                                 originCode={item?.OriginCode}
                                 arrivalDate={item?.ArrivalDate}
-                                setSelectedItem={setSelectedItem}
                                 FlightNumber={item?.FlightNumber}
                                 bagAllowances={item.BagAllowances}
                                 departureDate={item?.DepartureDate}

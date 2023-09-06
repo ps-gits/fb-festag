@@ -58,6 +58,7 @@ type FooterProps = ComponentProps & {
     conditionsOfCarriage:Field<string>;
     cookiePolicy:Field<string>;
     termsAndConditions:Field<string>;
+    beondDisclaimer:Field<string>;
   };
 };
 
@@ -381,6 +382,11 @@ const Footer = (props: FooterProps): JSX.Element => {
                   </div>
                   <div className="text-sm font-normal text-Silvergray xl:py-0 xs:py-4">
                     <Text field={props.fields.pvtLtd} />
+                  </div>
+                </div>
+                <div className="xl:flex md:flex xs:block justify-between items-center xl:pt-10 xs:pt-8 md:pt-6">
+                  <div className="text-sm font-normal text-Silvergray xl:py-0 xs:py-4">
+                    {props.fields.beondDisclaimer?.value}
                   </div>
                 </div>
               </div>

@@ -43,7 +43,7 @@ const FlightInfo = (props: flightDetails) => {
     returnDate: new Date(returnDate),
     dateFlexible: dateFlexible,
   });
-  const [selectedItem, setSelectedItem] = useState(null);
+
   return (
     <div>
       <div>
@@ -101,9 +101,7 @@ const FlightInfo = (props: flightDetails) => {
                           }
                           Stops={item?.Stops}
                           Remarks={item?.Remarks}
-                          selectedItem={selectedItem}
                           FlightNumber={item?.FlightNumber}
-                          setSelectedItem={setSelectedItem}
                           luxuryPickup={selectedFlight?.name === 'Opulence' ? true : false}
                           bagAllowances={item?.BagAllowances}
                           originAirportName={item?.originName}

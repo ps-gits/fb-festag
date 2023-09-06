@@ -24,9 +24,7 @@
 }
 
 
-.color-black {
-  color: black !important;
-}
+
 
 
 @media (min-width: 320px) {
@@ -885,6 +883,10 @@ svg.h-6.w-6.shrink-0 {
 .farelist ul ul ul li {
   list-style: square;
   margin: 0 0 8px;
+  color: black !important;
+}
+
+.color-black {
   color: black !important;
 }
 

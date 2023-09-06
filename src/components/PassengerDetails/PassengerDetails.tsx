@@ -1874,7 +1874,7 @@ const PassengerDetails = () => {
                                                         tripIndex: number
                                                       ) => (
                                                         <div
-                                                          className="bg-white px-3 xl:my-0 xl:mb-3 w-full xs:py-2 border border-cadetgray rounded-lg p-3 max-h-60 overflow-y-auto"
+                                                          className="bg-white px-3 mb-4 xl:my-0 xl:mb-3 w-full xs:py-2 border border-cadetgray rounded-lg p-3 max-h-60 overflow-y-auto"
                                                           key={tripIndex}
                                                         >
                                                           <div>

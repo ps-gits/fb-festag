@@ -566,8 +566,8 @@ interface flightSchedule {
   destinationAirportName: string;
   seatsDestinationToOrigin?: { Text: string }[];
   seatsOriginToDestination?: { Text: string }[];
-  selectedItem: null | number;
-  setSelectedItem: (arg0: SetStateAction<number | null>) => void;
+  // selectedItem: null | number;
+  // setSelectedItem: (arg0: SetStateAction<number | null>) => void;
 }
 
 interface compareFareFamily {

@@ -27,7 +27,7 @@ const CancelBooking = () => {
   const cancelBookingInfo = useSelector(
     (state: RootState) => state?.flightDetails?.prepareCancelFlight
   );
-  const [selectedItem, setSelectedItem] = useState(null);
+
   const load = useSelector((state: RootState) => state?.loader?.loader);
   const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
   const bookingInfo = useSelector((state: RootState) => state?.flightDetails?.modifyBooking);
@@ -230,10 +230,8 @@ const CancelBooking = () => {
                                 luxuryPickup={true}
                                 Stops={item?.Stops}
                                 Remarks={item?.Remarks}
-                                selectedItem={selectedItem}
                                 originCode={item?.OriginCode}
                                 arrivalDate={item?.ArrivalDate}
-                                setSelectedItem={setSelectedItem}
                                 bagAllowances={item.BagAllowances}
                                 departureDate={item?.DepartureDate}
                                 destinationCode={item?.DestinationCode}

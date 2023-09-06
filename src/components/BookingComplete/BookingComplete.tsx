@@ -102,7 +102,7 @@ const BookingComplete = () => {
     returnDate: new Date(moment(returnDate).format('LL')),
     dateFlexible: true,
   });
-  const [selectedItem, setSelectedItem] = useState(null);
+
   const [passengerModify, setPassengerModify] = useState(false);
   const [passengerCount, setPassengerCount] = useState({
     adult: bookingCompleteInfo?.Passengers?.Adult ? bookingCompleteInfo?.Passengers?.Adult : 1,
@@ -450,11 +450,9 @@ const BookingComplete = () => {
                                   Remarks={item?.Remarks}
                                   loungeAccess={item?.Lounge}
                                   luxuryPickup={item?.Luxury}
-                                  selectedItem={selectedItem}
                                   originCode={item?.OriginCode}
                                   arrivalDate={item?.ArrivalDate}
                                   FlightNumber={item?.FlightNumber}
-                                  setSelectedItem={setSelectedItem}
                                   bagAllowances={item.BagAllowances}
                                   departureDate={item?.DepartureDate}
                                   destinationCode={item?.DestinationCode}

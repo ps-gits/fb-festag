@@ -17,12 +17,10 @@ const FlightSchedule = (props: flightSchedule) => {
     FlightNumber,
     loungeAccess,
     luxuryPickup,
-    selectedItem,
     bagAllowances,
     departureDate,
     departureTime,
     destinationCode,
-    setSelectedItem,
     originAirportName,
     destinationAirportName,
     seatsOriginToDestination,
@@ -51,22 +49,12 @@ const FlightSchedule = (props: flightSchedule) => {
         </div>
         <div className="absolute h-full top-4 left-5 border-dashed border-Silvergray border "></div>
         {Stops && Stops?.length > 0 && Stops[0]?.LocationCode !== null && (
-          <div className="absolute w-11 left-0 top-1/2 flex flex-col items-center group">
+          <div className="absolute w-11 left-0 top-1/2 flex flex-col items-center">
             <div
               key={index}
-              className="bg-white text-center flex flex-col group items-center relative"
+              className="bg-white text-center flex flex-col group items-center relative group"
             >
-              <span className="cursor-pointer color-black">
-                {/* <input
-                type="radio"
-                checked={index === selectedItem}
-                className="cursor-pointer"
-                onClick={() => {
-                  if (Stops?.length > 0 && Stops[0]?.LocationCode !== null) {
-                    setSelectedItem((index === selectedItem ? null : index) as null);
-                  }
-                }}
-              /> */}
+              <span className="cursor-pointer group color-black">
                 <Image
                   // src={stops}
                   src={getImageSrc(flightScheduleContent, 'stops') as string}
@@ -74,21 +62,21 @@ const FlightSchedule = (props: flightSchedule) => {
                   height={15}
                   className="cursor-pointer m-auto"
                   alt=""
-                  onClick={() => {
-                    if (Stops?.length > 0 && Stops[0]?.LocationCode !== null) {
-                      setSelectedItem((index === selectedItem ? null : index) as null);
-                    }
-                  }}
                 />
                 {Stops?.length > 0 && Stops[0]?.LocationCode !== null ? Stops[0]?.LocationCode : ''}
               </span>
               <div
-                className={`absolute bottom-5 flex flex-col items-center ${
-                  index === selectedItem ? '' : 'hidden'
-                } mb-6 w-64 pl-3`}
+                className={`absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex w-28 lg:w- pl-3`}
               >
-                <span className="relative z-10 p-2 text-xs whitespace-no-wrap  bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal">
-                  {Remarks !== null ? Remarks : 'No Data Found'}
+                <span
+                  style={{
+                    display: 'block',
+                    whiteSpace: 'normal',
+                    // wordBreak: 'break-all',
+                  }}
+                  className="relative z-10 p-2 text-xs whitespace-no-wrap w-24 md:w-auto bg-white border rounded-lg border-graylight text-pearlgray font-normal leading-normal"
+                >
+                  {Remarks !== null && Remarks}
                 </span>
                 <div className="w-4 h-4 -mt-2 rotate-45 border border-t-0 border-l-0 z-50 shadow-lg border-graylight bg-white"></div>
               </div>
@@ -121,7 +109,10 @@ const FlightSchedule = (props: flightSchedule) => {
                   width={8}
                   height={8}
                 />
-                <p className="font-black text-sm text-black">Luxury Pick-up</p>
+                <div>
+                  <p className="font-black text-sm text-black">Luxury Pick-up</p>
+                  <p className="font-medium text-xs text-slategray">Service offered at select airports only. Not available in Male.</p>
+                </div>
               </div>
             )}
             {loungeAccess && (
@@ -155,7 +146,7 @@ const FlightSchedule = (props: flightSchedule) => {
                               ? item?.Text
                               : item?.Text + ' , '
                           )
-                        : '6D, 6F, 7D, 7F'
+                        : ''
                       : seatsDestinationToOrigin && seatsDestinationToOrigin?.length > 0
                       ? seatsDestinationToOrigin?.map((item, index) =>
                           index === seatsDestinationToOrigin?.length - 1
