@@ -856,7 +856,6 @@ const FlightAvailability = () => {
                                       {selectFlight?.details?.FaireFamilies?.length > 1 &&
                                         index === 0 && (
                                           <div className="my-3">
-                                            <div className="border-b border-cadetgray"></div>
                                           </div>
                                         )}
                                     </div>
