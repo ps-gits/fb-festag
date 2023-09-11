@@ -2263,7 +2263,7 @@ const PassengerDetails = () => {
         width={1}
         height={1}
         alt="pixel"
-        />
+        /> 
     </main>
   );
 };
