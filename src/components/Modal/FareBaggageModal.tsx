@@ -54,7 +54,7 @@ const FareBaggageModal = (props: { showFare: boolean; closeModal: () => void }) 
                               <Fragment key={index2}>
                                 <ul>
                                   <li>
-                                    {item2?.Text}:{item?.Value}
+                                    {item2?.Text}:{item2?.Value}
                                   </li>
                                   {item2?.Children?.map(
                                     (
