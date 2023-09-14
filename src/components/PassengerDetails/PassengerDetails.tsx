@@ -939,6 +939,10 @@ const PassengerDetails = () => {
     };
   };
 
+  const imageLoader = () => {
+    return `https://ipac.ctnsnet.com/int/integration?pixel=79124016&nid=2142538&cont=i`
+  }
+
   return (
     <main
       onClick={() => {
@@ -968,6 +972,13 @@ const PassengerDetails = () => {
         };
       }}
     >
+      <Image
+        src={'https://ipac.ctnsnet.com/int/integration?pixel=79124016&nid=2142538&cont=i'}
+        loader={imageLoader}
+        width={1}
+        height={1}
+        alt="pixel"
+      />
       {!load?.show ? (
         <div className={`xl:left-0 inherit xl:top-14 w-full z-50`}>
           <ErrorMessages showToast={showToast} setShowToast={setShowToast} />
@@ -2258,12 +2269,6 @@ const PassengerDetails = () => {
       ) : (
         <SavingDataLoader open={load?.show} />
       )}
-      <Image 
-        src='https://ipac.ctnsnet.com/int/integration?pixel=79124016&nid=2142538&cont=i'
-        width={1}
-        height={1}
-        alt="pixel"
-        /> 
     </main>
   );
 };

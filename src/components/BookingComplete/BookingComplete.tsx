@@ -302,6 +302,10 @@ const BookingComplete = () => {
     // }
   };
 
+  const imageLoader = () => {
+    return `https://ipac.ctnsnet.com/int/integration?pixel=79124023&nid=2142538&cont=i`
+  }
+
   return (
     <main
       onClick={() => {
@@ -329,6 +333,13 @@ const BookingComplete = () => {
         };
       }}
     >
+      <Image
+        src={'https://ipac.ctnsnet.com/int/integration?pixel=79124023&nid=2142538&cont=i'}
+        loader={imageLoader}
+        width={1}
+        height={1}
+        alt="pixel"
+      />
       {!load?.show ? (
         <div className="relative">
           <div className="xl:not-sr-only	xs:sr-only">
@@ -745,12 +756,6 @@ const BookingComplete = () => {
       ) : (
         load?.name === 'payment' && <PaymentGatewayLoader open={load?.show} />
       )}
-      <Image 
-        src='https://ipac.ctnsnet.com/int/integration?pixel=79124023&nid=2142538&cont=i'
-        width={1}
-        height={1}
-        alt="pixel"
-        />
     </main>
   );
 };

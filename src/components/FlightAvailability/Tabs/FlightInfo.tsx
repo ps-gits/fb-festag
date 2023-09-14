@@ -102,7 +102,7 @@ const FlightInfo = (props: flightDetails) => {
                           Stops={item?.Stops}
                           Remarks={item?.Remarks}
                           FlightNumber={item?.FlightNumber}
-                          luxuryPickup={selectedFlight?.name === 'Opulence' ? true : false}
+                          luxuryPickup={selectedFlight?.name === 'Opulence' || selectedFlight?.name === 'Bliss' ? true : false}
                           bagAllowances={item?.BagAllowances}
                           originAirportName={item?.originName}
                           originCode={

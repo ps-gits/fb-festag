@@ -50,6 +50,7 @@ import { getSitecoreContent, getSitecoreData } from 'src/redux/action/Sitecore';
 import LandingPageSearchBar from 'components/SearchFlight/Tabs/LandingPageSearchBar';
 import { getDestinationDetails, getOriginDetails } from 'src/redux/action/AirportDetails';
 import LandingPageOnewaySearchBar from 'components/SearchFlight/Tabs/LandingPageOnewaySearchBar';
+import SpecialOfferModal from 'components/Modal/SpecialOfferModal';
 // import DropdownModal from 'components/Modal/DropdownModal';
 // import DepartReturnDateModal from 'components/Modal/DepartReturnDateModal';
 
@@ -107,6 +108,7 @@ const LandingPageSearch = () => {
     new Date(departDate).valueOf() >= new Date(new Date().toJSON().split('T')[0]).valueOf();
 
   const [loading, setLoading] = useState(false);
+  const [showOffer, setShowOffer] = useState(false);
   const [showModal, setShowModal] = useState({
     depart: false,
     return: false,
@@ -168,6 +170,13 @@ const LandingPageSearch = () => {
         ?.Label === undefined &&
       dispatch(getDestinationDetails(originCode) as unknown as AnyAction);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+      const timer = setTimeout(() => {
+        setShowOffer(true);
+        // document.body.style.overflow = 'hidden';
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+      };
   }, []);
 
   useEffect(() => {
@@ -278,7 +287,7 @@ const LandingPageSearch = () => {
   };
 
   const selectedFareFamily = flightAvailabilityContent?.find(
-    (item: { name: string }) => item?.name === 'delight'
+    (item: { name: string }) => item?.name === 'bliss'
   );
 
   return (
@@ -988,6 +997,15 @@ const LandingPageSearch = () => {
                 </div>
               </div>
             </div>
+            {showOffer && (
+              <SpecialOfferModal
+                showOffer={showOffer}
+                closeModal={() => {
+                  setShowOffer(false);
+                  document.body.style.overflow = 'unset';
+                }}
+              />
+            )}
           </section>
         </Fragment>
       ) : load?.name === 'search' ? (

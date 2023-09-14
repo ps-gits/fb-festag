@@ -201,6 +201,12 @@ img {
   width: 93% !important;
 }
 
+.error-container {
+  background-color: #FFF5CC !important;
+  border-color: #FFCC00;
+  color: #997A00;
+}
+
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {
@@ -302,6 +308,36 @@ img {
 
 .width-auto {
   width: 87%;
+}
+
+.wedge-container {
+  top: -0.1rem;
+  left: -5.7rem;
+}
+
+.wedge-content {
+    height: 0.2px;
+    transform: rotate(-40.272deg);
+    color: #FFF;
+    text-align: left;
+    font-family: Avenir;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 17;
+    position: relative;
+    left: 2.1rem;
+    top: -2rem;
+}
+
+.wedge-tooltip {
+  bottom: 60px;
+  left: 80px;
+}
+
+.wedge-logo {
+  left: -95px;
+  position: relative;
 }
 
 .react-datepicker__day--in-selecting-range,
@@ -802,6 +838,10 @@ button.flex.w-full.items-center.justify-between.first\:rounded-t-lg.last\:rounde
   border-bottom-right-radius: 8px;
 }
 
+.gallery-images:nth-child(1) {
+  margin-left: 0 !important;
+}
+
 button.flex.w-full.items-center.justify-between.first\:rounded-t-lg.last\:rounded-b-lg.py-5.px-5.text-left.font-medium.text-gray-500.dark\:text-gray-400.hover\:bg-gray-100.focus\:ring-4.focus\:ring-gray-200.dark\:hover\:bg-gray-800.dark\:focus\:ring-gray-800.text-gray-900.bg-gray-100.dark\:bg-gray-800.dark\:text-white {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -828,6 +868,10 @@ svg.h-6.w-6.shrink-0 {
   overflow: hidden;
   width: 283px;
   height: 389px;
+}
+
+.gallery-images:nth-child(1) {
+  margin-left: 0 !important;
 }
 
 .my-row {
@@ -884,6 +928,28 @@ svg.h-6.w-6.shrink-0 {
   list-style: square;
   margin: 0 0 8px;
   color: black !important;
+}
+
+.theme-accordian {
+  border-radius: 8px;
+  border: 1px solid #F0F0F1 !important;
+  background: #FFF;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.theme-accordian button {
+  margin: 0 !important;
+  align-items: flex-start;
+}
+
+.shedule-accordian button {
+  padding: 0px !important;
+  margin: 5px 0 0 !important;
+}
+
+.shedule-accordian .py-5.px-5 {
+  padding: 0 0 12px !important;
+  margin-bottom: 0 !important;
 }
 
 .color-black {
@@ -945,6 +1011,13 @@ svg.h-6.w-6.shrink-0 {
     width: 100%;
     margin-bottom: 12px;
   }
+
+  .gallery-images {
+    width: 180px;
+    height: 280px;
+    margin-left: 15px;
+  }
+
 }
 
 @media screen and (max-width: 900.1px) {
@@ -993,12 +1066,34 @@ svg.h-6.w-6.shrink-0 {
     width: 100%;
     margin-bottom: 12px;
   }
+
+  .col-4 {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .mob-dream {
+    margin: -80px auto 0;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .mob-dream {
+    margin: -30px auto 0;
+  }
 }
 
 
 @media screen and (max-width: 381.1px) {
   .gallery-images {
-    margin-top: 15px;
+    width: 200px;
+    height: 300px;
+    margin: 0 auto 30px auto !important;
+  }
+
+  .gallery-images:nth-child(1) {
+    margin-left: auto !important;
   }
 }
 
