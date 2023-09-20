@@ -12,8 +12,8 @@ interface modalType {
   destinationCode?: string;
   adult?: number;
   childrens?: number;
-  departDate?: Date;
-  returnDate?: Date;
+  departDate?: Date | string; //new-added
+  returnDate?: Date | string; //new-added
   setShowModal?: Dispatch<
     SetStateAction<{
       destination: boolean;
@@ -44,8 +44,8 @@ interface modalType {
   setShowFlightInfo?: Dispatch<SetStateAction<boolean>>;
   flightDetails?:
     | {
-        departDate: Date;
-        returnDate: Date;
+        departDate: Date | string; //new-added
+        returnDate: Date | string; //new-added
         adult: number;
         dateFlexible: boolean;
         children: number;
@@ -59,8 +59,8 @@ interface modalType {
     | { departDate: Date; returnDate: Date; dateFlexible: boolean };
   setFlightDetails?: Dispatch<
     SetStateAction<{
-      departDate: Date;
-      returnDate: Date;
+      departDate: Dat | string;
+      returnDate: Dat | string;
       adult: number;
       children: number;
       originCode: string;
@@ -108,8 +108,8 @@ interface tabType {
     }>
   >;
   flightDetails: {
-    departDate: Date;
-    returnDate: Date;
+    departDate: Date | string; //new-added
+    returnDate: Date | string; //new-added
     adult: number;
     dateFlexible: boolean;
     children: number;
@@ -118,8 +118,8 @@ interface tabType {
   };
   setFlightDetails: Dispatch<
     SetStateAction<{
-      departDate: Date;
-      returnDate: Date;
+      departDate: Date | string;
+      returnDate: Date | string;
       dateFlexible: boolean;
       adult: number;
       children: number;
@@ -127,8 +127,8 @@ interface tabType {
       destinationCode: string;
     }>
   >;
-  departDate: Date;
-  returnDate?: Date;
+  departDate: Date | string;
+  returnDate?: Date | string;
   originCode: string;
   destinationCode: string;
   adult: number;
@@ -208,8 +208,8 @@ interface dropdownModal {
     Label: string;
   }[];
   flightDetails: {
-    departDate: Date;
-    returnDate: Date;
+    departDate: Date | string; //new-added
+    returnDate: Date | string; //new-added
     adult: number;
     dateFlexible: boolean;
     children: number;
@@ -218,8 +218,8 @@ interface dropdownModal {
   };
   setFlightDetails: Dispatch<
     SetStateAction<{
-      departDate: Date;
-      returnDate: Date;
+      departDate: Date | string; //new-added
+      returnDate: Date | string; //new-added
       adult: number;
       dateFlexible: boolean;
       children: number;
@@ -337,7 +337,7 @@ interface flightAvaliabilityTab {
 }
 
 interface detailsObj {
-  Email: string;
+  Email?: string;
   Mobile: string;
   Firstname: string;
   Middlename: string;
@@ -346,6 +346,9 @@ interface detailsObj {
   CivilityCode: string;
   Traveldocument: string;
   Homecontact: string;
+  flagMobile?: string;
+  validMobile?: string;
+  dialCodeMobile: string;
 }
 
 interface flightDetails {
@@ -455,8 +458,8 @@ interface promoCodeModal {
   showModal: boolean;
   closeModal: () => void;
   flightDetails: {
-    departDate: Date;
-    returnDate: Date;
+    departDate: Date | string; //new-added
+    returnDate: Date | string; //new-added
     adult: number;
     children: number;
     originCode: string;
@@ -464,8 +467,8 @@ interface promoCodeModal {
   };
   setFlightDetails: Dispatch<
     SetStateAction<{
-      departDate: Date;
-      returnDate: Date;
+      departDate: Date | string;
+      returnDate: Date | string;
       adult: number;
       children: number;
       originCode: string;
@@ -505,6 +508,11 @@ interface selectedFareFamily {
   Stops: {
     LocationCode: string;
   }[];
+  Duration?: string;
+  AircraftType?: string;
+  OriginAirportTerminal: string;
+  DestinationAirportTerminal: string;
+  WebClass: string;
 }
 
 interface youngAdultAgeModal {
@@ -536,7 +544,14 @@ interface youngAdultAgeModal {
 interface flightSchedule {
   index: number;
   seats: boolean;
+  meals?: boolean;
+  special?: boolean;
+  WebClass?: string;
   Remarks: string;
+  Duration?: string;
+  AircraftType?: string;
+  OriginAirportTerminal?: string;
+  DestinationAirportTerminal?: string;
   Stops: {
     LocationCode: string;
   }[];
@@ -566,6 +581,27 @@ interface flightSchedule {
   destinationAirportName: string;
   seatsDestinationToOrigin?: { Text: string }[];
   seatsOriginToDestination?: { Text: string }[];
+  originToDestinationSeatData?: {
+    Firstname: string;
+    Surname: string;
+    Dob: string;
+    seatLabel: string;
+    Text: string;
+  }[];
+  destinationToOriginSeatData?: {
+    Firstname: string;
+    Surname: string;
+    Dob: string;
+    seatLabel: string;
+    Text: string;
+  }[];
+  mealDataWithPassengerInfo?: {
+    Firstname: string;
+    Surname: string;
+    originMeal: string;
+    returnMeal: string;
+    Dob: string;
+  }[];
   // selectedItem: null | number;
   // setSelectedItem: (arg0: SetStateAction<number | null>) => void;
 }
@@ -600,6 +636,10 @@ interface bookingDetails {
   };
   OriginCode: string;
   ArrivalDate: string;
+  Duration?: string;
+  AircraftType?: string;
+  OriginAirportTerminal?: string;
+  DestinationAirportTerminal?: string;
   DepartureDate: string;
   DestinationCode: string;
   OrginDepartureTime: string;
@@ -610,6 +650,7 @@ interface bookingDetails {
   OriginName: string;
   DestinationName: string;
   Remarks: string;
+  WebClass : string;
   Stops: {
     LocationCode: string;
   }[];
@@ -640,6 +681,8 @@ interface postCreateTicket {
 interface seatDetails {
   Firstname: string;
   Surname: string;
+  Dob?: string;
+  seatLabel?: string;
   mapIndex: number;
   price: number;
   AssociatedAncillaryCode: string;
@@ -648,6 +691,7 @@ interface seatDetails {
   rowNumber: number;
   AircraftName: string;
   RefSegment: string;
+  Text: string;
 }
 
 interface flightSeat {
@@ -668,6 +712,9 @@ interface mealObjectKeys {
   returnMealCode: string;
   passengerName: string;
   passengerIndex: number;
+  FirstName?: string;
+  Surname?: string;
+  Dob?: string;
 }
 
 interface cookiesList {
@@ -759,6 +806,27 @@ interface errorMessageType {
     SetStateAction<{
       show: boolean;
       status: number;
+      message: string;
+    }>
+  >;
+}
+
+interface subscribeUser {
+  Name?: string;
+  Email: string;
+  Mobile?: string;
+}
+
+interface toastMessageType {
+  showToaster: {
+    show: boolean;
+    status: string;
+    message: string;
+  };
+  setShowToaster?: Dispatch<
+    SetStateAction<{
+      show: boolean;
+      status: string;
       message: string;
     }>
   >;

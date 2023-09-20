@@ -70,6 +70,8 @@ const BookingComplete = () => {
     (state: RootState) => state?.flightDetails?.prepareBookingModification?.MealsDetails
   );
   // const numberOfMeals = useSelector((state: RootState) => state?.sitecore?.numberOfMeals);
+  const choosenSeats = useSelector((state: RootState) => state?.flightDetails?.chooseSeats);
+  const selectedMeal = useSelector((state: RootState) => state?.flightDetails?.selectedMeal);
   const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
   const findBookingInfo = useSelector((state: RootState) => state?.flightDetails?.findBooking);
   // const chooseMealContent = useSelector((state: RootState) => state?.sitecore?.chooseMeal?.fields);
@@ -301,9 +303,34 @@ const BookingComplete = () => {
     //   return [];
     // }
   };
+  const originToDestinationSeatData = choosenSeats?.filter(
+    (item: { mapIndex: number }) => item?.mapIndex === 0
+  );
+  const destinationToOriginSeatData = choosenSeats?.filter(
+    (item: { mapIndex: number }) => item?.mapIndex === 1
+  );
 
-  const imageLoader = () => {
-    return `https://ipac.ctnsnet.com/int/integration?pixel=79124023&nid=2142538&cont=i`
+  const getPnrDetails = () => {
+    
+    const val = router?.query?.error !== undefined && router?.query?.error?.length > 0
+    ? createBookingInfo?.PnrInformation?.PnrCode
+    : bookingCompleteInfo?.PnrInformation?.PnrCode;
+    
+    return val
+  }
+
+  const getCurrencyDetails = () => {
+    return bookingCompleteInfo?.Amount?.SaleCurrencyCode
+    ? bookingCompleteInfo?.Amount?.SaleCurrencyCode
+    : flightInfo?.details?.currency
+  }
+
+  const getFareDetails = () => {
+    return bookingCompleteInfo?.Amount?.TotalAmount
+  }
+
+  const detailedPixelLoader = () => {
+    return `https://i.ctnsnet.com/int/integration?pixel=79124023&nid=2142538&cont=i&orderID=${getPnrDetails()}&revenue=${getFareDetails()}&currency=${getCurrencyDetails()}`    
   }
 
   return (
@@ -334,11 +361,11 @@ const BookingComplete = () => {
       }}
     >
       <Image
-        src={'https://ipac.ctnsnet.com/int/integration?pixel=79124023&nid=2142538&cont=i'}
-        loader={imageLoader}
-        width={1}
-        height={1}
-        alt="pixel"
+        src={'https://i.ctnsnet.com/int/integration?pixel=79124023&nid=2142538&cont=i&orderID='+{getPnrDetails}+'&revenue='+{getFareDetails}+'&currency='+{getCurrencyDetails}}
+        loader={detailedPixelLoader}
+        width='1' 
+        height='1' 
+        alt=''
       />
       {!load?.show ? (
         <div className="relative">
@@ -352,7 +379,7 @@ const BookingComplete = () => {
                 width={160}
               />
             </div>
-            {router?.query?.error !== undefined && router?.query?.error?.length > 0 ? (
+            {/* {router?.query?.error !== undefined && router?.query?.error?.length > 0 ? (
               ''
             ) : (
               <div className="xl:not-sr-only	xs:sr-only">
@@ -372,7 +399,7 @@ const BookingComplete = () => {
                   />
                 </div>
               </div>
-            )}
+            )} */}
           </div>
           <div className="px-3 xl:bg-cadetgray width-auto  xl:w-3/4 xs:w-full xl:py-20 ">
             <div className="xl:w-2/4 xl:m-auto xs:w-full xl:pt-6 xs:pt-24">
@@ -429,6 +456,27 @@ const BookingComplete = () => {
                 )}
               </div>
               {router?.query?.error !== undefined && router?.query?.error?.length > 0 ? (
+                ''
+              ) : (
+                <div className="xl:not-sr-only	xs:sr-only">
+                  <div className="">
+                    <ModifyBookingModal
+                      openModal={() => {
+                        setShowModal({
+                          depart: false,
+                          return: false,
+                          passenger: false,
+                          modifyBookingDetails: true,
+                        });
+                        document.body.style.overflow = 'hidden';
+                      }}
+                      mealDetails={mealsDetails()}
+                      featuredAddons={featuredAddons}
+                    />
+                  </div>
+                </div>
+              )}
+              {router?.query?.error !== undefined && router?.query?.error?.length > 0 ? (
                 <div className=" xs:block gap-2 py-3 text-black">
                   <p>
                     It seems processing of your payment is taking a bit longer, please get in touch
@@ -457,8 +505,12 @@ const BookingComplete = () => {
                                 <FlightSchedule
                                   index={index}
                                   seats={true}
+                                  meals={true}
+                                  special={true}
                                   Stops={item?.Stops}
+                                  Duration={item?.Duration}
                                   Remarks={item?.Remarks}
+                                  AircraftType={item?.AircraftType}
                                   loungeAccess={item?.Lounge}
                                   luxuryPickup={item?.Luxury}
                                   originCode={item?.OriginCode}
@@ -466,17 +518,19 @@ const BookingComplete = () => {
                                   FlightNumber={item?.FlightNumber}
                                   bagAllowances={item.BagAllowances}
                                   departureDate={item?.DepartureDate}
+                                  originAirportName={item?.OriginName}
                                   destinationCode={item?.DestinationCode}
                                   departureTime={item?.OrginDepartureTime}
+                                  mealDataWithPassengerInfo={selectedMeal}
                                   arrivalTime={item?.DestinationArrivalTime}
+                                  destinationAirportName={item?.DestinationName}
                                   seatsDestinationToOrigin={seatsDestinationToOrigin}
                                   seatsOriginToDestination={seatsOriginToDestination}
-                                  originAirportName={
-                                    flightInfo?.details?.FaireFamilies[index]?.originName
-                                  }
-                                  destinationAirportName={
-                                    flightInfo?.details?.FaireFamilies[index]?.destinationName
-                                  }
+                                  OriginAirportTerminal={item?.OriginAirportTerminal}
+                                  originToDestinationSeatData={originToDestinationSeatData}
+                                  destinationToOriginSeatData={destinationToOriginSeatData}
+                                  DestinationAirportTerminal={item?.DestinationAirportTerminal}
+                                  WebClass={item?.WebClass ? item?.WebClass : flightInfo?.name}
                                 />
                               </div>
                             );

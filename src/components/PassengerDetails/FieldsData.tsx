@@ -47,18 +47,22 @@ export const fieldsWithName = [
     fieldName: 'First Name',
     name: 'Firstname',
     validation: Yup.string()
+      .matches(/^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/, 'Must be a valid name')
       .max(60, 'Max 60 Characters Allowed')
       .required('This field is required'),
   },
   {
     fieldName: 'Middle Name',
     name: 'Middlename',
-    validation: Yup.string().max(60, 'Max 60 Characters Allowed'),
+    validation: Yup.string()
+    .matches(/^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/, 'Must be a valid name')
+    .max(60, 'Max 60 Characters Allowed'),
   },
   {
     fieldName: 'Last Name',
     name: 'Surname',
     validation: Yup.string()
+      .matches(/^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/, 'Must be a valid name')
       .max(60, 'Max 60 Characters Allowed')
       .required('This field is required'),
   },

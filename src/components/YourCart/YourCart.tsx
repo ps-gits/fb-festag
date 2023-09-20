@@ -36,13 +36,24 @@ const YourCart = () => {
     (state: RootState) =>
       state?.flightDetails?.prepareBookingModification?.Passengers?.map(
         (item: { NameElement: { Firstname: string; Surname: string } }, index: number) => {
+          // const otherFields = Object.fromEntries(
+          //   state?.flightDetails?.prepareBookingModification?.PassengersDetails[index]?.fields.map(
+          //     (dt: { Code: string; Text: string }) => [
+          //       fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
+          //       dt.Text,
+          //     ]
+          //   )
+          // );
           const otherFields = Object.fromEntries(
-            state?.flightDetails?.prepareBookingModification?.PassengersDetails[index]?.fields.map(
-              (dt: { Code: string; Text: string }) => [
-                fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
-                dt.Text,
-              ]
+            (
+              state?.flightDetails?.prepareBookingModification?.PassengersDetails[index]?.fields ||
+              []
             )
+              .map((dt: { Code: string; Text: string }) => {
+                const matchingItem = fieldsWithCode?.find((item1) => item1?.Code === dt?.Code);
+                return matchingItem ? [matchingItem?.name, dt?.Text] : null;
+              })
+              ?.filter(Boolean)
           );
           return {
             ...item?.NameElement,
@@ -472,11 +483,11 @@ const YourCart = () => {
             Surname: item?.Surname,
             Firstname: item?.Firstname,
             Ref: prepareFlightDetails?.Passengers[index]?.Ref,
-            PassengerType: calculateDob(item?.Dob) >= 11 ? 'AD' : 'CHD',
+            PassengerType: calculateDob(new Date(), new Date(),item?.Dob) >= 11 ? 'AD' : 'CHD',
             Homecontact: postData?.Mobile,
           },
           SpecialServices:
-            calculateDob(item?.Dob) >= 11
+            calculateDob(new Date(), new Date(),item?.Dob) >= 11
               ? {
                   CTCE: item.Email,
                   CTCH: postData?.Mobile,

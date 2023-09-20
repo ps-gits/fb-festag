@@ -29,6 +29,7 @@ import GettingDataLoader from 'components/Loader/GettingData';
 import CancelBookingLoader from '../Loader/CancelBookingLoader';
 import { graphQLToken, graphQLUrl } from 'components/Api/ApiUrl';
 import DepartReturnDateModal from '../Modal/DepartReturnDateModal';
+import { fieldsWithCode } from 'components/PassengerDetails/FieldsData';
 import ModifyBookingDetailsModal from '../Modal/ModifyBookingDetailsModal';
 import { setMealList, setNumberOfMeals } from 'src/redux/reducer/Sitecore';
 import { getImageSrc, getFieldName } from 'components/SearchFlight/SitecoreContent';
@@ -74,6 +75,32 @@ const ModifyBooking = () => {
 
   const flightData = modifyBookingInfo?.OriginDestination?.find(
     (item: object) => item !== undefined
+  );
+  const passengerDetails = savedMealsData?.Passengers?.map(
+    (item: { NameElement: { Firstname: string; Surname: string } }, index: number) => {
+      // old-code
+      // const otherFields = Object.fromEntries(
+      //   savedMealsData?.PassengersDetails[index]?.fields.map(
+      //     (dt: { Code: string; Text: string }) => [
+      //       fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
+      //       dt.Text,
+      //     ]
+      //   )
+      // );
+      //new-code
+      const otherFields = Object.fromEntries(
+        (savedMealsData?.PassengersDetails[index]?.fields || [])
+          .map((dt: { Code: string; Text: string }) => {
+            const matchingItem = fieldsWithCode?.find((item1) => item1?.Code === dt?.Code);
+            return matchingItem ? [matchingItem?.name, dt?.Text] : null;
+          })
+          ?.filter(Boolean)
+      );
+      return {
+        ...item?.NameElement,
+        ...otherFields,
+      };
+    }
   );
 
   const [showModal, setShowModal] = useState({
@@ -227,6 +254,105 @@ const ModifyBooking = () => {
       item?.fields?.filter((item: { Code: string }) => item?.Code === 'SEAT')?.map((item) => item)
   );
 
+  const seatDataWithPassengerInfo = (
+    allSeats && allSeats?.length > 0 ? allSeats?.flat(1) : []
+  )?.map((item: { Data: { Seat: { SeatRow: number; SeatLetter: string } } }, index: number) => {
+    const seatRows = savedMealsData?.SeatMaps?.find(
+      (seatItem: object, seatIndex: number) =>
+        seatItem !== undefined &&
+        seatIndex ===
+          (modifyBookingInfo?.OriginDestination &&
+          modifyBookingInfo?.OriginDestination?.length === 1
+            ? 0
+            : index % 2)
+    )
+      ?.Decks?.map((item: { Areas: { Rows: { RowNumber: number }[] }[] }) =>
+        item?.Areas?.find((item1) => item1?.Rows)
+      )
+      ?.find((item2: object) => item2 !== undefined)?.Rows;
+
+    const seatInfo = seatRows
+      ?.find(
+        (seatRowItem: { RowNumber: number }) => seatRowItem?.RowNumber === item?.Data?.Seat?.SeatRow
+      )
+      ?.Columns?.find((seatRowItem1: { Seats: { Letter: string }[] }) =>
+        seatRowItem1?.Seats?.find(
+          (seatRowItem2: { Letter: string }) =>
+            seatRowItem2?.Letter === item?.Data?.Seat?.SeatLetter
+        )
+      )
+      ?.Seats?.find(
+        (seatRowItem3: { Letter: string }) => seatRowItem3?.Letter === item?.Data?.Seat?.SeatLetter
+      );
+
+    const seatLabel = savedMealsData?.EMDTicketFareOptions?.find(
+      (dt: { AncillaryCode: string }) => dt?.AncillaryCode === seatInfo?.AssociatedAncillaryCode
+    )?.Label;
+
+    if (
+      modifyBookingInfo?.OriginDestination &&
+      modifyBookingInfo?.OriginDestination?.length === 1
+    ) {
+      const passengerInfo = passengerDetails?.find(
+        (
+          passengerItem: { Surname: string; Firstname: string; Dob: string },
+          passengerIndex: number
+        ) => passengerItem !== undefined && passengerIndex === index
+      );
+      return {
+        ...item,
+        Firstname: passengerInfo?.Firstname,
+        Surname: passengerInfo?.Surname,
+        Dob: passengerInfo?.Dob,
+        mapIndex: 0,
+        price: '500',
+        seatNumber: item?.Data?.Seat?.SeatLetter,
+        passengerIndex: index,
+        rowNumber: item?.Data?.Seat?.SeatRow,
+        AircraftName: savedMealsData?.SeatMaps[0]?.AircraftName,
+        RefSegment: savedMealsData?.SeatMaps[0]?.RefSegment,
+        seatLabel: seatLabel,
+      };
+    } else if (
+      modifyBookingInfo?.OriginDestination &&
+      modifyBookingInfo?.OriginDestination?.length > 1
+    ) {
+      const passengerInfo = passengerDetails?.find(
+        (passengerItem: { Surname: string; Firstname: string }, passengerIndex: number) =>
+          passengerItem !== undefined && passengerIndex === Math.floor(index / 2)
+      );
+
+      return {
+        ...item,
+        ...seatInfo,
+        Firstname: passengerInfo?.Firstname,
+        Surname: passengerInfo?.Surname,
+        Dob: passengerInfo?.Dob,
+        mapIndex: index % 2,
+        price: '500',
+        seatNumber: item?.Data?.Seat?.SeatLetter,
+        passengerIndex: Math.floor(index / 2),
+        rowNumber: item?.Data?.Seat?.SeatRow,
+        seatLabel: seatLabel,
+        AircraftName:
+          savedMealsData?.SeatMaps && savedMealsData?.SeatMaps?.length
+            ? savedMealsData?.SeatMaps[index % 2]?.AircraftName
+            : '',
+        RefSegment:
+          savedMealsData?.SeatMaps && savedMealsData?.SeatMaps?.length
+            ? savedMealsData?.SeatMaps[index % 2]?.RefSegment
+            : '',
+      };
+    }
+  });
+
+  const originToDestinationSeatData = seatDataWithPassengerInfo?.filter(
+    (item: { mapIndex: number }) => item?.mapIndex === 0
+  );
+  const destinationToOriginSeatData = seatDataWithPassengerInfo?.filter(
+    (item: { mapIndex: number }) => item?.mapIndex === 1
+  );
+
   const mealsDetails = () => {
     if (mealsList?.length > 0 && mealsList?.length === numberOfMeals) {
       const filterMealList = allMealData?.map((item: { fields: { Code: string }[] }) => {
@@ -266,42 +392,59 @@ const ModifyBooking = () => {
           }[],
           index: number
         ) => {
+          const passengerInfo = passengerDetails?.find(
+            (
+              passengerItem: { Surname: string; Firstname: string; Dob: string },
+              passengerIndex: number
+            ) => passengerItem !== undefined && passengerIndex === index
+          );
+
           const mealData: {
+            Dob: string;
+            Surname: string;
+            Firstname: string;
             originMeal: string;
             returnMeal: string;
             passengerName: string;
             originMealCode: string;
             returnMealCode: string;
             passengerIndex: number;
+            originLabel: string;
+            returnLabel: string;
           } = {
             originMeal: '',
             returnMeal: '',
             originMealCode: '',
             returnMealCode: '',
             passengerIndex: index,
+            Dob: passengerInfo?.Dob,
+            Surname: savedMealsData?.Passengers[index]?.NameElement?.Surname,
+            Firstname: savedMealsData?.Passengers[index]?.NameElement?.Firstname,
             passengerName: savedMealsData?.Passengers[index]?.NameElement?.Firstname,
+            originLabel: item?.find((dt) => dt?.type === 'Departure')?.Text as string,
+            returnLabel: item?.find((dt) => dt?.type === 'Arrival')?.Text as string,
           };
           if (item?.length === 0) {
-            mealData['originMeal'] = 'Regular Meal';
+            mealData['originMeal'] = 'Standard Meal';
             mealData['originMealCode'] = '';
             mealData['returnMeal'] =
-              modifyBookingInfo?.OriginDestination?.length === 1 ? '' : 'Regular Meal';
+              modifyBookingInfo?.OriginDestination?.length === 1 ? '' : 'Standard Meal';
             mealData['returnMealCode'] = '';
           }
           item.map((meal: { type: string; Code: string }) => {
             if (meal?.type?.toLowerCase() === 'departure') {
-              mealData['originMeal'] = 'Dietary Meal';
+              mealData['originMeal'] = 'Special Meal';
               mealData['originMealCode'] = meal.Code;
               if (item.length === 1) {
                 mealData['returnMeal'] =
-                  modifyBookingInfo?.OriginDestination?.length === 1 ? '' : 'Regular Meal';
+                  modifyBookingInfo?.OriginDestination?.length === 1 ? '' : 'Standard Meal';
                 mealData['returnMealCode'] = '';
               }
             } else {
-              mealData['returnMeal'] = 'Dietary Meal';
+              mealData['returnMeal'] = 'Special Meal';
               mealData['returnMealCode'] = meal.Code;
               if (item.length === 1) {
-                mealData['originMeal'] = 'Regular Meal';
+                mealData['originMeal'] = 'Standard Meal';
                 mealData['originMealCode'] = '';
               }
             }
@@ -449,22 +592,32 @@ const ModifyBooking = () => {
                               <FlightSchedule
                                 index={index}
                                 seats={true}
+                                meals={true}
+                                special={true}
                                 Stops={item?.Stops}
+                                Duration={item?.Duration}
+                                AircraftType={item?.AircraftType}
                                 Remarks={item?.Remarks}
                                 loungeAccess={item?.Lounge}
                                 luxuryPickup={item?.Luxury}
                                 originCode={item?.OriginCode}
-                                FlightNumber={item?.FlightNumber}
                                 arrivalDate={item?.ArrivalDate}
+                                FlightNumber={item?.FlightNumber}
                                 bagAllowances={item.BagAllowances}
                                 departureDate={item?.DepartureDate}
+                                originAirportName={item?.OriginName}
                                 destinationCode={item?.DestinationCode}
                                 departureTime={item?.OrginDepartureTime}
                                 arrivalTime={item?.DestinationArrivalTime}
+                                mealDataWithPassengerInfo={mealsDetails()}
+                                destinationAirportName={item?.DestinationName}
+                                OriginAirportTerminal={item?.OriginAirportTerminal}
                                 seatsDestinationToOrigin={seatsDestinationToOrigin}
                                 seatsOriginToDestination={seatsOriginToDestination}
-                                originAirportName={item?.OriginName}
-                                destinationAirportName={item?.DestinationName}
+                                originToDestinationSeatData={originToDestinationSeatData}
+                                destinationToOriginSeatData={destinationToOriginSeatData}
+                                DestinationAirportTerminal={item?.DestinationAirportTerminal}
+                                WebClass={item?.WebClass ? item?.WebClass : 'Bliss'}
                                 // originAirportName={
                                 //   flightInfo?.details?.FaireFamilies[index]?.originName
                                 // }

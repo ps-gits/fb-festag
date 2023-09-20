@@ -160,18 +160,18 @@ const ReviewTripComplete = () => {
                             <Image className="h-5 w-5 object-contain" src={carblue} alt="" />
                             <p className="font-black text-sm text-black">Luxury Pick-up</p>
                           </div>
-                          <div className="flex gap-3 py-2">
+                          <div className="flex gap-3 py-2 items-center">
                             <Image className="h-5 w-5 object-contain" src={wine} alt="" />
                             <p className="font-black text-sm text-black">Lounge Access</p>
                           </div>
-                          <div className="flex gap-3 py-2">
+                          <div className="flex gap-3 py-2 items-center">
                             <Image className="h-5 w-5 object-contain" src={chair} alt="" />
                             <div>
                               <p className="font-black text-sm text-black">Seats</p>
-                              <p className="font-medium text-xs text-slategray">6D, 6F, 7D, 7F</p>
+                              <p className="font-medium text-xs text-slategray"></p>
                             </div>
                           </div>
-                          <div className="flex gap-3 py-2">
+                          <div className="flex gap-3 py-2 items-center">
                             <Image className="h-5 w-5 object-contain" src={briefcase} alt="" />
                             <div>
                               <p className="font-black text-sm text-black">Baggage 1x32kg</p>
@@ -180,7 +180,7 @@ const ReviewTripComplete = () => {
                               </p>
                             </div>
                           </div>
-                          <div className="flex gap-3 py-2">
+                          <div className="flex gap-3 py-2 items-center">
                             <Image className="h-5 w-5 object-contain" src={utensils} alt="" />
                             <p className="font-black text-sm text-black">In-flight luxury dining</p>
                           </div>
@@ -228,7 +228,7 @@ const ReviewTripComplete = () => {
                           </div>
                         </div>
                         <div className="bg-white p-3 my-2 xl:w-full rounded-lg border border-cadetgray ">
-                          <div className="flex gap-3 py-2">
+                          <div className="flex gap-3 py-2 items-center">
                             <Image className="h-5 w-5 object-contain" src={wine} alt="" />
                             <p className="font-black text-sm text-black">Lounge Access</p>
                           </div>
@@ -236,10 +236,10 @@ const ReviewTripComplete = () => {
                             <Image className="h-5 w-5 object-contain" src={chair} alt="" />
                             <div>
                               <p className="font-black text-sm text-black">Seats</p>
-                              <p className="font-medium text-xs text-slategray">6D, 6F, 7D, 7F</p>
+                              <p className="font-medium text-xs text-slategray"></p>
                             </div>
                           </div>
-                          <div className="flex gap-3 py-2">
+                          <div className="flex gap-3 py-2 items-center">
                             <Image className="h-5 w-5 object-contain" src={briefcase} alt="" />
                             <div>
                               <p className="font-black text-sm text-black">Baggage 1x32kg</p>
@@ -248,7 +248,7 @@ const ReviewTripComplete = () => {
                               </p>
                             </div>
                           </div>
-                          <div className="flex gap-3 py-2">
+                          <div className="flex gap-3 py-2 items-center">
                             <Image className="h-5 w-5 object-contain" src={utensils} alt="" />
                             <p className="font-black text-sm text-black">In-flight luxury dining</p>
                           </div>

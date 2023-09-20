@@ -39,38 +39,38 @@ export const getEligibleOriginToDestinations =
   (
     originDestination: getEligibleOriginDestinationDates,
     editDate?: boolean,
-    flightDetails?: {
-      departDate: Date;
-      returnDate: Date;
-      adult: number;
-      children: number;
-      originCode: string;
-      destinationCode: string;
-    },
-    setFlightDetails?: {
-      (
-        value: SetStateAction<{
-          adult: number;
-          children: number;
-          promoCode: string;
-          originCode: string;
-          dateFlexible: boolean;
-          destinationCode: string;
-          departDate: Date;
-          returnDate: Date;
-        }>
-      ): void;
-      (arg0: {
-        adult: number;
-        children: number;
-        promoCode: string;
-        originCode: string;
-        dateFlexible: boolean;
-        destinationCode: string;
-        departDate: Date;
-        returnDate: Date;
-      }): void;
-    },
+    // flightDetails?: {
+    //   departDate: Date | string; //new-added
+    //   returnDate: Date | string; //new-added
+    //   adult: number;
+    //   children: number;
+    //   originCode: string;
+    //   destinationCode: string;
+    // },
+    // setFlightDetails?: {
+    //   (
+    //     value: SetStateAction<{
+    //       adult: number;
+    //       children: number;
+    //       promoCode: string;
+    //       originCode: string;
+    //       dateFlexible: boolean;
+    //       destinationCode: string;
+    //       departDate: Date | string; //new-added
+    //       returnDate: Date | string; //new-added
+    //     }>
+    //   ): void;
+    //   (arg0: {
+    //     adult: number;
+    //     children: number;
+    //     promoCode: string;
+    //     originCode: string;
+    //     dateFlexible: boolean;
+    //     destinationCode: string;
+    //     departDate: Date;
+    //     returnDate: Date;
+    //   }): void;
+    // },
     tabName?: string
   ) =>
   (dispatch: Dispatch) => {
@@ -84,20 +84,20 @@ export const getEligibleOriginToDestinations =
       .then((res) => {
         dispatch(setOriginToDestinationDates(res?.data?.data));
         if (editDate && res?.data?.data && res?.data?.data?.length > 0) {
-          const findFirstDepartDate = res?.data?.data?.find(
-            (item: { TargetDate: string | number | Date }) =>
-              new Date().valueOf() <= new Date(item.TargetDate).valueOf()
-          );
-          const targetDate = new Date(findFirstDepartDate?.TargetDate);
-          const utcDate = new Date(
-            targetDate.getUTCFullYear(),
-            targetDate.getUTCMonth(),
-            targetDate.getUTCDate(),
-            targetDate.getUTCHours(),
-            targetDate.getUTCMinutes(),
-            targetDate.getUTCSeconds(),
-            targetDate.getUTCMilliseconds()
-          );
+          // const findFirstDepartDate = res?.data?.data?.find(
+          //   (item: { TargetDate: string | number | Date }) =>
+          //     new Date().valueOf() <= new Date(item.TargetDate).valueOf()
+          // );
+          // const targetDate = new Date(findFirstDepartDate?.TargetDate);
+          // const utcDate = new Date(
+          //   targetDate.getUTCFullYear(),
+          //   targetDate.getUTCMonth(),
+          //   targetDate.getUTCDate(),
+          //   targetDate.getUTCHours(),
+          //   targetDate.getUTCMinutes(),
+          //   targetDate.getUTCSeconds(),
+          //   targetDate.getUTCMilliseconds()
+          // );
           if (tabName === 'return') {
             dispatch(
               getEligibleDestinationsToOrigin(
@@ -105,11 +105,11 @@ export const getEligibleOriginToDestinations =
                   DestinationCode: originDestination?.OriginCode,
                   OriginCode: originDestination?.DestinationCode,
                 },
-                true,
-                flightDetails,
-                setFlightDetails,
-                targetDate,
-                utcDate
+                true
+                // flightDetails,
+                // setFlightDetails
+                // targetDate,
+                // utcDate
               ) as unknown as AnyAction
             );
           } else {
@@ -119,20 +119,20 @@ export const getEligibleOriginToDestinations =
                 name: '',
               })
             );
-            setFlightDetails &&
-              setFlightDetails({
-                ...(flightDetails as {
-                  adult: number;
-                  children: number;
-                  promoCode: string;
-                  originCode: string;
-                  dateFlexible: boolean;
-                  destinationCode: string;
-                  departDate: Date;
-                  returnDate: Date;
-                }),
-                departDate: utcDate,
-              });
+            // setFlightDetails &&
+            //   setFlightDetails({
+            //     ...(flightDetails as {
+            //       adult: number;
+            //       children: number;
+            //       promoCode: string;
+            //       originCode: string;
+            //       dateFlexible: boolean;
+            //       destinationCode: string;
+            //       departDate: Date;
+            //       returnDate: Date;
+            //     }),
+            //      departDate: utcDate,
+            //   });
           }
         } else {
           dispatch(
@@ -157,41 +157,41 @@ export const getEligibleOriginToDestinations =
 export const getEligibleDestinationsToOrigin =
   (
     originDestination: getEligibleOriginDestinationDates,
-    editDate?: boolean,
-    flightDetails?: {
-      departDate: Date;
-      returnDate: Date;
-      adult: number;
-      children: number;
-      originCode: string;
-      destinationCode: string;
-    },
-    setFlightDetails?: {
-      (
-        value: SetStateAction<{
-          adult: number;
-          children: number;
-          promoCode: string;
-          originCode: string;
-          dateFlexible: boolean;
-          destinationCode: string;
-          departDate: Date;
-          returnDate: Date;
-        }>
-      ): void;
-      (arg0: {
-        adult: number;
-        children: number;
-        promoCode: string;
-        originCode: string;
-        dateFlexible: boolean;
-        destinationCode: string;
-        departDate: Date;
-        returnDate: Date;
-      }): void;
-    },
-    departDate?: Date,
-    departDateToSet?: Date
+    editDate?: boolean
+    // flightDetails?: {
+    //   departDate: Date;
+    //   returnDate: Date;
+    //   adult: number;
+    //   children: number;
+    //   originCode: string;
+    //   destinationCode: string;
+    // },
+    // setFlightDetails?: {
+    //   (
+    //     value: SetStateAction<{
+    //       adult: number;
+    //       children: number;
+    //       promoCode: string;
+    //       originCode: string;
+    //       dateFlexible: boolean;
+    //       destinationCode: string;
+    //       departDate: Date;
+    //       returnDate: Date;
+    //     }>
+    //   ): void;
+    //   (arg0: {
+    //     adult: number;
+    //     children: number;
+    //     promoCode: string;
+    //     originCode: string;
+    //     dateFlexible: boolean;
+    //     destinationCode: string;
+    //     departDate: Date;
+    //     returnDate: Date;
+    //   }): void;
+    // }
+    // departDate?: Date,
+    // departDateToSet?: Date
   ) =>
   (dispatch: Dispatch) => {
     axios
@@ -210,35 +210,35 @@ export const getEligibleDestinationsToOrigin =
         );
         dispatch(setDestinationToOriginDates(res?.data?.data));
         if (editDate && res?.data?.data && res?.data?.data?.length > 0) {
-          const findFirstDepartDate = res?.data?.data?.find(
-            (item: { TargetDate: string | number | Date }) =>
-              (departDate as Date)?.valueOf() < new Date(item.TargetDate).valueOf()
-          );
-          const targetDate = new Date(findFirstDepartDate?.TargetDate);
-          const utcDate = new Date(
-            targetDate.getUTCFullYear(),
-            targetDate.getUTCMonth(),
-            targetDate.getUTCDate(),
-            targetDate.getUTCHours(),
-            targetDate.getUTCMinutes(),
-            targetDate.getUTCSeconds(),
-            targetDate.getUTCMilliseconds()
-          );
-          setFlightDetails &&
-            setFlightDetails({
-              ...(flightDetails as {
-                adult: number;
-                children: number;
-                promoCode: string;
-                originCode: string;
-                dateFlexible: boolean;
-                destinationCode: string;
-                departDate: Date;
-                returnDate: Date;
-              }),
-              departDate: departDateToSet as Date,
-              returnDate: utcDate,
-            });
+          // const findFirstDepartDate = res?.data?.data?.find(
+          //   (item: { TargetDate: string | number | Date }) =>
+          //     (departDate as Date)?.valueOf() < new Date(item.TargetDate).valueOf()
+          // );
+          // const targetDate = new Date(findFirstDepartDate?.TargetDate);
+          // const utcDate = new Date(
+          //   targetDate.getUTCFullYear(),
+          //   targetDate.getUTCMonth(),
+          //   targetDate.getUTCDate(),
+          //   targetDate.getUTCHours(),
+          //   targetDate.getUTCMinutes(),
+          //   targetDate.getUTCSeconds(),
+          //   targetDate.getUTCMilliseconds()
+          // );
+          // setFlightDetails &&
+          //   setFlightDetails({
+          //     ...(flightDetails as {
+          //       adult: number;
+          //       children: number;
+          //       promoCode: string;
+          //       originCode: string;
+          //       dateFlexible: boolean;
+          //       destinationCode: string;
+          //       departDate: Date;
+          //       returnDate: Date;
+          //     }),
+          //     departDate: departDateToSet as Date,
+          //     returnDate: utcDate,
+          //   });
         }
       })
       .catch((err) => {
@@ -693,6 +693,13 @@ export const postModifyBookingSeats =
           res?.data?.data?.Amount?.TotalAmount !== null &&
           res?.data?.data?.Amount?.TotalAmount === 0
         ) {
+          dispatch(
+            postPrepareBookingModification({
+              TypeCode: 'PnrCode',
+              ID: data?.PnrCode as string,
+              PassengerName: data?.PassengerName as string,
+            }) as unknown as AnyAction
+          );
           dispatch(setModifyMeal(false));
           dispatch(setModifySeat(false));
           router.push('/bookingcomplete');

@@ -94,15 +94,10 @@ const FlightInfo = (props: flightDetails) => {
                         <FlightSchedule
                           index={index}
                           seats={false}
-                          loungeAccess={
-                            selectedFlight?.name === 'Opulence' || selectedFlight?.name === 'Bliss'
-                              ? true
-                              : false
-                          }
                           Stops={item?.Stops}
                           Remarks={item?.Remarks}
+                          WebClass={item?.WebClass ? item?.WebClass : 'Bliss'}
                           FlightNumber={item?.FlightNumber}
-                          luxuryPickup={selectedFlight?.name === 'Opulence' || selectedFlight?.name === 'Bliss' ? true : false}
                           bagAllowances={item?.BagAllowances}
                           originAirportName={item?.originName}
                           originCode={
@@ -115,11 +110,21 @@ const FlightInfo = (props: flightDetails) => {
                               ? selectedFlight?.details?.DestinationCode
                               : selectedFlight?.details?.OriginCode
                           }
+                          Duration={item?.Duration}
+                          AircraftType={item?.AircraftType}
                           departureDate={item?.orginDepartureDate}
                           departureTime={item?.orginDepartureTime}
                           arrivalDate={item?.destinationArrivalDate}
                           arrivalTime={item?.destinationArrivalTime}
                           destinationAirportName={item?.destinationName}
+                          OriginAirportTerminal={item?.OriginAirportTerminal}
+                          DestinationAirportTerminal={item?.DestinationAirportTerminal}
+                          luxuryPickup={selectedFlight?.name === 'Opulence' || selectedFlight?.name ? true : false}
+                          loungeAccess={
+                            selectedFlight?.name === 'Opulence' || selectedFlight?.name === 'Bliss'
+                              ? true
+                              : false
+                          }
                         />
                       </div>
                     );

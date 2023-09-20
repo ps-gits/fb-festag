@@ -48,6 +48,7 @@ const ReviewTrip = () => {
   const flightInfo = useSelector((state: RootState) => state?.flightDetails?.selectedFlight);
   const selectedMeal = useSelector((state: RootState) => state?.flightDetails?.selectedMeal);
   // const cancelContent = useSelector((state: RootState) => state?.sitecore?.cancelSuccess?.fields);
+  const choosenSeats = useSelector((state: RootState) => state?.flightDetails?.chooseSeats);
   const createBookingInfo = useSelector((state: RootState) => state?.flightDetails?.createBooking);
   const reviewTripContent = useSelector((state: RootState) => state?.sitecore?.reviewTrip?.fields);
 
@@ -82,6 +83,12 @@ const ReviewTrip = () => {
   const allSeats = createBookingInfo?.PassengersDetails?.map(
     (item: { fields: { Code: string }[] }) =>
       item?.fields?.filter((item: { Code: string }) => item?.Code === 'SEAT')?.map((item) => item)
+  );
+  const originToDestinationSeatData = choosenSeats?.filter(
+    (item: { mapIndex: number }) => item?.mapIndex === 0
+  );
+  const destinationToOriginSeatData = choosenSeats?.filter(
+    (item: { mapIndex: number }) => item?.mapIndex === 1
   );
 
   const TotalPricing = () => {
@@ -205,13 +212,7 @@ const ReviewTrip = () => {
         };
       }}
     >
-      <Image
-        src={'https://ipac.ctnsnet.com/int/integration?pixel=79124021&nid=2142538&cont=i'}
-        loader={imageLoader}
-        width={1}
-        height={1}
-        alt="pixel"
-      />
+      
       {!load?.show ? (
         <div className="relative">
           <div className="xl:not-sr-only	xs:sr-only">
@@ -285,26 +286,32 @@ const ReviewTrip = () => {
                               <FlightSchedule
                                 index={index}
                                 seats={true}
+                                meals={true}
+                                special={true}
                                 Stops={item?.Stops}
+                                Duration={item?.Duration}
                                 Remarks={item?.Remarks}
+                                AircraftType={item?.AircraftType}
                                 loungeAccess={item?.Lounge}
                                 luxuryPickup={item?.Luxury}
+                                WebClass={item?.WebClass ? item?.WebClass : flightInfo?.name}
                                 originCode={item?.OriginCode}
                                 arrivalDate={item?.ArrivalDate}
                                 FlightNumber={item?.FlightNumber}
                                 bagAllowances={item.BagAllowances}
                                 departureDate={item?.DepartureDate}
+                                originAirportName={item?.OriginName}
                                 destinationCode={item?.DestinationCode}
                                 departureTime={item?.OrginDepartureTime}
+                                mealDataWithPassengerInfo={selectedMeal}
                                 arrivalTime={item?.DestinationArrivalTime}
+                                destinationAirportName={item?.DestinationName}
                                 seatsDestinationToOrigin={seatsDestinationToOrigin}
                                 seatsOriginToDestination={seatsOriginToDestination}
-                                originAirportName={
-                                  flightInfo?.details?.FaireFamilies[index]?.originName
-                                }
-                                destinationAirportName={
-                                  flightInfo?.details?.FaireFamilies[index]?.destinationName
-                                }
+                                OriginAirportTerminal={item?.OriginAirportTerminal}
+                                originToDestinationSeatData={originToDestinationSeatData}
+                                destinationToOriginSeatData={destinationToOriginSeatData}
+                                DestinationAirportTerminal={item?.DestinationAirportTerminal}
                               />
                             </div>
                           );
@@ -355,6 +362,13 @@ const ReviewTrip = () => {
                       height={1000}
                       width={1000}
                     />
+                    <Image
+                      src={'https://ipac.ctnsnet.com/int/integration?pixel=79124021&nid=2142538&cont=i'}
+                      loader={imageLoader}
+                      width={1}
+                      height={1}
+                      alt="pixel"
+                    />
                     <div className="p-4">
                       <h1 className="text-lg font-black text-black">
                         {getFieldName(reviewTripContent, 'flyInLuxuryWithBeond')}
@@ -376,6 +390,12 @@ const ReviewTrip = () => {
               </div>
             </div>
           </div>
+          <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-WHMT2ZS3"
+          height="0"
+          width="0"
+          style={{ display: 'none', visibility: 'hidden' }}
+        ></iframe>
         </div>
       ) : load?.name === 'search' ? (
         <SearchFlightLoader open={load?.show} />

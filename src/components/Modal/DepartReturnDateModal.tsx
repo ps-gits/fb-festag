@@ -61,12 +61,12 @@ const DepartReturnDateModal = (props: modalType) => {
   const modifyBookingInfo = useSelector((state: RootState) => state?.flightDetails?.modifyBooking);
 
   const [datesInfo, setDatesInfo] = useState({
-    departDate: new Date(
-      (departDate as Date).setHours(0, -(departDate as Date).getTimezoneOffset(), 0, 0)
-    ),
-    returnDate: new Date(
-      (returnDate as Date).setHours(0, -(returnDate as Date).getTimezoneOffset(), 0, 0)
-    ),
+    departDate: departDate
+      ? new Date((departDate as Date).setHours(0, -(departDate as Date).getTimezoneOffset(), 0, 0))
+      : new Date(),
+    returnDate: returnDate
+      ? new Date((returnDate as Date).setHours(0, -(returnDate as Date).getTimezoneOffset(), 0, 0))
+      : new Date(),
     dateFlexible: dateFlexible,
   });
 
@@ -82,7 +82,7 @@ const DepartReturnDateModal = (props: modalType) => {
         dateFlexible: dateFlexible,
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showModal]);
+  }, [showModal, departDate]);
 
   const selectedFareFamily = flightAvailablityContent?.find(
     (item: { name: string }) => item?.name === 'delight'
@@ -97,21 +97,35 @@ const DepartReturnDateModal = (props: modalType) => {
     return allowedDates.includes(moment(calendarDate).format('YYYY-MM-DD'));
   };
 
-  const highlightDates = () => {
-    const datesToHighlight = (
-      name === 'Departure' ? originToDestinationDates : destinationToOriginDates
-    )?.map((item: { TargetDate: string }) => {
-      return item?.TargetDate?.split('T')[0];
-    });
+  const datesToHighlight = (
+    name === 'Departure' ? originToDestinationDates : destinationToOriginDates
+  )?.map((item: { TargetDate: string; OriginCode: string }) => {
+    return item?.TargetDate?.split('T')[0];
+  });
 
+  const highlightDates = () => {
     const datesArray = datesToHighlight
       ?.filter(
         (item: string) =>
-          new Date(item).valueOf() >= new Date(new Date().toJSON().split('T')[0]).valueOf()
+          new Date(item).valueOf() >=
+          (name === 'Departure'
+            ? new Date(new Date().toJSON().split('T')[0]).valueOf()
+            : typeof departDate === 'object'
+            ? new Date(new Date(departDate as Date).toJSON().split('T')[0]).valueOf()
+            : new Date(new Date().toJSON().split('T')[0]).valueOf())
       )
       ?.map((item: string) => new Date(item));
 
     return datesArray;
+  };
+
+  const findMinimumDate = () => {
+    return new Date(
+      datesToHighlight?.find(
+        (item: string) =>
+          new Date(item).valueOf() >= new Date(new Date().toJSON().split('T')[0]).valueOf()
+      )
+    );
   };
 
   const tripLength = () => {
@@ -317,7 +331,8 @@ const DepartReturnDateModal = (props: modalType) => {
                     inline
                     selectsRange
                     locale="en-gb"
-                    minDate={name === 'Departure' ? moment().toDate() : datesInfo?.departDate}
+                    // minDate={name === 'Departure' ? moment().toDate() : datesInfo?.departDate}
+                    minDate={name === 'Departure' ? findMinimumDate() : datesInfo?.departDate}
                     startDate={name === 'Return' ? datesInfo?.departDate : undefined}
                     filterDate={
                       (name === 'Departure'
@@ -368,9 +383,9 @@ const DepartReturnDateModal = (props: modalType) => {
                             : {
                                 ...datesInfo,
                                 returnDate: new Date(
-                                  (date[0] as Date).setHours(
+                                  (date[date[1] === null ? 0 : 1] as Date).setHours(
                                     0,
-                                    -(date[0] as Date).getTimezoneOffset(),
+                                    -(date[date[1] === null ? 0 : 1] as Date).getTimezoneOffset(),
                                     0,
                                     0
                                   )

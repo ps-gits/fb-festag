@@ -21,7 +21,7 @@ const DateOfBirthModal = (props: DateOfBirthModal) => {
     (state: RootState) => state?.flightDetails?.selectedFlightCodesWithDate
   );
 
-  const { departDate } = selectedFlightInfo;
+  const { departDate, returnDate } = selectedFlightInfo;
 
   const [dateSelected, setDateSelected] = useState<string>();
 
@@ -48,33 +48,111 @@ const DateOfBirthModal = (props: DateOfBirthModal) => {
                 <h3 className="mb-0 text-xl text-black font-semibold">
                   {getFieldName(dateOfBirthModalContent, 'selectDateOfBirth')}
                 </h3>
-                <div>
-                  <ReactDatePicker
-                    inline
-                    selectsRange
-                    peekNextMonth
-                    locale="en-gb"
-                    showYearDropdown
-                    showMonthDropdown
-                    maxDate={
-                      name === 'Adult'
-                        ? new Date(
+                {console.log(returnDate, departDate)}
+                { returnDate && (
+                  <div>
+                    <ReactDatePicker
+                      inline
+                      selectsRange
+                      peekNextMonth
+                      locale="en-gb"
+                      showYearDropdown
+                      showMonthDropdown
+                      maxDate={
+                        name === 'Adult'
+                          ? new Date(
+                              moment(returnDate ? new Date(returnDate) : new Date())
+                                .subtract(12, 'year')
+                                .format('YYYY-MM-DD')
+                            )
+                          : new Date(
+                            moment(returnDate ? new Date(returnDate) : new Date())
+                              .subtract(5, 'year')
+                              .format('YYYY-MM-DD')
+                          )
+                      }
+                      minDate={
+                        name === 'Adult'
+                          ? new Date(
+                              moment(returnDate ? new Date(returnDate) : new Date())
+                                .subtract(120, 'year')
+                                .format('YYYY-MM-DD')
+                            ) 
+                          : new Date(
+                            moment(returnDate ? new Date(returnDate) : new Date())
+                              .subtract(12, 'year')
+                              .format('YYYY-MM-DD')
+                          )
+                      }
+                      dropdownMode="select"
+                      scrollableYearDropdown
+                      onChange={(date) => {
+                        setDateSelected(moment(new Date(String(date[0]))).format('MM-DD-YYYY'));
+                      }}
+                      onYearChange={(date) => {
+                        setDateSelected(moment(new Date(String(date))).format('MM-DD-YYYY'));
+                      }}
+                      onMonthChange={(date) => {
+                        setDateSelected(moment(new Date(String(date))).format('MM-DD-YYYY'));
+                      }}
+                      selected={
+                        selectedDate?.length > 0 ? new Date(selectedDate?.replace(/-/g, '/')) : null
+                      }
+                    />
+                  </div>
+                )}
+                { departDate && !returnDate &&(
+                  <div>
+                    <ReactDatePicker
+                      inline
+                      selectsRange
+                      peekNextMonth
+                      locale="en-gb"
+                      showYearDropdown
+                      showMonthDropdown
+                      maxDate={
+                        name === 'Adult'
+                          ? new Date(
+                              moment(departDate ? new Date(departDate) : new Date())
+                                .subtract(12, 'year')
+                                .format('YYYY-MM-DD')
+                            )
+                          : new Date(
+                            moment(departDate ? new Date(departDate) : new Date())
+                              .subtract(5, 'year')
+                              .format('YYYY-MM-DD')
+                          )
+                      }
+                      minDate={
+                        name === 'Adult'
+                          ? new Date(
+                              moment(departDate ? new Date(departDate) : new Date())
+                                .subtract(120, 'year')
+                                .format('YYYY-MM-DD')
+                            ) 
+                          : new Date(
                             moment(departDate ? new Date(departDate) : new Date())
                               .subtract(12, 'year')
                               .format('YYYY-MM-DD')
                           )
-                        : new Date()
-                    }
-                    dropdownMode="select"
-                    scrollableYearDropdown
-                    onChange={(date) => {
-                      setDateSelected(moment(new Date(String(date[0]))).format('MM-DD-YYYY'));
-                    }}
-                    selected={
-                      selectedDate?.length > 0 ? new Date(selectedDate?.replace(/-/g, '/')) : null
-                    }
-                  />
-                </div>
+                      }
+                      dropdownMode="select"
+                      scrollableYearDropdown
+                      onChange={(date) => {
+                        setDateSelected(moment(new Date(String(date[0]))).format('MM-DD-YYYY'));
+                      }}
+                      onYearChange={(date) => {
+                        setDateSelected(moment(new Date(String(date))).format('MM-DD-YYYY'));
+                      }}
+                      onMonthChange={(date) => {
+                        setDateSelected(moment(new Date(String(date))).format('MM-DD-YYYY'));
+                      }}
+                      selected={
+                        selectedDate?.length > 0 ? new Date(selectedDate?.replace(/-/g, '/')) : null
+                      }
+                    />
+                  </div>
+                )}
                 <div className="xl:w-auto px-3">
                   <button
                     onClick={() => {

@@ -47,6 +47,7 @@ const ChooseSeats = () => {
   const modifyDataFromBooking = useSelector(
     (state: RootState) => state?.flightDetails?.modifyDataFromBooking
   );
+  // const flightInformation = useSelector((state: RootState) => state?.flightDetails);
   const modifySeat = useSelector((state: RootState) => state?.flightDetails?.modifySeat);
   const modifyData = useSelector((state: RootState) => state?.flightDetails?.modifyData);
   const seatMaps = useSelector((state: RootState) =>
@@ -95,13 +96,24 @@ const ChooseSeats = () => {
       modifySeat
         ? state?.flightDetails?.prepareBookingModification?.Passengers?.map(
             (item: { NameElement: { Firstname: string; Surname: string } }, index: number) => {
+              // const otherFields = Object.fromEntries(
+              //   state?.flightDetails?.prepareBookingModification?.PassengersDetails[
+              //     index
+              //   ]?.fields.map((dt: { Code: string; Text: string }) => [
+              //     fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
+              //     dt.Text,
+              //   ])
+              // );
               const otherFields = Object.fromEntries(
-                state?.flightDetails?.prepareBookingModification?.PassengersDetails[
-                  index
-                ]?.fields.map((dt: { Code: string; Text: string }) => [
-                  fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
-                  dt.Text,
-                ])
+                (
+                  state?.flightDetails?.prepareBookingModification?.PassengersDetails[index]
+                    ?.fields || []
+                )
+                  .map((dt: { Code: string; Text: string }) => {
+                    const matchingItem = fieldsWithCode?.find((item1) => item1?.Code === dt?.Code);
+                    return matchingItem ? [matchingItem?.name, dt?.Text] : null;
+                  })
+                  ?.filter(Boolean)
               );
               return {
                 ...item?.NameElement,
@@ -114,13 +126,24 @@ const ChooseSeats = () => {
         ? state?.passenger?.passengersData?.details
         : state?.flightDetails?.prepareExchangeFlight?.Passengers?.map(
             (item: { NameElement: { Firstname: string; Surname: string } }, index: number) => {
+              // const otherFields = Object.fromEntries(
+              //   state?.flightDetails?.prepareExchangeFlight?.PassengersDetails[index]?.fields.map(
+              //     (dt: { Code: string; Text: string }) => [
+              //       fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
+              //       dt.Text,
+              //     ]
+              //   )
+              // );
               const otherFields = Object.fromEntries(
-                state?.flightDetails?.prepareExchangeFlight?.PassengersDetails[index]?.fields.map(
-                  (dt: { Code: string; Text: string }) => [
-                    fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
-                    dt.Text,
-                  ]
+                (
+                  state?.flightDetails?.prepareExchangeFlight?.PassengersDetails[index]?.fields ||
+                  []
                 )
+                  .map((dt: { Code: string; Text: string }) => {
+                    const matchingItem = fieldsWithCode?.find((item1) => item1?.Code === dt?.Code);
+                    return matchingItem ? [matchingItem?.name, dt?.Text] : null;
+                  })
+                  ?.filter(Boolean)
               );
               return {
                 ...item?.NameElement,
@@ -137,7 +160,7 @@ const ChooseSeats = () => {
   const modifyBookingInfo = useSelector((state: RootState) => state?.flightDetails?.modifyBooking);
   // const reviewTripContent = useSelector((state: RootState) => state?.sitecore?.reviewTrip?.fields);
   const chooseSeatsContent = useSelector((state: RootState) => state?.sitecore?.chooseSeat?.fields);
-
+  
   const allSeats = modifyBookingInfo?.PassengersDetails?.map(
     (item: { fields: { Code: string }[] }) =>
       item?.fields?.filter((item: { Code: string }) => item?.Code === 'SEAT')?.map((item) => item)
@@ -170,7 +193,9 @@ const ChooseSeats = () => {
       ?.Seats?.find(
         (seatRowItem3: { Letter: string }) => seatRowItem3?.Letter === item?.Data?.Seat?.SeatLetter
       );
-
+    const seatLabel = prepareFlightDetails?.EMDTicketFareOptions?.find(
+      (dt: { AncillaryCode: string }) => dt?.AncillaryCode === seatInfo.AssociatedAncillaryCode
+    )?.Label;
     if (flightWay && flightWay?.length === 1) {
       const passengerInfo = passengerDetails?.find(
         (passengerItem: { Surname: string; Firstname: string }, passengerIndex: number) =>
@@ -180,6 +205,7 @@ const ChooseSeats = () => {
         ...item,
         Firstname: passengerInfo?.Firstname,
         Surname: passengerInfo?.Surname,
+        Dob: passengerInfo?.Dob,
         mapIndex: 0,
         price: '500',
         seatNumber: item?.Data?.Seat?.SeatLetter,
@@ -187,6 +213,7 @@ const ChooseSeats = () => {
         rowNumber: item?.Data?.Seat?.SeatRow,
         AircraftName: seatMaps[0]?.AircraftName,
         RefSegment: seatMaps[0]?.RefSegment,
+        seatLabel: seatLabel,
       };
     } else if (flightWay && flightWay?.length > 1) {
       const passengerInfo = passengerDetails?.find(
@@ -199,6 +226,7 @@ const ChooseSeats = () => {
         ...seatInfo,
         Firstname: passengerInfo?.Firstname,
         Surname: passengerInfo?.Surname,
+        Dob: passengerInfo?.Dob,
         mapIndex: index % 2,
         price: '500',
         seatNumber: item?.Data?.Seat?.SeatLetter,
@@ -206,6 +234,7 @@ const ChooseSeats = () => {
         rowNumber: item?.Data?.Seat?.SeatRow,
         AircraftName: seatMaps && seatMaps?.length ? seatMaps[index % 2]?.AircraftName : '',
         RefSegment: seatMaps && seatMaps?.length ? seatMaps[index % 2]?.RefSegment : '',
+        seatLabel: seatLabel,
       };
     }
   });
@@ -233,6 +262,7 @@ const ChooseSeats = () => {
     seats: seatObject,
     aircraftName: '',
     refSegment: '',
+    AssociatedAncillaryCode: '',
   });
   const [selectSeatLater, setSelectSeatLater] = useState(false);
   const [showToast, setShowToast] = useState({
@@ -253,6 +283,7 @@ const ChooseSeats = () => {
   const [selectedPerson, setSelectedPerson] = useState({
     Firstname: passengerDetails !== undefined ? passengerDetails[0]?.Firstname : '',
     Surname: passengerDetails !== undefined ? passengerDetails[0]?.Surname : '',
+    Dob: passengerDetails !== undefined ? passengerDetails[0]?.Dob : '',
     mapIndex: 0,
     passengerIndex: 0,
   });
@@ -282,7 +313,8 @@ const ChooseSeats = () => {
     seatAvailable: boolean,
     seatInfo: flightSeat,
     AircraftName: string,
-    RefSegment: string
+    RefSegment: string,
+    AssociatedAncillaryCode: string
   ) => {
     const seatAlreadySelected = selectSeat?.find(
       (dt) =>
@@ -296,6 +328,11 @@ const ChooseSeats = () => {
           item?.mapIndex === selectedPerson?.mapIndex &&
           item?.passengerIndex === selectedPerson?.passengerIndex
       );
+
+      const seatLabel = prepareFlightDetails?.EMDTicketFareOptions?.find(
+        (dt: { AncillaryCode: string }) => dt?.AncillaryCode === AssociatedAncillaryCode
+      )?.Label;
+
       findAlreadySelected
         ? setSelectSeat([
             ...selectSeat?.filter((item) => item !== findAlreadySelected),
@@ -303,6 +340,7 @@ const ChooseSeats = () => {
               ...seatInfo,
               Firstname: selectedPerson?.Firstname,
               Surname: selectedPerson?.Surname,
+              Dob: selectedPerson?.Dob,
               mapIndex: selectedPerson?.mapIndex,
               passengerIndex: selectedPerson?.passengerIndex,
               price: 500,
@@ -310,6 +348,8 @@ const ChooseSeats = () => {
               rowNumber: rowNumber,
               AircraftName: AircraftName,
               RefSegment: RefSegment,
+              seatLabel: seatLabel,
+              Text: rowNumber + seatLetter,
             },
           ])
         : setSelectSeat((prev) => [
@@ -318,6 +358,7 @@ const ChooseSeats = () => {
               ...seatInfo,
               Firstname: selectedPerson?.Firstname,
               Surname: selectedPerson?.Surname,
+              Dob: selectedPerson?.Dob,
               mapIndex: selectedPerson?.mapIndex,
               passengerIndex: selectedPerson?.passengerIndex,
               price: 500,
@@ -325,6 +366,8 @@ const ChooseSeats = () => {
               rowNumber: rowNumber,
               AircraftName: AircraftName,
               RefSegment: RefSegment,
+              seatLabel: seatLabel,
+              Text: rowNumber + seatLetter,
             },
           ]);
     }
@@ -363,6 +406,7 @@ const ChooseSeats = () => {
       setSelectedPerson({
         Firstname: passengerDetails[0]?.Firstname,
         Surname: passengerDetails[0]?.Surname,
+        Dob: passengerDetails[0]?.Dob,
         passengerIndex: 0,
         mapIndex: mapIndex + 1,
       });
@@ -375,6 +419,7 @@ const ChooseSeats = () => {
         Firstname: findPassenger?.Firstname as string,
         Surname: findPassenger?.Surname as string,
         mapIndex: mapIndex,
+        Dob: findPassenger?.Dob,
         passengerIndex: selectedPerson?.passengerIndex + 1,
       });
     } else if (
@@ -433,6 +478,10 @@ const ChooseSeats = () => {
       (item: { returnMealCode: string }) => item?.returnMealCode?.length > 0
     );
 
+    // useEffect(() => {
+    //   console.log("SelectedFlight", flightInformation);
+    // }, []);
+
     const dataToPost = passengerDetails?.map(
       (
         item: {
@@ -468,6 +517,7 @@ const ChooseSeats = () => {
         // delete postData?.dialCodeHomeContact;
 
         return {
+          
           PassengerDetails: {
             ...postData,
             CivilityCode: civilityCodeOptions?.find(
@@ -476,11 +526,13 @@ const ChooseSeats = () => {
             Surname: item?.Surname,
             Firstname: item?.Firstname,
             Ref: prepareFlightDetails?.Passengers[index]?.Ref,
-            PassengerType: calculateDob(item?.Dob) >= 11 ? 'AD' : 'CHD',
+            //PassengerType: flightInformation?.FaireFamilies?.length()>1 ? (calculateDob(flightInformation?.FaireFamilies[0]?.orginDepartureDate, flightInformation?.FaireFamilies[1]?.orginDepartureDate , item?.Dob) >= 11 ? 'AD' : 'CHD') : (calculateDob(flightInformation?.FaireFamilies[0]?.orginDepartureDate, flightInformation?.FaireFamilies[0]?.orginDepartureDate , item?.Dob) >= 11 ? 'AD' : 'CHD') ,
+            PassengerType: calculateDob(new Date(), new Date() , item?.Dob) >= 11 ? 'AD' : 'CHD' ,
             Homecontact: postData?.Mobile,
+            
           },
           SpecialServices:
-            calculateDob(item?.Dob) >= 11
+            calculateDob(new Date(), new Date(),item?.Dob) >= 11
               ? {
                   CTCE: item.Email,
                   CTCH: postData?.Mobile,
@@ -997,6 +1049,7 @@ const ChooseSeats = () => {
                 seats: seatObject,
                 aircraftName: '',
                 refSegment: '',
+                AssociatedAncillaryCode: '',
               });
             selectSeatLater && setSelectSeatLater(false);
             document.body.style.overflow = 'unset';
@@ -1039,6 +1092,7 @@ const ChooseSeats = () => {
                     seats: seatObject,
                     aircraftName: '',
                     refSegment: '',
+                    AssociatedAncillaryCode: '',
                   });
                   document.body.style.overflow = 'unset';
                 }}
@@ -1061,7 +1115,8 @@ const ChooseSeats = () => {
                     emergencySeat?.isAvailable,
                     emergencySeat?.seats,
                     emergencySeat?.aircraftName,
-                    emergencySeat?.refSegment
+                    emergencySeat?.refSegment,
+                    emergencySeat?.AssociatedAncillaryCode
                   );
                   setEmergencySeat({
                     showModal: false,
@@ -1072,6 +1127,7 @@ const ChooseSeats = () => {
                     seats: seatObject,
                     aircraftName: '',
                     refSegment: '',
+                    AssociatedAncillaryCode: '',
                   });
                   document.body.style.overflow = 'unset';
                 }}
@@ -1319,6 +1375,7 @@ const ChooseSeats = () => {
                                           Surname: passengerDetails[0]?.Surname,
                                           passengerIndex: 0,
                                           mapIndex: mapIndex - 1,
+                                          Dob: passengerDetails[0]?.Dob,
                                         });
                                       } else {
                                         modifySeat
@@ -1388,6 +1445,7 @@ const ChooseSeats = () => {
                                         passengerItem: {
                                           Firstname: string;
                                           Surname: string;
+                                          Dob: string;
                                         },
                                         passengerIndex: number
                                       ) => {
@@ -1406,6 +1464,7 @@ const ChooseSeats = () => {
                                                 Surname: passengerItem?.Surname,
                                                 passengerIndex: passengerIndex,
                                                 mapIndex: index,
+                                                Dob: passengerItem?.Dob,
                                               })
                                             }
                                             key={passengerIndex}
@@ -1615,6 +1674,8 @@ const ChooseSeats = () => {
                                                                               item?.AircraftName,
                                                                             refSegment:
                                                                               item?.RefSegment,
+                                                                            AssociatedAncillaryCode:
+                                                                              seats?.AssociatedAncillaryCode,
                                                                           });
                                                                         } else {
                                                                           onSeatSelect(
@@ -1624,7 +1685,8 @@ const ChooseSeats = () => {
                                                                             seats?.IsAvailable as boolean,
                                                                             seats,
                                                                             item?.AircraftName,
-                                                                            item?.RefSegment
+                                                                            item?.RefSegment,
+                                                                            seats?.AssociatedAncillaryCode
                                                                           );
                                                                         }
                                                                       }}
@@ -2072,6 +2134,12 @@ const ChooseSeats = () => {
               </div>
             </div>
           </div>
+          <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-WHMT2ZS3"
+          height="0"
+          width="0"
+          style={{ display: 'none', visibility: 'hidden' }}
+        ></iframe>
         </div>
       ) : load?.name === 'seats' ? (
         <SearchSeatLoader open={load?.show} />

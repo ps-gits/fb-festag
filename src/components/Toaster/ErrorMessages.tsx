@@ -12,7 +12,7 @@ const ErrorMessages = (props: errorMessageType) => {
           className="linear h-screen fixed top-0 left-0 right-0 z-50 hidden xl:p-4 sm:p-0 overflow-x-hidden overflow-y-auto md:inset-0 xl:h-[calc(100% 1rem)] max-h-full xl:flex justify-center items-center flex h-screen"
         >
           <div className="relative w-11/12 xs:max-w-2xl max-h-full m-auto mt-28">
-            <div className="bg-yellowLight border border-yellowError rounded-lg shadow">
+            <div className="bg-yellowLight border border-yellowError rounded-lg shadow error-container">
               <div className="relative p-5 text-center">
                 <FontAwesomeIcon
                   icon={faXmark}

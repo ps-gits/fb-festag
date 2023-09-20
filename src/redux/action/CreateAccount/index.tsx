@@ -2,9 +2,16 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 import { NextRouter } from 'next/router';
 
-import { url } from 'src/components/Api/ApiUrl';
+import {
+  setSignIn,
+  setCreateAccount,
+  setFamilyDetails,
+  setPassengerUpdate,
+  setSubscribedUserData,
+} from 'src/redux/reducer/CreateAccount';
 import { loader } from 'src/redux/reducer/Loader';
-import { setSignIn, setCreateAccount, setFamilyDetails, setPassengerUpdate } from 'src/redux/reducer/CreateAccount';
+import { subscribeKey, subscribeUrl, url } from 'src/components/Api/ApiUrl';
+import { SetStateAction } from 'react';
 
 export const postCreateAccount =
   (createAccountData: createAccountValues, router: NextRouter) => (dispatch: Dispatch) => {
@@ -129,5 +136,46 @@ export const postPassengerUpdate =
             name: '',
           })
         );
+      });
+  };
+
+export const postSubscribeUser =
+  (
+    values: subscribeUser,
+    setShowToaster: {
+      (value: SetStateAction<{ show: boolean; status: string; message: string }>): void;
+      (arg0: { show: boolean; status: string; message: string }): void;
+    }
+  ) =>
+  (dispatch: Dispatch) => {
+    const data = JSON.stringify(values);
+    const config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `${subscribeUrl}${subscribeKey}`,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        setShowToaster({
+          show: true,
+          status: 'success',
+          message: 'Subscribed Successfully!',
+        });
+        dispatch(setSubscribedUserData(response.data?.Context));
+      })
+      .catch((error) => {
+        setShowToaster({
+          show: true,
+          status: 'error',
+          message: error,
+        });
+        console.warn(error);
       });
   };

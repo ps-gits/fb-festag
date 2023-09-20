@@ -225,24 +225,27 @@ const CancelBooking = () => {
                             <div className="bg-white p-4  xl:w-full rounded-lg mb-4" key={index}>
                               <FlightSchedule
                                 index={index}
-                                seats={true}
+                                seats={false}
+                                meals={false}
+                                special={false}
                                 loungeAccess={true}
                                 luxuryPickup={true}
                                 Stops={item?.Stops}
+                                Duration={item?.Duration}
                                 Remarks={item?.Remarks}
+                                AircraftType={item?.AircraftType}
                                 originCode={item?.OriginCode}
                                 arrivalDate={item?.ArrivalDate}
                                 bagAllowances={item.BagAllowances}
                                 departureDate={item?.DepartureDate}
+                                originAirportName={item?.OriginName}
                                 destinationCode={item?.DestinationCode}
                                 departureTime={item?.OrginDepartureTime}
                                 arrivalTime={item?.DestinationArrivalTime}
-                                originAirportName={
-                                  flightInfo?.details?.FaireFamilies[index]?.originName
-                                }
-                                destinationAirportName={
-                                  flightInfo?.details?.FaireFamilies[index]?.destinationName
-                                }
+                                destinationAirportName={item?.DestinationName}
+                                OriginAirportTerminal={item?.OriginAirportTerminal}
+                                DestinationAirportTerminal={item?.DestinationAirportTerminal}
+                                WebClass={item?.WebClass ? item?.WebClass : flightInfo?.name}
                               />
                             </div>
                           );

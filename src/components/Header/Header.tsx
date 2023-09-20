@@ -311,9 +311,9 @@ const Header = () => {
                             </div>
                           </div>
                           {companyDropdown && (
-                            <div className="pt-2">
+                            <div className="pt-2 pl-4">
                               <div className="py-1">
-                                <p className=" text-Silvergray text-sm cursor-pointer">
+                              <li className="block text-white text-base py-2 font-medium cursor-pointer">
                                   <Link
                                     href={`/${getFieldName(headerContent, 'company')
                                       ?.toLowerCase()
@@ -330,10 +330,10 @@ const Header = () => {
                                   >
                                     {getFieldName(headerContent, 'companyDropdownItem1')}
                                   </Link>
-                                </p>
+                                </li>
                               </div>
                               <div className="py-1">
-                                <p className=" text-Silvergray text-sm  cursor-pointer">
+                              <li className="block text-white text-base py-2 font-medium cursor-pointer">
                                   <Link
                                     href={`/${getFieldName(headerContent, 'company')
                                       ?.toLowerCase()
@@ -350,10 +350,10 @@ const Header = () => {
                                   >
                                     {getFieldName(headerContent, 'companyDropdownItem2')}
                                   </Link>
-                                </p>
+                                </li>
                               </div>
                               {/* <div className="py-1">
-                                <p className=" text-Silvergray text-sm  cursor-pointer ">
+                                <li className="block text-white text-base py-2 font-medium cursor-pointer">
                                   <Link href={`/resorts`}>
                                     {getFieldName(headerContent, 'companyDropdownItem3')}
                                   </Link>
@@ -362,7 +362,7 @@ const Header = () => {
                               {/* <div className="py-1">
                                 <p className=" text-Silvergray text-sm  cursor-pointer">
                                   {getFieldName(headerContent, 'companyDropdownItem4')}
-                                </p>
+                                </li>
                               </div> */}
                             </div>
                           )}
@@ -370,7 +370,7 @@ const Header = () => {
                       </div>
                     </li>
                   )}
-                  {headerSearch('mediaCenter') && (
+                  {/* {headerSearch('mediaCenter') && (
                     <li>
                       <Link href="#" className="block text-white text-base py-2 font-medium"
                       onClick={() => {
@@ -393,7 +393,7 @@ const Header = () => {
                         {getFieldName(headerContent, 'sustainability')}
                       </Link>
                     </li>
-                  )}
+                  )} */}
                   {headerSearch('careers') && (
                     <li>
                       <Link

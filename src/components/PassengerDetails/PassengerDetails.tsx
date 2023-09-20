@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { AnyAction } from 'redux';
 import Select from 'react-select';
 import { useRouter } from 'next/router';
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Accordion } from 'flowbite-react';
 import IntlTelInput from 'react-intl-tel-input';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,6 +35,10 @@ const PassengerDetails = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const optionalFields = ['Middlename'];
+
+  useEffect(() => {
+    console.log("SelectedDetailsForFlight",selectedDetailsForFlight);
+  }, []);
 
   const modifyDataFromBooking = useSelector(
     (state: RootState) => state?.flightDetails?.modifyDataFromBooking
@@ -146,7 +150,7 @@ const PassengerDetails = () => {
       return filterList;
     });
 
-  const findMobileField = fields?.map((item: { name: string }[]) => {
+    const findMobileField = fields?.map((item: { name: string }[]) => {
     const findField = item?.find((item: { name: string }) => item?.name === 'Mobile');
     return findField;
   });
@@ -158,13 +162,24 @@ const PassengerDetails = () => {
       modifyMeal
         ? state?.flightDetails?.prepareBookingModification?.Passengers?.map(
             (item: { NameElement: { Firstname: string; Surname: string } }, index: number) => {
+              // const otherFields = Object.fromEntries(
+              //   state?.flightDetails?.prepareBookingModification?.PassengersDetails[
+              //     index
+              //   ]?.fields.map((dt: { Code: string; Text: string }) => [
+              //     fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
+              //     dt.Text,
+              //   ])
+              // );
               const otherFields = Object.fromEntries(
-                state?.flightDetails?.prepareBookingModification?.PassengersDetails[
-                  index
-                ]?.fields.map((dt: { Code: string; Text: string }) => [
-                  fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
-                  dt.Text,
-                ])
+                (
+                  state?.flightDetails?.prepareBookingModification?.PassengersDetails[index]
+                    ?.fields || []
+                )
+                  .map((dt: { Code: string; Text: string }) => {
+                    const matchingItem = fieldsWithCode?.find((item1) => item1?.Code === dt?.Code);
+                    return matchingItem ? [matchingItem?.name, dt?.Text] : null;
+                  })
+                  ?.filter(Boolean)
               );
               return {
                 ...item?.NameElement,
@@ -177,13 +192,24 @@ const PassengerDetails = () => {
         ? state?.passenger?.passengersData?.details
         : state?.flightDetails?.prepareExchangeFlight?.Passengers?.map(
             (item: { NameElement: { Firstname: string; Surname: string } }, index: number) => {
+              // const otherFields = Object.fromEntries(
+              //   state?.flightDetails?.prepareExchangeFlight?.PassengersDetails[index]?.fields.map(
+              //     (dt: { Code: string; Text: string }) => [
+              //       fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
+              //       dt.Text,
+              //     ]
+              //   )
+              // );
               const otherFields = Object.fromEntries(
-                state?.flightDetails?.prepareExchangeFlight?.PassengersDetails[index]?.fields.map(
-                  (dt: { Code: string; Text: string }) => [
-                    fieldsWithCode?.find((item1) => item1?.Code === dt?.Code)?.name,
-                    dt.Text,
-                  ]
+                (
+                  state?.flightDetails?.prepareExchangeFlight?.PassengersDetails[index]?.fields ||
+                  []
                 )
+                  .map((dt: { Code: string; Text: string }) => {
+                    const matchingItem = fieldsWithCode?.find((item1) => item1?.Code === dt?.Code);
+                    return matchingItem ? [matchingItem?.name, dt?.Text] : null;
+                  })
+                  ?.filter(Boolean)
               );
               return {
                 ...item?.NameElement,
@@ -266,6 +292,24 @@ const PassengerDetails = () => {
                       : passengerDetail && passengerDetail[tabIndex]?.Firstname?.length > 0
                       ? passengerDetail[tabIndex]?.Firstname
                       : '',
+                  Firstname:
+                    values?.details[tabIndex]?.Firstname?.length > 0
+                      ? values?.details[tabIndex]?.Firstname
+                      : passengerDetail && passengerDetail[tabIndex]?.Firstname?.length > 0
+                      ? passengerDetail[tabIndex]?.Firstname
+                      : '',
+                  Surname:
+                    values?.details[tabIndex]?.Surname?.length > 0
+                      ? values?.details[tabIndex]?.Surname
+                      : passengerDetail && passengerDetail[tabIndex]?.Surname?.length > 0
+                      ? passengerDetail[tabIndex]?.Surname
+                      : '',
+                  Dob:
+                    values?.details[tabIndex]?.Dob?.length > 0
+                      ? values?.details[tabIndex]?.Dob
+                      : passengerDetail && passengerDetail[tabIndex]?.Dob?.length > 0
+                      ? passengerDetail[tabIndex]?.Dob
+                      : '',
                   passengerIndex: tabIndex,
                 }
               : dt;
@@ -283,6 +327,24 @@ const PassengerDetails = () => {
                 ? values?.details[tabIndex]?.Firstname
                 : passengerDetail && passengerDetail[tabIndex]?.Firstname?.length > 0
                 ? passengerDetail[tabIndex]?.Firstname
+                : '',
+            Firstname:
+              values?.details[tabIndex]?.Firstname?.length > 0
+                ? values?.details[tabIndex]?.Firstname
+                : passengerDetail && passengerDetail[tabIndex]?.Firstname?.length > 0
+                ? passengerDetail[tabIndex]?.Firstname
+                : '',
+            Surname:
+              values?.details[tabIndex]?.Surname?.length > 0
+                ? values?.details[tabIndex]?.Surname
+                : passengerDetail && passengerDetail[tabIndex]?.Surname?.length > 0
+                ? passengerDetail[tabIndex]?.Surname
+                : '',
+            Dob:
+              values?.details[tabIndex]?.Dob?.length > 0
+                ? values?.details[tabIndex]?.Dob
+                : passengerDetail && passengerDetail[tabIndex]?.Dob?.length > 0
+                ? passengerDetail[tabIndex]?.Dob
                 : '',
             passengerIndex: tabIndex,
           },
@@ -351,6 +413,24 @@ const PassengerDetails = () => {
                   ? values?.details[tabIndex]?.Firstname
                   : passengerDetail && passengerDetail[tabIndex]?.Firstname?.length > 0
                   ? passengerDetail[tabIndex]?.Firstname
+                  : '',
+              Firstname:
+                values?.details[tabIndex]?.Firstname?.length > 0
+                  ? values?.details[tabIndex]?.Firstname
+                  : passengerDetail && passengerDetail[tabIndex]?.Firstname?.length > 0
+                  ? passengerDetail[tabIndex]?.Firstname
+                  : '',
+              Surname:
+                values?.details[tabIndex]?.Surname?.length > 0
+                  ? values?.details[tabIndex]?.Surname
+                  : passengerDetail && passengerDetail[tabIndex]?.Surname?.length > 0
+                  ? passengerDetail[tabIndex]?.Surname
+                  : '',
+              Dob:
+                values?.details[tabIndex]?.Dob?.length > 0
+                  ? values?.details[tabIndex]?.Dob
+                  : passengerDetail && passengerDetail[tabIndex]?.Dob?.length > 0
+                  ? passengerDetail[tabIndex]?.Dob
                   : '',
               passengerIndex: tabIndex,
             }
@@ -490,7 +570,7 @@ const PassengerDetails = () => {
     if (validateValues(values?.details, index)) {
       if (
         values?.details[index]?.Dob?.length > 0 &&
-        calculateDob(values?.details[index]?.Dob) < 5
+        calculateDob(selectedDetailsForFlight?.departDate,selectedDetailsForFlight?.returnDate , values?.details[index]?.Dob) < 4
       ) {
         setShowModal({
           young: true,
@@ -503,7 +583,7 @@ const PassengerDetails = () => {
         !ageChangesAccecpted?.includes(index) &&
         passengerDetails[index] === 'Child' &&
         values?.details[index]?.Dob?.length > 0 &&
-        calculateDob(values?.details[index]?.Dob) > 11
+        calculateDob(selectedDetailsForFlight?.departDate,selectedDetailsForFlight?.returnDate , values?.details[index]?.Dob) > 11
       ) {
         setDisplayError(false);
         setShowModal({
@@ -532,7 +612,22 @@ const PassengerDetails = () => {
         } else {
           finalSubmit(values);
         }
-        setPassengerValues(values?.details);
+        // setPassengerValues(values?.details);
+        const newData = values?.details?.map((item, index) => {
+          const data = {
+            ...item,
+            Email: passengerDetails[index] === 'Adult' ? values?.details[0]?.Email : '',
+            Mobile: values?.details[0]?.Mobile,
+            flagMobile: values?.details[0]?.flagMobile,
+            validMobile: values?.details[0]?.validMobile,
+            dialCodeMobile: values?.details[0]?.dialCodeMobile,
+          };
+          if (passengerDetails[index] === 'Child') {
+            delete data?.Email;
+          }
+          return data;
+        });
+        setPassengerValues(newData);
       }
     } else {
       name === 'previous' && setTabIndex((prev) => prev - 1);
@@ -729,11 +824,11 @@ const PassengerDetails = () => {
               Surname: item?.Surname,
               Firstname: item?.Firstname,
               Ref: prepareFlightDetails?.Passengers[index]?.Ref,
-              PassengerType: calculateDob(item?.Dob) >= 11 ? 'AD' : 'CHD',
+              PassengerType: calculateDob(selectedDetailsForFlight?.departDate,selectedDetailsForFlight?.returnDate , item?.Dob) >= 11 ? 'AD' : 'CHD',
               Homecontact: postData?.Mobile,
             },
             SpecialServices:
-              calculateDob(item?.Dob) >= 11
+              calculateDob(selectedDetailsForFlight?.departDate,selectedDetailsForFlight?.returnDate , item?.Dob) >= 11
                 ? {
                     CTCE: item.Email,
                     CTCH: postData?.Mobile,
@@ -864,7 +959,20 @@ const PassengerDetails = () => {
     } else {
       dispatch(setChooseSeatData([]));
       dispatch(setPassengerDetails(values));
-      dispatch(setSelectedMeal(mealSelected));
+      const newMealdata = mealSelected?.map((item) => {
+        const originLabel = departureMealData?.find(
+          (dt: { Code: string }) => dt?.Code === item?.originMealCode
+        )?.Label;
+        const returnLabel = departureMealData?.find(
+          (dt: { Code: string }) => dt?.Code === item?.returnMealCode
+        )?.Label;
+        return {
+          ...item,
+          originLabel: originLabel ? originLabel : '',
+          returnLabel: returnLabel ? returnLabel : '',
+        };
+      });
+      dispatch(setSelectedMeal(newMealdata));
       router.push('/chooseseats');
       setTimeout(() => {
         dispatch(
@@ -882,8 +990,8 @@ const PassengerDetails = () => {
   //   return (
   //     checkData !== undefined &&
   //     tripData?.length === 1 &&
-  //     (checkData?.originMeal === 'Regular Meal' ||
-  //       (checkData?.originMeal === 'Dietary Meal' && checkData?.originMealCode?.length > 0))
+  //     (checkData?.originMeal === 'Standard Meal' ||
+  //       (checkData?.originMeal === 'Special Meal' && checkData?.originMealCode?.length > 0))
   //   );
   // };
 
@@ -893,14 +1001,14 @@ const PassengerDetails = () => {
       ? true
       : tripData?.length > 1
       ? (checkData?.originMeal?.length === 0 ||
-          checkData?.originMeal === 'Regular Meal' ||
-          (checkData?.originMeal === 'Dietary Meal' && checkData?.originMealCode?.length > 0)) &&
+          checkData?.originMeal === 'Standard Meal' ||
+          (checkData?.originMeal === 'Special Meal' && checkData?.originMealCode?.length > 0)) &&
         (checkData?.returnMeal?.length === 0 ||
-          checkData?.returnMeal === 'Regular Meal' ||
-          (checkData?.returnMeal === 'Dietary Meal' && checkData?.returnMealCode?.length > 0))
+          checkData?.returnMeal === 'Standard Meal' ||
+          (checkData?.returnMeal === 'Special Meal' && checkData?.returnMealCode?.length > 0))
       : checkData?.originMeal?.length === 0 ||
-        checkData?.originMeal === 'Regular Meal' ||
-        (checkData?.originMeal === 'Dietary Meal' && checkData?.originMealCode?.length > 0);
+        checkData?.originMeal === 'Standard Meal' ||
+        (checkData?.originMeal === 'Special Meal' && checkData?.originMealCode?.length > 0);
   };
 
   const initialValues = () => {
@@ -1065,7 +1173,7 @@ const PassengerDetails = () => {
                 </div>
                 <div></div>
                 <div>
-                  <p  className="xs:w-full rounded-lg inline-flex xl:text-xl xs:text-sm font-normal text-black">
+                  <p className="xs:w-full rounded-lg inline-flex xl:text-xl xs:text-sm font-normal text-black">
                     {getFieldName(passengerDetailsContent, 'infoProvided')}
                   </p>
                 </div>
@@ -1439,10 +1547,11 @@ const PassengerDetails = () => {
                                                                       }) => {
                                                                         setFieldValue(
                                                                           `details[${index}].${fieldItem?.name}`,
-                                                                          e.target.value?.replace(
-                                                                            /[^A-Z]/gi,
-                                                                            ''
-                                                                          )
+                                                                          e.target.value
+                                                                          // ?.replace(
+                                                                          //   /[^A-Z]/gi,
+                                                                          //   ''
+                                                                          // )
                                                                         );
                                                                       }}
                                                                       autoComplete="off"
@@ -1903,59 +2012,59 @@ const PassengerDetails = () => {
                                                           </div>
                                                           <div className="flex items-center mt-3">
                                                             <input
-                                                              id={'Regular Meal' + tripIndex}
+                                                              id={'Standard Meal' + tripIndex}
                                                               type="radio"
                                                               checked={mealTypeChecked(
-                                                                'Regular Meal',
+                                                                'Standard Meal',
                                                                 tripIndex
                                                               )}
                                                               onChange={() =>
                                                                 mealTypeChange(
-                                                                  'Regular Meal',
+                                                                  'Standard Meal',
                                                                   tripIndex,
                                                                   values
                                                                 )
                                                               }
-                                                              name={'Regular Meal' + tripIndex}
+                                                              name={'Standard Meal' + tripIndex}
                                                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
                                                             />
                                                             <label
-                                                              htmlFor={'Regular Meal' + tripIndex}
+                                                              htmlFor={'Standard Meal' + tripIndex}
                                                               className="ml-2 text-sm font-medium text-black"
                                                             >
-                                                              {/* Regular Meal */}Standard Meal
+                                                              {/* Standard Meal */}Standard Meal
                                                             </label>
                                                           </div>
                                                           {mealToDisplay &&
                                                             mealToDisplay?.length > 0 && (
                                                               <div className="flex items-center mt-4">
                                                                 <input
-                                                                  id={'Dietary Meal' + tripIndex}
+                                                                  id={'Special Meal' + tripIndex}
                                                                   type="radio"
                                                                   checked={mealTypeChecked(
-                                                                    'Dietary Meal',
+                                                                    'Special Meal',
                                                                     tripIndex
                                                                   )}
                                                                   onChange={() =>
                                                                     mealTypeChange(
-                                                                      'Dietary Meal',
+                                                                      'Special Meal',
                                                                       tripIndex,
                                                                       values
                                                                     )
                                                                   }
-                                                                  name={'Dietary Meal' + tripIndex}
+                                                                  name={'Special Meal' + tripIndex}
                                                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
                                                                 />
                                                                 <label
                                                                   htmlFor={
-                                                                    'Dietary Meal' + tripIndex
+                                                                    'Special Meal' + tripIndex
                                                                   }
                                                                   className="ml-2 text-sm font-medium text-black"
                                                                 >
                                                                   {/* <Text
-                                                                    field={props.fields.dietaryMeal}
+                                                                    field={props.fields.dietaryMeal} 
                                                                   /> */}
-                                                                  {/* Dietary Meal */}Special Meal
+                                                                  {/* Special Meal */}Special Meal
                                                                 </label>
                                                               </div>
                                                             )}
@@ -1963,7 +2072,7 @@ const PassengerDetails = () => {
                                                             tripIndex,
                                                             'originMeal',
                                                             'returnMeal',
-                                                            'Dietary Meal'
+                                                            'Special Meal'
                                                           ) !== undefined && (
                                                             <div className="mt-4 ml-6">
                                                               {(tripIndex === 0
@@ -2125,9 +2234,9 @@ const PassengerDetails = () => {
                                                     onChange={(e) => {
                                                       setOfferUpdates(e?.target?.checked);
                                                     }}
-                                                    disabled={
-                                                      tabIndex !== values?.details?.length - 1
-                                                    }
+                                                    // disabled={
+                                                    //   tabIndex !== values?.details?.length - 1
+                                                    // }
                                                     className="w-4 h-4 text-black-600 bg-gray-100 border-gray-300 rounded  accent-orange-600"
                                                   />
                                                   <label
@@ -2261,6 +2370,12 @@ const PassengerDetails = () => {
               </div>
             </div>
           </div>
+          <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-WHMT2ZS3"
+          height="0"
+          width="0"
+          style={{ display: 'none', visibility: 'hidden' }}
+        ></iframe>
         </div>
       ) : load?.name === 'search' ? (
         <SearchFlightLoader open={load?.show} />

@@ -9,15 +9,17 @@ import {
   Image as JssImage,
   withDatasourceCheck,
 } from '@sitecore-jss/sitecore-jss-nextjs';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Toaster from './Toaster/Toaster';
 import { RootState } from 'src/redux/store';
 import CookiesModal from './Modal/CookiesModal';
 import { ComponentProps } from 'lib/component-props';
 import { setFooter } from 'src/redux/reducer/Sitecore';
 import { setFooterTC } from 'src/redux/reducer/FlightDetails';
 import { getSitecoreContent } from 'src/redux/action/Sitecore';
+import { postSubscribeUser } from 'src/redux/action/CreateAccount';
+
 
 type FooterProps = ComponentProps & {
   fields: {
@@ -72,6 +74,12 @@ const Footer = (props: FooterProps): JSX.Element => {
   const footerData = useSelector((state: RootState) => state.sitecore.footer);
 
   const [cookiesModal, setCookiesModal] = useState(false);
+  const [subscribeMail, setSubscribeMail] = useState({ Email: '' });
+  const [showToaster, setShowToaster] = useState({
+    status: '',
+    message: '',
+    show: false,
+  });
 
   useEffect(() => {
     if (footerData && footerData?.length === 0) {
@@ -83,6 +91,29 @@ const Footer = (props: FooterProps): JSX.Element => {
     // termsConditionsContent === undefined &&
     dispatch(getSitecoreContent('Terms-Conditions') as unknown as AnyAction);
   }, [dispatch]);
+
+  const handleSubmit = useCallback(() => {
+    dispatch(
+      postSubscribeUser(
+        subscribeMail as unknown as subscribeUser,
+        setShowToaster
+      ) as unknown as AnyAction
+    );
+    setTimeout(() => {
+      setSubscribeMail({ Email: '' });
+    }, 1000);
+  }, [subscribeMail]);
+
+  const checkEmail = () => {
+    const email = document.getElementById('txtEmail');
+
+    const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (email !== null) {
+      if (!filter.test((email as unknown as { value: string })?.value)) {
+        return false;
+      }
+    }
+  };
 
   return (
     <div
@@ -108,6 +139,7 @@ const Footer = (props: FooterProps): JSX.Element => {
                 }}
               />
             </div>
+            <Toaster showToaster={showToaster} setShowToaster={setShowToaster} />
             <div className="w-full bg-black lg:py-14 xs:py-10 md:py-6 ">
               <div className="container relative z-20">
                 <div className="xl:flex md:flex xs:block gap-8">
@@ -125,21 +157,37 @@ const Footer = (props: FooterProps): JSX.Element => {
                       </div>
                     </div>
                     <div className="xs:block md:flex xl:flex xs:items-center gap-2">
-                      <div className="text-black xl:w-3/5 xs:w-full z-50">
-                        <input
-                          type="text"
-                          className="menu-mobile-navigate py-3 px-3 rounded-full text-black text-sm xl:w-full xs:w-full"
-                          placeholder={props.fields.emailPlaceholder?.value}
-                        />
-                      </div>
-                      <div className="z-50 xl:py-0 xs:py-2">
+                    <form
+                        className="xs:block md:flex xl:flex xs:items-center gap-2"
+                        onSubmit={handleSubmit}
+                      >
+                        <div className="text-black xl:w-3/5 xs:w-full z-50">
+                          <input
+                            id="txtEmail"
+                            type="email"
+                            name="email"
+                            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                            title="Invalid email address"
+                            className="menu-mobile-navigate py-3 px-3 rounded-full text-black text-sm xl:w-full xs:w-full"
+                            placeholder={props.fields.emailPlaceholder?.value}
+                            value={subscribeMail?.Email}
+                            autoComplete="off"
+                            onChange={(e) => setSubscribeMail({ Email: e?.target?.value })}
+                          />
+                        </div>
+                        <div className="z-50 xl:py-0 xs:py-2">
                         <button
-                          type="submit"
-                          className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3 w-full md:w-auto"
-                        >
-                          {props.fields.subscribeButton?.value}
-                        </button>
-                      </div>
+                            type="button"
+                            disabled={checkEmail() === false}
+                            onClick={() => {
+                              handleSubmit(), checkEmail();
+                            }}
+                            className="text-white bg-lightorange font-medium rounded-full text-base px-5 py-3 w-full md:w-auto"
+                          >
+                            {props.fields.subscribeButton?.value}
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </div>
 

@@ -53,36 +53,34 @@ const JourneyDetails = (props: JourneyDetails): JSX.Element => {
   return (
     <>
       {!load?.show ? (
-        <div className="w-full  bg-black">
-          <div className="w-5/6 m-auto   items-center justify-between">
+        <section className="w-full pt-16 bg-black ">
+          <div className="container">
             {props.fields.journeyDetailItem?.map((item, index) => (
               <div key={index}>
                 {(index + 1) % 2 === 0 || window.screen.width < 1014 ? (
-                  <div>
-                    <div className="xl:flex md:flex xs:block items-center justify-between w-full xl:pt-44 xs:pt-28">
-                      <div className="xl:w-1/2 xs:w-full ">
-                        <div className="flex gap-3 ">
-                          <div className="w-full">
-                            <Image
-                              src={item.fields.image1.value.src}
-                              className="xl:w-64 xl:h-96 xs:w-full xs:h-auto  rounded-xl"
-                              alt="image"
-                              width={item.fields.image1.value.width as unknown as number}
-                              height={item.fields.image1.value.height as unknown as number}
-                            />
-                          </div>
-                          <div className="w-full">
-                            <Image
-                              src={item.fields.image2.value.src}
-                              className="xl:w-64 xl:h-96 xs:w-full xs:h-auto rounded-xl"
-                              alt="image"
-                              width={item.fields.image2.value.width as unknown as number}
-                              height={item.fields.image2.value.height as unknown as number}
-                            />
-                          </div>
+                  <>
+                    <div className="pt-20 flex-wrap flex items-center justify-between w-full">
+                      <div className="md:w-1/2 lg:w-7/12 xs:w-full xs:mt-7 xs:flex order-2 md:order-1 justify-center md:justify-start">
+                        <div className="gallery-images">
+                          <Image
+                            src={item.fields.image1.value.src}
+                            className="h-full w-full"
+                            alt="image"
+                            width={item.fields.image1.value.width as unknown as number}
+                            height={item.fields.image1.value.height as unknown as number}
+                          />
+                        </div>
+                        <div className="gallery-images">
+                          <Image
+                            src={item.fields.image2.value.src}
+                            className="h-full w-full"
+                            alt="image"
+                            width={item.fields.image2.value.width as unknown as number}
+                            height={item.fields.image2.value.height as unknown as number}
+                          />
                         </div>
                       </div>
-                      <div className="xl:w-1/2 xs:w-full md:px-5 xl:pl-10 xs:pl-0 xl:pt-0 xs:pt-5">
+                      <div className="md:w-1/2 lg:w-5/12 xs:w-full pb-10 md:pb-0 order-1 md:order-2">
                         <div className="text-4xl font-black text-white">
                           {item.fields.heading.value}
                         </div>
@@ -91,11 +89,11 @@ const JourneyDetails = (props: JourneyDetails): JSX.Element => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </>
                 ) : (
-                  <div>
-                    <div className="xl:flex md:flex xs:block items-center justify-between w-full xl:pt-44 xs:pt-28">
-                      <div className="xl:w-2/4 xs:w-full pr-10">
+                  <>
+                    <div className="pt-20 flex-wrap flex items-center justify-between w-full">
+                      <div className="md:w-1/2 lg:w-5/12 xs:w-full pb-10 md:pb-0">
                         <div className="text-4xl font-black text-white">
                           {item.fields.heading.value}
                         </div>
@@ -103,30 +101,28 @@ const JourneyDetails = (props: JourneyDetails): JSX.Element => {
                           {parse(item.fields.content.value)}
                         </div>
                       </div>
-                      <div className="xl:w-1/2 xs:w-full ">
-                        <div className="flex gap-3 xl:justify-end xs:justify-start xl:py-0 xs:py-4">
-                          <div className="w-full">
-                            <Image
-                              src={item.fields.image1.value.src}
-                              className="xl:w-64 xl:h-96 xs:w-full xs:h-auto rounded-xl"
-                              alt="image"
-                              width={item.fields.image1.value.width as unknown as number}
-                              height={item.fields.image1.value.height as unknown as number}
-                            />
-                          </div>
-                          <div className="w-full">
-                            <Image
-                              src={item.fields.image2.value.src}
-                              className="xl:w-64 xl:h-96 xs:w-full xs:h-auto rounded-xl"
-                              alt="image"
-                              width={item.fields.image2.value.width as unknown as number}
-                              height={item.fields.image2.value.height as unknown as number}
-                            />
-                          </div>
+                      <div className="md:w-1/2 lg:w-7/12 xs:w-full md:mt-7 xs:flex justify-center md:justify-end">
+                        <div className="gallery-images">
+                          <Image
+                            src={item.fields.image1.value.src}
+                            className="h-full w-full"
+                            alt="image"
+                            width={item.fields.image1.value.width as unknown as number}
+                            height={item.fields.image1.value.height as unknown as number}
+                          />
+                        </div>
+                        <div className="gallery-images">
+                          <Image
+                            src={item.fields.image2.value.src}
+                            className="h-full w-full"
+                            alt="image"
+                            width={item.fields.image2.value.width as unknown as number}
+                            height={item.fields.image2.value.height as unknown as number}
+                          />
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             ))}
@@ -134,7 +130,7 @@ const JourneyDetails = (props: JourneyDetails): JSX.Element => {
           <div>
             <JssImage field={props.fields.banner} className="xl:h-auto xl:w-full" alt="image" />
           </div>
-        </div>
+        </section>
       ) : (
         <div></div>
       )}

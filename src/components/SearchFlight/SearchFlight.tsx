@@ -72,8 +72,8 @@ const SearchFlight = () => {
     originCode: '',
     dateFlexible: false,
     destinationCode: 'MLE',
-    departDate: new Date(),
-    returnDate: new Date(),
+    departDate: new Date() ? new Date() : '',
+    returnDate: new Date() ? new Date() : '',
   });
   const [getLocation, setGetLocation] = useState({
     display: false,
@@ -232,11 +232,6 @@ const SearchFlight = () => {
               DestinationCode: 'MLE' as string,
             },
             true,
-            {
-              ...flightDetails,
-              destinationCode: 'MLE' as string,
-            },
-            setFlightDetails
           ) as unknown as AnyAction
         );
         tabName === 'return' &&

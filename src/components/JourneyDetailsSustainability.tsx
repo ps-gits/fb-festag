@@ -48,12 +48,12 @@ type JourneyDetailsSustainability = ComponentProps & {
 const JourneyDetailsSustainability = (props: JourneyDetailsSustainability): JSX.Element => {
   return (
     <div className="w-full  bg-black">
-      <div className="w-5/6 m-auto   items-center justify-between">
+      <div className="container">
         {props.fields.journeyDetailItem?.map((item, index) => (
           <div key={index}>
             {(index + 1) % 2 === 0 || window.screen.width < 1014 ? (
               <div>
-                <div className="xl:flex md:flex xs:block items-center justify-between w-full pt-28">
+                <div className="xl:flex md:flex xs:block items-center justify-between w-full pt-20">
                   <div className="xl:w-1/2 xs:w-full ">
                     <div className="flex gap-3 ">
                       <div className="w-full">
@@ -88,7 +88,7 @@ const JourneyDetailsSustainability = (props: JourneyDetailsSustainability): JSX.
               </div>
             ) : (
               <div>
-                <div className="xl:flex md:flex xs:block items-center justify-between w-full pt-28">
+                <div className="xl:flex md:flex xs:block items-center justify-between w-full pt-20">
                   <div className="xl:w-2/4 xs:w-full pr-10">
                     <div className="text-4xl font-black text-white">
                       {item.fields.heading.value}

@@ -33,7 +33,7 @@ const Layout = ({ layoutData }: LayoutProps): JSX.Element => {
   const fields = route?.fields as RouteFields;
   const isPageEditing = layoutData.sitecore.context.pageEditing;
   const mainClassPageEditing = isPageEditing ? 'editing-mode' : 'prod-mode';
-
+  
   return (
     <>
       <Scripts />

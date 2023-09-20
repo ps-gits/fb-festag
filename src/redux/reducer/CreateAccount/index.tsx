@@ -6,6 +6,7 @@ const initialState = {
   createAccount: [],
   passengerUpdate: [],
   savedFamilyDetails: [],
+  subscribedUserData: [],
 };
 
 const createAccountSlice = createSlice({
@@ -30,6 +31,9 @@ const createAccountSlice = createSlice({
     setSavedFamilyDetails: (state, action) => {
       state.savedFamilyDetails = action.payload;
     },
+    setSubscribedUserData: (state, action) => {
+      state.subscribedUserData = action.payload;
+    },
   },
 });
 
@@ -40,5 +44,6 @@ export const {
   setFamilyDetails,
   setPassengerUpdate,
   setSavedFamilyDetails,
+  setSubscribedUserData,
 } = createAccountSlice.actions;
 export default createAccountSlice.reducer;
