@@ -140,7 +140,7 @@ const FlightSchedule = (props: flightSchedule) => {
                   width={8}
                   height={8}
                 />
-                <p className="font-black text-sm text-black">FlightNumber : </p>
+                <p className="font-black text-sm text-black">Flight Number : </p>
                 <p className="font-normal text-xs text-pearlgray">{FlightNumber}</p>
               </div>
             )}
@@ -584,7 +584,7 @@ const FlightSchedule = (props: flightSchedule) => {
                   />
                   <div>
                     <h4 className="text-black text-sm font-black">Lounge Access</h4>
-                    <p className="text-slategray text-xs"></p>
+                    <p className="text-slategray text-xs"><div></div></p>
                   </div>
                 </div>
               )}
